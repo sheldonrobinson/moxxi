@@ -1,5 +1,9 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
+        <file>ShopPanel.qml</file>
+        <file>ListPanel.qml</file>
+        <file>ContentPanel.qml</file>
+        <file>CartPanel.qml</file>
     </qresource>
 </RCC>

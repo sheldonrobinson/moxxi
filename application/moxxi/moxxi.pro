@@ -1,8 +1,9 @@
 TEMPLATE = app
 
-QT += qml quick
+QT += qml quick sql quickwidgets
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    merchandiseitem.cpp
 
 RESOURCES += qml.qrc
 
@@ -11,3 +12,6 @@ QML_IMPORT_PATH =
 
 # Default rules for deployment.
 include(deployment.pri)
+
+HEADERS += \
+    merchandiseitem.h
