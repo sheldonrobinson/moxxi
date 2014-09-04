@@ -10,7 +10,7 @@
 class MerchandiseItem : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QString name MEMBER _name READ name WRITE setName NOTIFY nameChanged)
+    Q_PROPERTY(QString reference MEMBER _reference READ reference WRITE setReference NOTIFY referenceChanged)
     Q_PROPERTY( QVariantMap attributes READ attributes WRITE setAttributes NOTIFY attributesChanged)
     //Q_PROPERTY(QUrl image MEMBER _image READ image WRITE setImage NOTIFY imageChanged)
 
@@ -18,8 +18,8 @@ class MerchandiseItem : public QObject
 public:
     explicit MerchandiseItem(QObject *parent = 0);
 
-    QString name() const;
-    void setName(const QString& name);
+    QString reference() const;
+    void setReference(const QString& reference);
 
     QVariantMap attributes() const;
     void setAttributes(const QVariantMap& map);
@@ -30,14 +30,14 @@ public:
     //QUrl image() const;
     //void setImage(const QUrl& image);
 signals:
-    void nameChanged();
+    void referenceChanged();
     void attributesChanged();
     //void imageChanged(const QUrl& newImage);
 
 public slots:
 
 private:
-    QString _name;
+    QString _reference;
     //QUrl _image;
     QJsonObject _attributes;
 

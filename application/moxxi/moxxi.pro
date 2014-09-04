@@ -1,6 +1,6 @@
 TEMPLATE = app
 
-QT += qml quick sql quickwidgets
+QT += qml quick svg sql quickwidgets
 
 SOURCES += main.cpp \
     merchandiseitem.cpp

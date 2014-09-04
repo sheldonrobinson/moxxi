@@ -5,5 +5,13 @@
         <file>ListPanel.qml</file>
         <file>ContentPanel.qml</file>
         <file>CartPanel.qml</file>
+        <file>res/images/note-2-empty-disabled.svg</file>
+        <file>res/images/note-2-enabled.svg</file>
+        <file>res/images/note-2-full-disabled.svg</file>
+        <file>res/images/Shopping-Cart-empty-disabled.svg</file>
+        <file>res/images/Shopping-Cart-enabled.svg</file>
+        <file>res/images/Shopping-Cart-full-disabled.svg</file>
+        <file>res/images/store.svg</file>
+        <file>res/images/apps.svg</file>
     </qresource>
 </RCC>

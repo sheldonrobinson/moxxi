@@ -1,6 +1,7 @@
 import QtQuick 2.2
 import QtQuick.Controls 1.2
 import QtQuick.Controls.Styles 1.2
+import QtQuick.Layouts 1.1
 import QtQuick.Window 2.1
 
 
@@ -12,10 +13,16 @@ Window {
     property int phone_height:1920
     property int camerabarheight: 40
 
+    property string list_icon_url
+    property string cart_icon_url
+    property string shop_icon_url
+    property string slider_icon_url
+
     id: appWindow
     visible: true
     width: phone_width
     height: phone_height
+
 
     Image {
         id: store_svg
@@ -96,6 +103,23 @@ Window {
         width: parent.width
         height: parent.height
 
+        state: "SHOP"
+
+        states: [
+                State {
+                    name: "SHOP"
+                    PropertyChanges { target: screenTitle; text: qsTr("BOUTIQUE")}
+                },
+                 State {
+                     name: "CART"
+                     PropertyChanges { target: screenTitle; text: qsTr("CART")}
+                 },
+                 State {
+                     name: "LIST"
+                     PropertyChanges { target: screenTitle; text: qsTr("WISHLIST")}
+                 }
+         ]
+
         Rectangle {
             property int title_height:40
 
@@ -116,9 +140,6 @@ Window {
 
                 Image {
                     id: sBTB_img
-                    x: parent.left
-                    y: parent.top
-
                     anchors.fill: parent
 
                     visible: true
@@ -138,10 +159,20 @@ Window {
 
                 RadioButton {
                     id: rbShop
-                    //text: qsTr("Store")
                     exclusiveGroup: screenGroup
                     checked: true
 
+
+                    Image
+                    {
+                        id: shopicon
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.fill: parent
+                        fillMode: Image.PreserveAspectFit
+                        source: "res/images/store.svg"
+                        visible: true
+                    }
 
                     style: RadioButtonStyle
                     {
@@ -161,19 +192,15 @@ Window {
                             border.color: control.activeFocus ? "darkblue" : "gray"
                             border.width: 1
 
-
-
-                            Image
-                            {
-                                anchors.verticalCenter: parent.verticalCenter
-                                anchors.horizontalCenter: parent.horizontalCenter
-                                anchors.fill: parent
-                                fillMode: Image.PreserveAspectFit
-                                source: "res/images/store.svg"
-                                visible: true
-                            }
                         }
                     }
+                    states: State {
+                                name: "INACTIVE"
+                                when: (screen.state != "SHOP")
+                                PropertyChanges {target: shopicon; source: "res/images/store.svg"}
+                                PropertyChanges {target: rbShop; checked: false}
+
+                     }
                     onClicked:
                     {
                         //TBD
@@ -183,10 +210,18 @@ Window {
 
             RadioButton {
                 id: rbCart
-                //text: qsTr("Cart")
                 exclusiveGroup: screenGroup
+                checked: true
 
-
+                Image
+                {
+                    id: charticon
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.fill: parent
+                    fillMode: Image.PreserveAspectFit
+                    visible: true
+                }
 
                 style: RadioButtonStyle
                 {
@@ -205,21 +240,15 @@ Window {
                     radius: 1
                     border.color: control.activeFocus ? "darkblue" : "gray"
                     border.width: 1
-
-
-                        Image
-                        {
-                            id: activeChartImg
-                            anchors.verticalCenter: parent.verticalCenter
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            anchors.fill: parent
-                            fillMode: Image.PreserveAspectFit
-                            source: control.checked ? "res/images/Shopping-Cart-enabled.svg" : "res/images/Shopping-Cart-full-disabled.svg"
-                             visible: true
-                        }
-
                     }
                 }
+
+                states: State {
+                            name: "INACTIVE"
+                            when: (screen.state != "CART")
+                            PropertyChanges {target: charticon; source: "res/images/Shopping-Cart-full-disabled.svg"}
+                            PropertyChanges {target: rbCart; checked: false}
+                 }
                 onClicked:
                 {
                     //TBD
@@ -230,8 +259,19 @@ Window {
 
                 RadioButton {
                     id: rbList
-                    //text: qsTr("List")
                     exclusiveGroup: screenGroup
+                    checked: true
+
+                    Image
+                    {
+                        id: listicon
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.fill: parent
+                        fillMode: Image.PreserveAspectFit
+                        source: "res/images/note-2-enabled.svg"
+                        visible: true
+                    }
 
                     style: RadioButtonStyle
                     {
@@ -250,22 +290,15 @@ Window {
                             radius: 1
                             border.color: control.activeFocus ? "darkblue" : "gray"
                             border.width: 1
-
-
-
-                            Image
-                            {
-                                id: activeListImg
-                                anchors.verticalCenter: parent.verticalCenter
-                                anchors.horizontalCenter: parent.horizontalCenter
-                                anchors.fill: parent
-                                fillMode: Image.PreserveAspectFit
-                                source: control.checked ? "res/images/note-2-enabled.svg" : "res/images/note-2-full-disabled.svg"
-                                visible: true
-                                //visible: control.checked
-                            }
                         }
                     }
+
+                    states: State {
+                                name: "INACTIVE"
+                                when: (screen.state != "CART")
+                                PropertyChanges {target: listicon; source: "res/images/note-2-full-disabled.svg"}
+                                PropertyChanges {target: rbList; checked: false}
+                     }
                     onClicked:
                     {
                         //TBD
@@ -284,7 +317,7 @@ Window {
 
                  Text {
                     id: screenTitle
-                    text: qsTr("Shop")
+                    text: qsTr("BOUTIQUE")
                  }
             }
 	
