@@ -9,66 +9,25 @@ import QtQuick.Window 2.1
 
 Window {
 
-    property int phone_width:1080
-    property int phone_height:1920
+    property int phone_width:540
+    property int phone_height:960
     property int camerabarheight: 40
+    property int buttonspacing: 5
 
-    property string list_icon_url
-    property string cart_icon_url
-    property string shop_icon_url
-    property string slider_icon_url
+    //property string list_icon_url
+    //property string cart_icon_url
+    //property string shop_icon_url
+    //property string slider_icon_url
+
+
+
+
 
     id: appWindow
     visible: true
     width: phone_width
     height: phone_height
 
-
-    Image {
-        id: store_svg
-        source: "res/images/store.svg"
-        visible: false
-    }
-
-    Image {
-        id: cart_enabled_svg
-        source: "res/images/Shopping-Cart-enabled.svg"
-        visible: false
-    }
-
-    Image {
-        id: cart_empty_disabled_svg
-        source: "res/images/Shopping-Cart-empty-disabled.svg"
-        visible: false
-    }
-
-    Image {
-        id: cart_full_disabled_svg
-        source: "res/images/Shopping-Cart-full-disabled.svg"
-        visible: false
-    }
-
-    Image {
-        id: notes_empty_disabled_svg
-        source: "res/images/note-2-empty-disabled.svg"
-        visible: false
-    }
-
-    Image {
-        id: notes_full_disabled_svg
-        source: "res/images/note-2-full-disabled.svg"
-        visible: false
-    }
-
-    Image {
-        id: notes_enabled_svg
-        x: 0
-        y: 0
-        width: 512
-        height: 512
-        source: "res/images/note-2-enabled.svg"
-        visible: false
-    }
 
     ExclusiveGroup {
         id: screenGroup
@@ -120,205 +79,297 @@ Window {
                  }
          ]
 
-        Rectangle {
-            property int title_height:40
 
-            id: titleBar
+        Rectangle {
+            property int title_height: 64
+            property int title_fontsize: 28
+            x: 0
+            id: titlebar
             visible: true
             width: parent.width
             height: title_height
+            anchors.topMargin: 0
 
             anchors.top: screen.top
 
+            gradient: Gradient {
+                GradientStop { position: 0.0; color: "lightgray" }
+                GradientStop { position: 0.95; color: "lightgray" }
+                GradientStop { position: 1.0; color: "darkgray" }
+
+            }
+
+
             Rectangle {
                 id: sideBarToggleButton
-                width: titleBar.height
-                height:titleBar.height
+                height:parent.height * 0.6
+                width:parent.height * 0.6
+                x: -8
 
-                anchors.left: titleBar.left
-                anchors.top: parent.top
+                anchors.verticalCenter: parent.verticalCenter
+                //anchors.left: parent.left
+                color: "transparent"
+                //anchors.top: parent.top
 
                 Image {
-                    id: sBTB_img
-                    anchors.fill: parent
-
+                    id: slidericon
+                    height: parent.height * 0.5
+                    width: parent.height * 0.5
+                    anchors.left: parent.left
+                    anchors.verticalCenter: parent.verticalCenter
+                    //anchors.fill: parent
+                    fillMode: Image.PreserveAspectFit
                     visible: true
                     source: "res/images/apps.svg"
                 }
             }
 
-            Row {
+            GroupBox {
                 id: screenChkBoxGrp
-                anchors.verticalCenter: parent.verticalCenter
 
+                property int button_radius: 8
+                property string border_color: "#333333"
+                property string bgcolor: "#777777"
                 anchors.right: parent.right
+                anchors.verticalCenter: parent.verticalCenter
+                height: parent.height
+
+            Row {
 
                 height: parent.height
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.right: parent.right
+                spacing: buttonspacing
 
                 visible: true
 
-                RadioButton {
+                Button {
                     id: rbShop
                     exclusiveGroup: screenGroup
+                    activeFocusOnPress: true
                     checked: true
+                    checkable: true
+
+                    anchors.verticalCenter: parent.verticalCenter
+                    //anchors.horizontalCenter: parent.horizontalCenter
+
 
 
                     Image
                     {
                         id: shopicon
+                        height: parent.height * 0.8
+                        width: parent.height * 0.8
                         anchors.verticalCenter: parent.verticalCenter
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        anchors.fill: parent
+                        //anchors.fill: parent
                         fillMode: Image.PreserveAspectFit
-                        source: "res/images/store.svg"
+                        source: "res/images/store-enabled.svg"
                         visible: true
                     }
 
-                    style: RadioButtonStyle
+                    style: ButtonStyle
                     {
                             label: Text
                             {
                                 text: control.text
-                                font.pixelSize: 9
+                                font.pixelSize: titlebar.title_fontsize
                                 font.family: "DejaVu Sans"
                                 anchors.margins: 0
                                 horizontalAlignment: Text.left
                             }
-                            indicator: Rectangle
+                            background: Rectangle
                             {
-                            implicitWidth: parent.height
-                            implicitHeight: parent.height
-                            radius: 1
-                            border.color: control.activeFocus ? "darkblue" : "gray"
-                            border.width: 1
-
-                        }
+                                implicitHeight: titlebar.height * 0.95
+                                implicitWidth: titlebar.height * 0.95
+                                border.width: control.checked || control.activeFocus ? 2 : 0
+                                border.color: control.checked || control.activeFocus ?  screenChkBoxGrp.border_color : "transparent"
+                                color: control.checked || control.activeFocus ? screenChkBoxGrp.bgcolor : "transparent"
+                                visible: control.checked || control.activeFocus
+                                radius: screenChkBoxGrp.button_radius
+                                //gradient: Gradient {
+                                //    GradientStop { position: 0 ; color: control.pressed ? "#ccc" : "#eee" }
+                                //    GradientStop { position: 1 ; color: control.pressed ? "#aaa" : "#ccc" }
+                                //}
+                            }
                     }
                     states: State {
                                 name: "INACTIVE"
                                 when: (screen.state != "SHOP")
-                                PropertyChanges {target: shopicon; source: "res/images/store.svg"}
+                                PropertyChanges {target: shopicon; source: "res/images/store-disabled.svg"}
                                 PropertyChanges {target: rbShop; checked: false}
 
                      }
                     onClicked:
                     {
-                        //TBD
+                        screen.state = "SHOP"
+                        rbShop.forceActiveFocus()
+                        rbShop.checked = true
                     }
                 }
 
-
-            RadioButton {
-                id: rbCart
-                exclusiveGroup: screenGroup
-                checked: true
-
-                Image
-                {
-                    id: charticon
-                    anchors.verticalCenter: parent.verticalCenter
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    anchors.fill: parent
-                    fillMode: Image.PreserveAspectFit
-                    visible: true
-                }
-
-                style: RadioButtonStyle
-                {
-                    label: Text
-                    {
-                    text: control.text
-                    font.pixelSize: 9
-                    font.family: "DejaVu Sans"
-                    anchors.margins: 0
-                    horizontalAlignment: Text.left
-                    }
-                    indicator: Rectangle
-                    {
-                    implicitWidth: parent.height
-                    implicitHeight: parent.height
-                    radius: 1
-                    border.color: control.activeFocus ? "darkblue" : "gray"
-                    border.width: 1
-                    }
-                }
-
-                states: State {
-                            name: "INACTIVE"
-                            when: (screen.state != "CART")
-                            PropertyChanges {target: charticon; source: "res/images/Shopping-Cart-full-disabled.svg"}
-                            PropertyChanges {target: rbCart; checked: false}
-                 }
-                onClicked:
-                {
-                    //TBD
-                }
+                            Button {
+                                id: rbCart
+                                exclusiveGroup: screenGroup
+                                activeFocusOnPress: true
+                                checked: true
+                                checkable: true
 
 
-           }
 
-                RadioButton {
+                                anchors.verticalCenter: parent.verticalCenter
+                                //anchors.horizontalCenter: parent.horizontalCenter
+
+                                Image
+                                {
+                                    id: charticon
+                                    height: parent.height * 0.8
+                                    width: parent.height * 0.8
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    //anchors.fill: parent
+                                    fillMode: Image.PreserveAspectFit
+                                    source: "res/images/Shopping-Cart-enabled.svg"
+                                    visible: true
+                                }
+
+                                style: ButtonStyle
+                                {
+                                    label: Text
+                                    {
+                                    text: control.text
+                                    font.pixelSize: titlebar.title_fontsize
+                                    font.family: "DejaVu Sans"
+                                    anchors.margins: 0
+                                    horizontalAlignment: Text.left
+                                    }
+                                    background: Rectangle
+                                    {
+                                        implicitHeight: titlebar.height * 0.95
+                                        implicitWidth: titlebar.height * 0.95
+                                        border.width: control.checked || control.activeFocus ? 2 : 0
+                                        border.color: control.checked || control.activeFocus ?  screenChkBoxGrp.border_color : "transparent"
+                                        color: control.checked || control.activeFocus ? screenChkBoxGrp.bgcolor : "transparent"
+                                        visible: control.checked || control.activeFocus
+                                        radius: screenChkBoxGrp.button_radius
+                                        //gradient: Gradient {
+                                        //    GradientStop { position: 0 ; color: control.pressed ? "#ccc" : "#eee" }
+                                        //    GradientStop { position: 1 ; color: control.pressed ? "#aaa" : "#ccc" }
+                                        //}
+                                    }
+                                }
+
+                                states: State {
+                                            name: "INACTIVE"
+                                            when: (screen.state != "CART")
+                                            PropertyChanges {target: charticon; source: "res/images/Shopping-Cart-full-disabled.svg"}
+                                            PropertyChanges {target: rbCart; checked: false}
+                                 }
+                                onClicked:
+                                {
+                                    screen.state="CART"
+                                    rbCart.forceActiveFocus()
+                                    rbCart.checked = true
+                                }
+
+
+                           }
+                Button {
                     id: rbList
                     exclusiveGroup: screenGroup
+                    activeFocusOnPress: true
                     checked: true
+                    checkable: true
+                    anchors.verticalCenter: parent.verticalCenter
+
+
+                    //anchors.horizontalCenter: parent.horizontalCenter
+
 
                     Image
                     {
                         id: listicon
+                        height: parent.height * 0.8
+                        width: parent.height * 0.8
                         anchors.verticalCenter: parent.verticalCenter
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        anchors.fill: parent
+                        //anchors.fill: parent
                         fillMode: Image.PreserveAspectFit
                         source: "res/images/note-2-enabled.svg"
                         visible: true
                     }
 
-                    style: RadioButtonStyle
+                    style: ButtonStyle
                     {
                         label: Text
                         {
                             text: control.text
-                            font.pixelSize: 9
+                            font.pixelSize: titlebar.title_fontsize
                             font.family: "DejaVu Sans"
                             anchors.margins: 0
                             horizontalAlignment: Text.left
                         }
-                        indicator: Rectangle
+                        background: Rectangle
                         {
-                            implicitWidth: parent.height
-                            implicitHeight: parent.height
-                            radius: 1
-                            border.color: control.activeFocus ? "darkblue" : "gray"
-                            border.width: 1
+                            implicitHeight: titlebar.height * 0.95
+                            implicitWidth: titlebar.height * 0.95
+                            border.width: control.checked || control.activeFocus ? 2 : 0
+                            border.color: control.checked || control.activeFocus ?  screenChkBoxGrp.border_color : "transparent"
+                            color: control.checked || control.activeFocus ? screenChkBoxGrp.bgcolor : "transparent"
+                            visible: control.checked || control.activeFocus
+                            radius: screenChkBoxGrp.button_radius
+                            //gradient: Gradient {
+                            //    GradientStop { position: 0 ; color: control.pressed ? "#ccc" : "#eee" }
+                            //    GradientStop { position: 1 ; color: control.pressed ? "#aaa" : "#ccc" }
+                            //}
                         }
                     }
 
                     states: State {
                                 name: "INACTIVE"
-                                when: (screen.state != "CART")
+                                when: (screen.state != "LIST")
                                 PropertyChanges {target: listicon; source: "res/images/note-2-full-disabled.svg"}
                                 PropertyChanges {target: rbList; checked: false}
                      }
                     onClicked:
                     {
-                        //TBD
+                        screen.state = "LIST"
+                        rbList.forceActiveFocus()
+                        rbList.checked = true
                     }
                 }
 
+             }
             }
 
             Rectangle {
                 id: titleSlot
-                anchors.horizontalCenter: parent.horizontalCenter
                 anchors.verticalCenter: parent.verticalCenter
-
+                anchors.left: sideBarToggleButton.right
+                anchors.right: screenChkBoxGrp.left
+                anchors.leftMargin: 2
 
                 visible: true
 
-                 Text {
-                    id: screenTitle
-                    text: qsTr("BOUTIQUE")
-                 }
+                Rectangle {
+                    height:parent.height * 0.9
+                    color: "#aaaaaa"
+                    width: parent.width * 0.9
+                    anchors.verticalCenter: parent.verticalCenter
+                    radius: screenChkBoxGrp.button_radius * 3
+                    border.color: "#000000"
+                    border.width: 8
+
+
+                     Text {
+                        id: screenTitle
+                        text: qsTr("BOUTIQUE")
+                        horizontalAlignment: Text.AlignLeft
+                        font.family: "Courier"
+                        font.capitalization: Font.SmallCaps
+                        font.pointSize: titlebar.title_fontsize
+                        verticalAlignment: Text.AlignVCenter
+                        anchors.verticalCenter: parent.verticalCenter
+                        //anchors.bottom: parent.bottom
+                     }
+               }
             }
 	
 	}
@@ -337,11 +388,11 @@ Window {
 	Rectangle {
 	    id: contentPanel
 	
-	    anchors.top: titleBar.bottom
+        anchors.top: titlebar.bottom
 	    anchors.left: parent.left
 	
 	    width: parent.width
-	    height: parent.height - titleBar.height - bCamera.height
+        height: parent.height - titlebar.height - bCamera.height
 	
 	    visible: true
 	}

@@ -3,7 +3,9 @@ TEMPLATE = app
 QT += qml quick svg sql quickwidgets
 
 SOURCES += main.cpp \
-    merchandiseitem.cpp
+    merchandiseitem.cpp \
+    listing.cpp \
+    shop.cpp
 
 RESOURCES += qml.qrc
 
@@ -14,4 +16,6 @@ QML_IMPORT_PATH =
 include(deployment.pri)
 
 HEADERS += \
-    merchandiseitem.h
+    merchandiseitem.h \
+    listing.h \
+    shop.h

@@ -11,7 +11,8 @@
         <file>res/images/Shopping-Cart-empty-disabled.svg</file>
         <file>res/images/Shopping-Cart-enabled.svg</file>
         <file>res/images/Shopping-Cart-full-disabled.svg</file>
-        <file>res/images/store.svg</file>
         <file>res/images/apps.svg</file>
+        <file>res/images/store-disabled.svg</file>
+        <file>res/images/store-enabled.svg</file>
     </qresource>
 </RCC>
