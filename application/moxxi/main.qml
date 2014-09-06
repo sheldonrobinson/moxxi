@@ -4,6 +4,8 @@ import QtQuick.Controls.Styles 1.2
 import QtQuick.Layouts 1.1
 import QtQuick.Window 2.1
 
+import "qml/ui"
+
 
 
 
@@ -207,71 +209,71 @@ Window {
                     }
                 }
 
-                            Button {
-                                id: rbCart
-                                exclusiveGroup: screenGroup
-                                activeFocusOnPress: true
-                                checked: true
-                                checkable: true
+                Button {
+                    id: rbCart
+                    exclusiveGroup: screenGroup
+                    activeFocusOnPress: true
+                    checked: true
+                    checkable: true
 
 
 
-                                anchors.verticalCenter: parent.verticalCenter
-                                //anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.verticalCenter: parent.verticalCenter
+                    //anchors.horizontalCenter: parent.horizontalCenter
 
-                                Image
-                                {
-                                    id: charticon
-                                    height: parent.height * 0.8
-                                    width: parent.height * 0.8
-                                    anchors.verticalCenter: parent.verticalCenter
-                                    //anchors.fill: parent
-                                    fillMode: Image.PreserveAspectFit
-                                    source: "res/images/Shopping-Cart-enabled.svg"
-                                    visible: true
-                                }
+                    Image
+                    {
+                        id: charticon
+                        height: parent.height * 0.8
+                        width: parent.height * 0.8
+                        anchors.verticalCenter: parent.verticalCenter
+                        //anchors.fill: parent
+                        fillMode: Image.PreserveAspectFit
+                        source: "res/images/Shopping-Cart-enabled.svg"
+                        visible: true
+                    }
 
-                                style: ButtonStyle
-                                {
-                                    label: Text
-                                    {
-                                    text: control.text
-                                    font.pixelSize: titlebar.title_fontsize
-                                    font.family: "DejaVu Sans"
-                                    anchors.margins: 0
-                                    horizontalAlignment: Text.left
-                                    }
-                                    background: Rectangle
-                                    {
-                                        implicitHeight: titlebar.height * 0.95
-                                        implicitWidth: titlebar.height * 0.95
-                                        border.width: control.checked || control.activeFocus ? 2 : 0
-                                        border.color: control.checked || control.activeFocus ?  screenChkBoxGrp.border_color : "transparent"
-                                        color: control.checked || control.activeFocus ? screenChkBoxGrp.bgcolor : "transparent"
-                                        visible: control.checked || control.activeFocus
-                                        radius: screenChkBoxGrp.button_radius
-                                        //gradient: Gradient {
-                                        //    GradientStop { position: 0 ; color: control.pressed ? "#ccc" : "#eee" }
-                                        //    GradientStop { position: 1 ; color: control.pressed ? "#aaa" : "#ccc" }
-                                        //}
-                                    }
-                                }
+                    style: ButtonStyle
+                    {
+                        label: Text
+                        {
+                        text: control.text
+                        font.pixelSize: titlebar.title_fontsize
+                        font.family: "DejaVu Sans"
+                        anchors.margins: 0
+                        horizontalAlignment: Text.left
+                        }
+                        background: Rectangle
+                        {
+                            implicitHeight: titlebar.height * 0.95
+                            implicitWidth: titlebar.height * 0.95
+                            border.width: control.checked || control.activeFocus ? 2 : 0
+                            border.color: control.checked || control.activeFocus ?  screenChkBoxGrp.border_color : "transparent"
+                            color: control.checked || control.activeFocus ? screenChkBoxGrp.bgcolor : "transparent"
+                            visible: control.checked || control.activeFocus
+                            radius: screenChkBoxGrp.button_radius
+                            //gradient: Gradient {
+                            //    GradientStop { position: 0 ; color: control.pressed ? "#ccc" : "#eee" }
+                            //    GradientStop { position: 1 ; color: control.pressed ? "#aaa" : "#ccc" }
+                            //}
+                        }
+                    }
 
-                                states: State {
-                                            name: "INACTIVE"
-                                            when: (screen.state != "CART")
-                                            PropertyChanges {target: charticon; source: "res/images/Shopping-Cart-full-disabled.svg"}
-                                            PropertyChanges {target: rbCart; checked: false}
-                                 }
-                                onClicked:
-                                {
-                                    screen.state="CART"
-                                    rbCart.forceActiveFocus()
-                                    rbCart.checked = true
-                                }
+                    states: State {
+                                name: "INACTIVE"
+                                when: (screen.state != "CART")
+                                PropertyChanges {target: charticon; source: "res/images/Shopping-Cart-full-disabled.svg"}
+                                PropertyChanges {target: rbCart; checked: false}
+                     }
+                    onClicked:
+                    {
+                        screen.state="CART"
+                        rbCart.forceActiveFocus()
+                        rbCart.checked = true
+                    }
 
 
-                           }
+               }
                 Button {
                     id: rbList
                     exclusiveGroup: screenGroup
@@ -336,7 +338,42 @@ Window {
                     }
                 }
 
-             }
+                ButtonWithBadge {
+                    id: mybutton
+                    height: titlebar.height
+                    button: {
+                        exclusiveGroup: screenGroup
+                        activeFocusOnPress: true
+                        checked: true
+                        checkable: true
+
+                    }
+
+                    image: Image
+                    {
+                        id: cbicon
+                        source: "res/images/note-2-enabled.svg"
+                    }
+
+                    background: Rectangle
+                    {
+                        implicitHeight: titlebar.height * 0.95
+                        implicitWidth: titlebar.height * 0.95
+                        border.width: control.checked || control.activeFocus ? 2 : 0
+                        border.color: control.checked || control.activeFocus ?  screenChkBoxGrp.border_color : "transparent"
+                        color: control.checked || control.activeFocus ? screenChkBoxGrp.bgcolor : "transparent"
+                        visible: control.checked || control.activeFocus
+                        radius: screenChkBoxGrp.button_radius
+                    }
+                    text: {
+                        Text: qStr("2");
+                        color: "black"
+                    }
+                    badge: {
+                        color: "lightblue"
+                    }
+                }
+              }
             }
 
             Rectangle {

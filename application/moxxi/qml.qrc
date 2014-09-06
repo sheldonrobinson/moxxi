@@ -14,5 +14,6 @@
         <file>res/images/apps.svg</file>
         <file>res/images/store-disabled.svg</file>
         <file>res/images/store-enabled.svg</file>
+        <file>qml/ui/ButtonWithBadge.qml</file>
     </qresource>
 </RCC>
