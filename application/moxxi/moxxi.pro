@@ -8,7 +8,11 @@ SOURCES += main.cpp \
     shop.cpp \
     price.cpp \
     category.cpp \
-    brand.cpp
+    brand.cpp \
+    listingsmodel.cpp \
+    imagedownloader.cpp \
+    brandsmodel.cpp \
+    categorysmodel.cpp
 
 RESOURCES += qml.qrc
 
@@ -24,7 +28,15 @@ HEADERS += \
     shop.h \
     price.h \
     category.h \
-    brand.h
+    brand.h \
+    listingsmodel.h \
+    imagedownloader.h \
+    brandsmodel.h \
+    categorysmodel.h
 
 OTHER_FILES += \
-    qml/ui/ButtonWithBadge.qml
+    qml/ui/ButtonWithBadge.qml \
+    qml/ui/CoverFlow.qml \
+    qml/ui/CoverFlowDelegate.qml \
+    qml/ui/ImageView.qml \
+    qml/ui/SwipeArea.qml

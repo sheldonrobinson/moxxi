@@ -7,8 +7,6 @@ Shop::Shop(QObject *parent) :
 
 }
 
-
-
 QString Shop::shopId() const {
     return _shopId;
 }

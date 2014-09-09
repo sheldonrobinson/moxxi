@@ -54,17 +54,7 @@ signals:
 
 public slots:
 
-private:
-    QString _shopId;
-    QUrl _url;
-    QStringList _aliases;
-    QString _name;
-    QList<Listing*> _listings;
-    QList<QString*> _styles;
-    QList<QString*> _occasions;
-    QList<QString*> _brands;
-    QList<QString*> _locations;
-
+protected:
     static int countOfListings(QQmlListProperty<Listing> *list);
     //int countOfBuyers(QQmlListProperty<Listing::Buyer> *list);
     static int countOfStyles(QQmlListProperty<QString> *list);
@@ -90,6 +80,19 @@ private:
     //void clearBrands(QQmlListProperty<QString> *list);
     //void clearOccasions(QQmlListProperty<QString> *list);
     //void clearStyles(QQmlListProperty<QString> *list);
+
+private:
+    QString _shopId;
+    QUrl _url;
+    QStringList _aliases;
+    QString _name;
+    QList<Listing*> _listings;
+    QList<QString*> _styles;
+    QList<QString*> _occasions;
+    QList<QString*> _brands;
+    QList<QString*> _locations;
+
+
 
 };
 

@@ -6,6 +6,9 @@
 #include <QStringList>
 #include <QVariantMap>
 #include <QUrl>
+#include <QQmlListProperty>
+#include <QImage>
+#include <QLocale>
 #include "category.h"
 #include "brand.h"
 
@@ -35,7 +38,8 @@ class Listing : public QObject
     Q_PROPERTY(QStringList styles READ styles NOTIFY stylesChanged)
     Q_PROPERTY(QUrl url READ url NOTIFY urlChanged)
     Q_PROPERTY(QStringList aliases READ aliases NOTIFY aliasesChanged)
-
+    Q_PROPERTY(QUrl imageUrl READ imageUrl NOTIFY imageUrlChanged)
+    Q_PROPERTY(QQmlListProperty<QUrl> imageUrls READ imageUrls NOTIFY imageUrlsChanged)
 
 public:
     explicit Listing(QObject *parent = 0);
@@ -85,8 +89,9 @@ public:
     QUrl url() const;
     void setUrl(const QUrl& url);
     QStringList aliases() const;
-
-
+    QUrl imageUrl() const;
+    void setImageUrl(const QUrl& url);
+    QQmlListProperty<QUrl> imageUrls() const;
 
 
 signals:
@@ -110,10 +115,12 @@ signals:
     void urlChanged();
     void aliasesChanged();
     void faverorsChanged();
+    void imageUrlChanged();
+    void imageUrlsChanged();
 
 public slots:
 
-    bool updateCurrency(const QString& ccy);
+    //bool updateCurrency(const QString& ccy);
     void removeStyle(const QString& style);
     void addStyle(const QString& style);
     void addAlias(const QString& alias);
@@ -122,10 +129,22 @@ public slots:
     void addOccasion(const QString& occasion);
     void removeTag(const QString& tag);
     void addtag(const QString& tag);
+    QList<QUrl> getImages() const;
+    void addImage(const QUrl& url);
+    void setLocale(const QString& locale);
+    QString formattedPx() const;
 
+protected:
+    static int countOfImages(QQmlListProperty<QUrl> *list);
+    static QUrl* imageAt(QQmlListProperty<QUrl> *list, int index);
+    static void appendImage(QQmlListProperty<QUrl> *list, QUrl *value);
+    static void clearImages(QQmlListProperty<QUrl> *list);
 private:
-    void initCurrency();
+    //void initCurrency();
+    QLocale _locale;
 
+    QList<QUrl> _images;
+    QUrl _image;
     QString _name;
     QString _listingId;
     Status _status;
