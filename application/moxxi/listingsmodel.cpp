@@ -28,17 +28,17 @@ void ListingsModel::imageResult(const QUrl& url, bool success){
 QHash<int, QByteArray> ListingsModel::roleNames() const {
     // QML uses role names when accessing properties from model
     QHash<int, QByteArray> roles;
-    roles[UrlRole] = "url";
-    roles[NameRole] = "name";
-    roles[BrandRole] = "brand";
-    roles[PriceRole] = "price";
-    roles[DescriptionRole] = "description";
-    roles[CategoryRole] = "category";
-    roles[BuyerRole] = "buyer";
-    roles[ImageRole] = "image";
-    roles[ImagesRole] = "images";
-    roles[ImageUrlRole]="imageUrl";
-    roles[ImageUrlsRole]="imageUrls";
+    roles[UrlRole] = "listingUrl";
+    roles[NameRole] = "listingName";
+    roles[BrandRole] = "listingBrand";
+    roles[PriceRole] = "listingPrice";
+    roles[DescriptionRole] = "listingDescription";
+    roles[CategoryRole] = "listingCategory";
+    roles[BuyerRole] = "listingbuyer";
+    roles[ImageRole] = "listingimage";
+    roles[ImagesRole] = "listingimages";
+    roles[ImageUrlRole]="listingImageUrl";
+    roles[ImageUrlsRole]="listingImageUrls";
 
     return roles;
 }
@@ -74,6 +74,7 @@ void ListingsModel::replyFinished(QNetworkReply* reply){
             }
             QJsonArray imgs = obj["alternateImages"].toArray();
             foreach (const QJsonValue & altimg, jsonArray){
+                qDebug()<<"Unable to get image: "<<altimg.toObject()["sizes"].toObject()["IPhone"].toString();
                 QUrl _url(altimg.toObject()["sizes"].toObject()["IPhone"].toObject()["url"].toString());
                 _imgLoader->downloadImg(_url);
                 listing.addImage(_url);
@@ -82,6 +83,7 @@ void ListingsModel::replyFinished(QNetworkReply* reply){
         }
     }
     m_isReady =true;
+    emit ready();
 }
 
 

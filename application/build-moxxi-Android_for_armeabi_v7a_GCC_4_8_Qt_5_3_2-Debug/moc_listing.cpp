@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'listing.h'
 **
-** Created by: The Qt Meta Object Compiler version 67 (Qt 5.3.2)
+** Created by: The Qt Meta Object Compiler version 67 (Qt 5.3.1)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
@@ -12,15 +12,15 @@
 #if !defined(Q_MOC_OUTPUT_REVISION)
 #error "The header file 'listing.h' doesn't include <QObject>."
 #elif Q_MOC_OUTPUT_REVISION != 67
-#error "This file was generated using the moc from 5.3.2. It"
+#error "This file was generated using the moc from 5.3.1. It"
 #error "cannot be used with the include files from this version of Qt."
 #error "(The moc has changed too much.)"
 #endif
 
 QT_BEGIN_MOC_NAMESPACE
 struct qt_meta_stringdata_Listing_t {
-    QByteArrayData data[82];
-    char stringdata[769];
+    QByteArrayData data[91];
+    char stringdata[885];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -51,66 +51,75 @@ QT_MOC_LITERAL(18, 236, 13),
 QT_MOC_LITERAL(19, 250, 10),
 QT_MOC_LITERAL(20, 261, 14),
 QT_MOC_LITERAL(21, 276, 15),
-QT_MOC_LITERAL(22, 292, 14),
-QT_MOC_LITERAL(23, 307, 3),
-QT_MOC_LITERAL(24, 311, 11),
-QT_MOC_LITERAL(25, 323, 5),
-QT_MOC_LITERAL(26, 329, 8),
-QT_MOC_LITERAL(27, 338, 8),
-QT_MOC_LITERAL(28, 347, 5),
-QT_MOC_LITERAL(29, 353, 11),
-QT_MOC_LITERAL(30, 365, 14),
-QT_MOC_LITERAL(31, 380, 8),
-QT_MOC_LITERAL(32, 389, 11),
-QT_MOC_LITERAL(33, 401, 9),
-QT_MOC_LITERAL(34, 411, 3),
-QT_MOC_LITERAL(35, 415, 6),
-QT_MOC_LITERAL(36, 422, 4),
-QT_MOC_LITERAL(37, 427, 9),
-QT_MOC_LITERAL(38, 437, 6),
-QT_MOC_LITERAL(39, 444, 6),
-QT_MOC_LITERAL(40, 451, 6),
-QT_MOC_LITERAL(41, 458, 8),
-QT_MOC_LITERAL(42, 467, 9),
-QT_MOC_LITERAL(43, 477, 5),
-QT_MOC_LITERAL(44, 483, 6),
-QT_MOC_LITERAL(45, 490, 8),
-QT_MOC_LITERAL(46, 499, 10),
-QT_MOC_LITERAL(47, 510, 2),
-QT_MOC_LITERAL(48, 513, 3),
-QT_MOC_LITERAL(49, 517, 9),
-QT_MOC_LITERAL(50, 527, 4),
-QT_MOC_LITERAL(51, 532, 9),
-QT_MOC_LITERAL(52, 542, 5),
-QT_MOC_LITERAL(53, 548, 8),
-QT_MOC_LITERAL(54, 557, 4),
-QT_MOC_LITERAL(55, 562, 5),
-QT_MOC_LITERAL(56, 568, 5),
-QT_MOC_LITERAL(57, 574, 9),
-QT_MOC_LITERAL(58, 584, 6),
-QT_MOC_LITERAL(59, 591, 3),
-QT_MOC_LITERAL(60, 595, 7),
-QT_MOC_LITERAL(61, 603, 6),
-QT_MOC_LITERAL(62, 610, 7),
-QT_MOC_LITERAL(63, 618, 7),
-QT_MOC_LITERAL(64, 626, 7),
-QT_MOC_LITERAL(65, 634, 6),
-QT_MOC_LITERAL(66, 641, 11),
-QT_MOC_LITERAL(67, 653, 3),
-QT_MOC_LITERAL(68, 657, 5),
-QT_MOC_LITERAL(69, 663, 6),
-QT_MOC_LITERAL(70, 670, 6),
-QT_MOC_LITERAL(71, 677, 7),
-QT_MOC_LITERAL(72, 685, 9),
-QT_MOC_LITERAL(73, 695, 5),
-QT_MOC_LITERAL(74, 701, 11),
-QT_MOC_LITERAL(75, 713, 11),
-QT_MOC_LITERAL(76, 725, 8),
-QT_MOC_LITERAL(77, 734, 4),
-QT_MOC_LITERAL(78, 739, 5),
-QT_MOC_LITERAL(79, 745, 7),
-QT_MOC_LITERAL(80, 753, 8),
-QT_MOC_LITERAL(81, 762, 6)
+QT_MOC_LITERAL(22, 292, 15),
+QT_MOC_LITERAL(23, 308, 16),
+QT_MOC_LITERAL(24, 325, 11),
+QT_MOC_LITERAL(25, 337, 5),
+QT_MOC_LITERAL(26, 343, 8),
+QT_MOC_LITERAL(27, 352, 8),
+QT_MOC_LITERAL(28, 361, 5),
+QT_MOC_LITERAL(29, 367, 11),
+QT_MOC_LITERAL(30, 379, 14),
+QT_MOC_LITERAL(31, 394, 8),
+QT_MOC_LITERAL(32, 403, 11),
+QT_MOC_LITERAL(33, 415, 9),
+QT_MOC_LITERAL(34, 425, 3),
+QT_MOC_LITERAL(35, 429, 6),
+QT_MOC_LITERAL(36, 436, 9),
+QT_MOC_LITERAL(37, 446, 11),
+QT_MOC_LITERAL(38, 458, 8),
+QT_MOC_LITERAL(39, 467, 3),
+QT_MOC_LITERAL(40, 471, 9),
+QT_MOC_LITERAL(41, 481, 6),
+QT_MOC_LITERAL(42, 488, 11),
+QT_MOC_LITERAL(43, 500, 4),
+QT_MOC_LITERAL(44, 505, 9),
+QT_MOC_LITERAL(45, 515, 6),
+QT_MOC_LITERAL(46, 522, 6),
+QT_MOC_LITERAL(47, 529, 6),
+QT_MOC_LITERAL(48, 536, 8),
+QT_MOC_LITERAL(49, 545, 9),
+QT_MOC_LITERAL(50, 555, 5),
+QT_MOC_LITERAL(51, 561, 6),
+QT_MOC_LITERAL(52, 568, 8),
+QT_MOC_LITERAL(53, 577, 10),
+QT_MOC_LITERAL(54, 588, 2),
+QT_MOC_LITERAL(55, 591, 3),
+QT_MOC_LITERAL(56, 595, 9),
+QT_MOC_LITERAL(57, 605, 4),
+QT_MOC_LITERAL(58, 610, 9),
+QT_MOC_LITERAL(59, 620, 5),
+QT_MOC_LITERAL(60, 626, 8),
+QT_MOC_LITERAL(61, 635, 4),
+QT_MOC_LITERAL(62, 640, 5),
+QT_MOC_LITERAL(63, 646, 5),
+QT_MOC_LITERAL(64, 652, 9),
+QT_MOC_LITERAL(65, 662, 6),
+QT_MOC_LITERAL(66, 669, 7),
+QT_MOC_LITERAL(67, 677, 8),
+QT_MOC_LITERAL(68, 686, 9),
+QT_MOC_LITERAL(69, 696, 22),
+QT_MOC_LITERAL(70, 719, 6),
+QT_MOC_LITERAL(71, 726, 7),
+QT_MOC_LITERAL(72, 734, 7),
+QT_MOC_LITERAL(73, 742, 7),
+QT_MOC_LITERAL(74, 750, 6),
+QT_MOC_LITERAL(75, 757, 11),
+QT_MOC_LITERAL(76, 769, 3),
+QT_MOC_LITERAL(77, 773, 5),
+QT_MOC_LITERAL(78, 779, 6),
+QT_MOC_LITERAL(79, 786, 6),
+QT_MOC_LITERAL(80, 793, 7),
+QT_MOC_LITERAL(81, 801, 9),
+QT_MOC_LITERAL(82, 811, 5),
+QT_MOC_LITERAL(83, 817, 11),
+QT_MOC_LITERAL(84, 829, 11),
+QT_MOC_LITERAL(85, 841, 8),
+QT_MOC_LITERAL(86, 850, 4),
+QT_MOC_LITERAL(87, 855, 5),
+QT_MOC_LITERAL(88, 861, 7),
+QT_MOC_LITERAL(89, 869, 8),
+QT_MOC_LITERAL(90, 878, 6)
     },
     "Listing\0nameChanged\0\0listingIdChanged\0"
     "statusChanged\0shopIdChanged\0categoryChanged\0"
@@ -120,20 +129,23 @@ QT_MOC_LITERAL(81, 762, 6)
     "brandChanged\0yearChanged\0buyerChanged\0"
     "occasionsChanged\0stylesChanged\0"
     "urlChanged\0aliasesChanged\0faverorsChanged\0"
-    "updateCurrency\0ccy\0removeStyle\0style\0"
-    "addStyle\0addAlias\0alias\0removeAlias\0"
-    "removeOccasion\0occasion\0addOccasion\0"
-    "removeTag\0tag\0addtag\0name\0listingId\0"
-    "status\0Status\0shopId\0category\0Category*\0"
-    "brand\0Brand*\0currency\0decription\0px\0"
-    "qty\0pricelist\0tags\0materials\0views\0"
-    "faverors\0year\0buyer\0Buyer\0occasions\0"
-    "styles\0url\0aliases\0active\0removed\0"
-    "soldout\0expired\0custom\0unavailable\0"
-    "men\0women\0unisex\0adults\0teenboy\0"
-    "teengirls\0teens\0preteenboys\0preteegirls\0"
-    "children\0boys\0girls\0babyboy\0babygirl\0"
-    "babies"
+    "imageUrlChanged\0imageUrlsChanged\0"
+    "removeStyle\0style\0addStyle\0addAlias\0"
+    "alias\0removeAlias\0removeOccasion\0"
+    "occasion\0addOccasion\0removeTag\0tag\0"
+    "addtag\0getImages\0QList<QUrl>\0addImage\0"
+    "url\0setLocale\0locale\0formattedPx\0name\0"
+    "listingId\0status\0Status\0shopId\0category\0"
+    "Category*\0brand\0Brand*\0currency\0"
+    "decription\0px\0qty\0pricelist\0tags\0"
+    "materials\0views\0faverors\0year\0buyer\0"
+    "Buyer\0occasions\0styles\0aliases\0imageUrl\0"
+    "imageUrls\0QQmlListProperty<QUrl>\0"
+    "active\0removed\0soldout\0expired\0custom\0"
+    "unavailable\0men\0women\0unisex\0adults\0"
+    "teenboy\0teengirls\0teens\0preteenboys\0"
+    "preteegirls\0children\0boys\0girls\0babyboy\0"
+    "babygirl\0babies"
 };
 #undef QT_MOC_LITERAL
 
@@ -143,45 +155,50 @@ static const uint qt_meta_data_Listing[] = {
        7,       // revision
        0,       // classname
        0,    0, // classinfo
-      29,   14, // methods
-      21,  206, // properties
-       2,  290, // enums/sets
+      34,   14, // methods
+      23,  238, // properties
+       2,  330, // enums/sets
        0,    0, // constructors
        0,       // flags
-      20,       // signalCount
+      22,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    0,  159,    2, 0x06 /* Public */,
-       3,    0,  160,    2, 0x06 /* Public */,
-       4,    0,  161,    2, 0x06 /* Public */,
-       5,    0,  162,    2, 0x06 /* Public */,
-       6,    0,  163,    2, 0x06 /* Public */,
-       7,    0,  164,    2, 0x06 /* Public */,
-       8,    0,  165,    2, 0x06 /* Public */,
-       9,    0,  166,    2, 0x06 /* Public */,
-      10,    0,  167,    2, 0x06 /* Public */,
-      11,    0,  168,    2, 0x06 /* Public */,
-      12,    0,  169,    2, 0x06 /* Public */,
-      13,    0,  170,    2, 0x06 /* Public */,
-      14,    0,  171,    2, 0x06 /* Public */,
-      15,    0,  172,    2, 0x06 /* Public */,
-      16,    0,  173,    2, 0x06 /* Public */,
-      17,    0,  174,    2, 0x06 /* Public */,
-      18,    0,  175,    2, 0x06 /* Public */,
-      19,    0,  176,    2, 0x06 /* Public */,
-      20,    0,  177,    2, 0x06 /* Public */,
-      21,    0,  178,    2, 0x06 /* Public */,
+       1,    0,  184,    2, 0x06 /* Public */,
+       3,    0,  185,    2, 0x06 /* Public */,
+       4,    0,  186,    2, 0x06 /* Public */,
+       5,    0,  187,    2, 0x06 /* Public */,
+       6,    0,  188,    2, 0x06 /* Public */,
+       7,    0,  189,    2, 0x06 /* Public */,
+       8,    0,  190,    2, 0x06 /* Public */,
+       9,    0,  191,    2, 0x06 /* Public */,
+      10,    0,  192,    2, 0x06 /* Public */,
+      11,    0,  193,    2, 0x06 /* Public */,
+      12,    0,  194,    2, 0x06 /* Public */,
+      13,    0,  195,    2, 0x06 /* Public */,
+      14,    0,  196,    2, 0x06 /* Public */,
+      15,    0,  197,    2, 0x06 /* Public */,
+      16,    0,  198,    2, 0x06 /* Public */,
+      17,    0,  199,    2, 0x06 /* Public */,
+      18,    0,  200,    2, 0x06 /* Public */,
+      19,    0,  201,    2, 0x06 /* Public */,
+      20,    0,  202,    2, 0x06 /* Public */,
+      21,    0,  203,    2, 0x06 /* Public */,
+      22,    0,  204,    2, 0x06 /* Public */,
+      23,    0,  205,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-      22,    1,  179,    2, 0x0a /* Public */,
-      24,    1,  182,    2, 0x0a /* Public */,
-      26,    1,  185,    2, 0x0a /* Public */,
-      27,    1,  188,    2, 0x0a /* Public */,
-      29,    1,  191,    2, 0x0a /* Public */,
-      30,    1,  194,    2, 0x0a /* Public */,
-      32,    1,  197,    2, 0x0a /* Public */,
-      33,    1,  200,    2, 0x0a /* Public */,
-      35,    1,  203,    2, 0x0a /* Public */,
+      24,    1,  206,    2, 0x0a /* Public */,
+      26,    1,  209,    2, 0x0a /* Public */,
+      27,    1,  212,    2, 0x0a /* Public */,
+      29,    1,  215,    2, 0x0a /* Public */,
+      30,    1,  218,    2, 0x0a /* Public */,
+      32,    1,  221,    2, 0x0a /* Public */,
+      33,    1,  224,    2, 0x0a /* Public */,
+      35,    1,  227,    2, 0x0a /* Public */,
+      36,    0,  230,    2, 0x0a /* Public */,
+      38,    1,  231,    2, 0x0a /* Public */,
+      40,    1,  234,    2, 0x0a /* Public */,
+      42,    0,  237,    2, 0x0a /* Public */,
 
  // signals: parameters
     QMetaType::Void,
@@ -204,9 +221,10 @@ static const uint qt_meta_data_Listing[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
+    QMetaType::Void,
+    QMetaType::Void,
 
  // slots: parameters
-    QMetaType::Bool, QMetaType::QString,   23,
     QMetaType::Void, QMetaType::QString,   25,
     QMetaType::Void, QMetaType::QString,   25,
     QMetaType::Void, QMetaType::QString,   28,
@@ -215,29 +233,35 @@ static const uint qt_meta_data_Listing[] = {
     QMetaType::Void, QMetaType::QString,   31,
     QMetaType::Void, QMetaType::QString,   34,
     QMetaType::Void, QMetaType::QString,   34,
+    0x80000000 | 37,
+    QMetaType::Void, QMetaType::QUrl,   39,
+    QMetaType::Void, QMetaType::QString,   41,
+    QMetaType::QString,
 
  // properties: name, type, flags
-      36, QMetaType::QString, 0x00495001,
-      37, QMetaType::QString, 0x00495001,
-      38, 0x80000000 | 39, 0x00495009,
-      40, QMetaType::QString, 0x00495001,
-      41, 0x80000000 | 42, 0x00495009,
-      43, 0x80000000 | 44, 0x00495009,
-      45, QMetaType::QString, 0x00495001,
-      46, QMetaType::QString, 0x00495001,
-      47, QMetaType::Double, 0x00495001,
-      48, QMetaType::Double, 0x00495103,
-      49, QMetaType::QVariantMap, 0x00495001,
-      50, QMetaType::QStringList, 0x00495001,
-      51, QMetaType::QVariantMap, 0x00495001,
-      52, QMetaType::Int, 0x00495001,
-      53, QMetaType::Int, 0x00495001,
-      54, QMetaType::Int, 0x00495001,
-      55, 0x80000000 | 56, 0x00495009,
+      43, QMetaType::QString, 0x00495001,
+      44, QMetaType::QString, 0x00495001,
+      45, 0x80000000 | 46, 0x00495009,
+      47, QMetaType::QString, 0x00495001,
+      48, 0x80000000 | 49, 0x00495009,
+      50, 0x80000000 | 51, 0x00495009,
+      52, QMetaType::QString, 0x00495001,
+      53, QMetaType::QString, 0x00495001,
+      54, QMetaType::Double, 0x00495001,
+      55, QMetaType::Double, 0x00495103,
+      56, QMetaType::QVariantMap, 0x00495001,
       57, QMetaType::QStringList, 0x00495001,
-      58, QMetaType::QStringList, 0x00495001,
-      59, QMetaType::QUrl, 0x00495001,
-      60, QMetaType::QStringList, 0x00495001,
+      58, QMetaType::QVariantMap, 0x00495001,
+      59, QMetaType::Int, 0x00495001,
+      60, QMetaType::Int, 0x00495001,
+      61, QMetaType::Int, 0x00495001,
+      62, 0x80000000 | 63, 0x00495009,
+      64, QMetaType::QStringList, 0x00495001,
+      65, QMetaType::QStringList, 0x00495001,
+      39, QMetaType::QUrl, 0x00495001,
+      66, QMetaType::QStringList, 0x00495001,
+      67, QMetaType::QUrl, 0x00495001,
+      68, 0x80000000 | 69, 0x00495009,
 
  // properties: notify_signal_id
        0,
@@ -261,33 +285,35 @@ static const uint qt_meta_data_Listing[] = {
       16,
       17,
       18,
+      20,
+      21,
 
  // enums: name, flags, count, data
-      39, 0x0,    6,  298,
-      56, 0x0,   15,  310,
+      46, 0x0,    6,  338,
+      63, 0x0,   15,  350,
 
  // enum data: key, value
-      61, uint(Listing::active),
-      62, uint(Listing::removed),
-      63, uint(Listing::soldout),
-      64, uint(Listing::expired),
-      65, uint(Listing::custom),
-      66, uint(Listing::unavailable),
-      67, uint(Listing::men),
-      68, uint(Listing::women),
-      69, uint(Listing::unisex),
-      70, uint(Listing::adults),
-      71, uint(Listing::teenboy),
-      72, uint(Listing::teengirls),
-      73, uint(Listing::teens),
-      74, uint(Listing::preteenboys),
-      75, uint(Listing::preteegirls),
-      76, uint(Listing::children),
-      77, uint(Listing::boys),
-      78, uint(Listing::girls),
-      79, uint(Listing::babyboy),
-      80, uint(Listing::babygirl),
-      81, uint(Listing::babies),
+      70, uint(Listing::active),
+      71, uint(Listing::removed),
+      72, uint(Listing::soldout),
+      73, uint(Listing::expired),
+      74, uint(Listing::custom),
+      75, uint(Listing::unavailable),
+      76, uint(Listing::men),
+      77, uint(Listing::women),
+      78, uint(Listing::unisex),
+      79, uint(Listing::adults),
+      80, uint(Listing::teenboy),
+      81, uint(Listing::teengirls),
+      82, uint(Listing::teens),
+      83, uint(Listing::preteenboys),
+      84, uint(Listing::preteegirls),
+      85, uint(Listing::children),
+      86, uint(Listing::boys),
+      87, uint(Listing::girls),
+      88, uint(Listing::babyboy),
+      89, uint(Listing::babygirl),
+      90, uint(Listing::babies),
 
        0        // eod
 };
@@ -317,16 +343,22 @@ void Listing::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, voi
         case 17: _t->urlChanged(); break;
         case 18: _t->aliasesChanged(); break;
         case 19: _t->faverorsChanged(); break;
-        case 20: { bool _r = _t->updateCurrency((*reinterpret_cast< const QString(*)>(_a[1])));
-            if (_a[0]) *reinterpret_cast< bool*>(_a[0]) = _r; }  break;
-        case 21: _t->removeStyle((*reinterpret_cast< const QString(*)>(_a[1]))); break;
-        case 22: _t->addStyle((*reinterpret_cast< const QString(*)>(_a[1]))); break;
-        case 23: _t->addAlias((*reinterpret_cast< const QString(*)>(_a[1]))); break;
-        case 24: _t->removeAlias((*reinterpret_cast< const QString(*)>(_a[1]))); break;
-        case 25: _t->removeOccasion((*reinterpret_cast< const QString(*)>(_a[1]))); break;
-        case 26: _t->addOccasion((*reinterpret_cast< const QString(*)>(_a[1]))); break;
-        case 27: _t->removeTag((*reinterpret_cast< const QString(*)>(_a[1]))); break;
-        case 28: _t->addtag((*reinterpret_cast< const QString(*)>(_a[1]))); break;
+        case 20: _t->imageUrlChanged(); break;
+        case 21: _t->imageUrlsChanged(); break;
+        case 22: _t->removeStyle((*reinterpret_cast< const QString(*)>(_a[1]))); break;
+        case 23: _t->addStyle((*reinterpret_cast< const QString(*)>(_a[1]))); break;
+        case 24: _t->addAlias((*reinterpret_cast< const QString(*)>(_a[1]))); break;
+        case 25: _t->removeAlias((*reinterpret_cast< const QString(*)>(_a[1]))); break;
+        case 26: _t->removeOccasion((*reinterpret_cast< const QString(*)>(_a[1]))); break;
+        case 27: _t->addOccasion((*reinterpret_cast< const QString(*)>(_a[1]))); break;
+        case 28: _t->removeTag((*reinterpret_cast< const QString(*)>(_a[1]))); break;
+        case 29: _t->addtag((*reinterpret_cast< const QString(*)>(_a[1]))); break;
+        case 30: { QList<QUrl> _r = _t->getImages();
+            if (_a[0]) *reinterpret_cast< QList<QUrl>*>(_a[0]) = _r; }  break;
+        case 31: _t->addImage((*reinterpret_cast< const QUrl(*)>(_a[1]))); break;
+        case 32: _t->setLocale((*reinterpret_cast< const QString(*)>(_a[1]))); break;
+        case 33: { QString _r = _t->formattedPx();
+            if (_a[0]) *reinterpret_cast< QString*>(_a[0]) = _r; }  break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
@@ -452,6 +484,18 @@ void Listing::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, voi
                 *result = 19;
             }
         }
+        {
+            typedef void (Listing::*_t)();
+            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&Listing::imageUrlChanged)) {
+                *result = 20;
+            }
+        }
+        {
+            typedef void (Listing::*_t)();
+            if (*reinterpret_cast<_t *>(func) == static_cast<_t>(&Listing::imageUrlsChanged)) {
+                *result = 21;
+            }
+        }
     } else if (_c == QMetaObject::RegisterPropertyMetaType) {
         switch (_id) {
         default: *reinterpret_cast<int*>(_a[0]) = -1; break;
@@ -489,13 +533,13 @@ int Listing::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 29)
+        if (_id < 34)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 29;
+        _id -= 34;
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 29)
+        if (_id < 34)
             *reinterpret_cast<int*>(_a[0]) = -1;
-        _id -= 29;
+        _id -= 34;
     }
 #ifndef QT_NO_PROPERTIES
       else if (_c == QMetaObject::ReadProperty) {
@@ -522,32 +566,34 @@ int Listing::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
         case 18: *reinterpret_cast< QStringList*>(_v) = styles(); break;
         case 19: *reinterpret_cast< QUrl*>(_v) = url(); break;
         case 20: *reinterpret_cast< QStringList*>(_v) = aliases(); break;
+        case 21: *reinterpret_cast< QUrl*>(_v) = imageUrl(); break;
+        case 22: *reinterpret_cast< QQmlListProperty<QUrl>*>(_v) = imageUrls(); break;
         default: break;
         }
-        _id -= 21;
+        _id -= 23;
     } else if (_c == QMetaObject::WriteProperty) {
         void *_v = _a[0];
         switch (_id) {
         case 9: setQty(*reinterpret_cast< double*>(_v)); break;
         default: break;
         }
-        _id -= 21;
+        _id -= 23;
     } else if (_c == QMetaObject::ResetProperty) {
-        _id -= 21;
+        _id -= 23;
     } else if (_c == QMetaObject::QueryPropertyDesignable) {
-        _id -= 21;
+        _id -= 23;
     } else if (_c == QMetaObject::QueryPropertyScriptable) {
-        _id -= 21;
+        _id -= 23;
     } else if (_c == QMetaObject::QueryPropertyStored) {
-        _id -= 21;
+        _id -= 23;
     } else if (_c == QMetaObject::QueryPropertyEditable) {
-        _id -= 21;
+        _id -= 23;
     } else if (_c == QMetaObject::QueryPropertyUser) {
-        _id -= 21;
+        _id -= 23;
     } else if (_c == QMetaObject::RegisterPropertyMetaType) {
-        if (_id < 21)
+        if (_id < 23)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 21;
+        _id -= 23;
     }
 #endif // QT_NO_PROPERTIES
     return _id;
@@ -671,5 +717,17 @@ void Listing::aliasesChanged()
 void Listing::faverorsChanged()
 {
     QMetaObject::activate(this, &staticMetaObject, 19, 0);
+}
+
+// SIGNAL 20
+void Listing::imageUrlChanged()
+{
+    QMetaObject::activate(this, &staticMetaObject, 20, 0);
+}
+
+// SIGNAL 21
+void Listing::imageUrlsChanged()
+{
+    QMetaObject::activate(this, &staticMetaObject, 21, 0);
 }
 QT_END_MOC_NAMESPACE

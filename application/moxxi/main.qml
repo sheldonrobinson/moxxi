@@ -3,6 +3,7 @@ import QtQuick.Controls 1.2
 import QtQuick.Controls.Styles 1.2
 import QtQuick.Layouts 1.1
 import QtQuick.Window 2.1
+import Moxxi 1.0
 
 import "qml/ui"
 
@@ -395,7 +396,7 @@ Window {
             visible: true
         }
 
-        Rectangle {
+        Rectangle{
 
             id: contentPanel
             anchors.top: titlebar.bottom
@@ -407,51 +408,75 @@ Window {
             visible: true
 
             ListView {
-                model: listingsModel
-                delegate: listingsDelegate
-                snapMode: ListView.SnapToItem
-            }
+               model: theModel
+               delegate: Rectangle{
+                   id: listingsDelegate
+                   Image {
+                       id: listingImg
+                       width: listingsDelegate.width / 3
+                       height: parent.height
+                       source: theModel.listingImageUrl
+                       fillMode: Image.PreserveAspectFit
+                   }
 
-            Row {
-                id: listingsDelegate
-                anchors.left: parent.left
-                width: parent.width
+                   Text {
+                       id: lstname
+                       font.bold: true
+                       font.pixelSize: 12
+                       text: theModel.listingName
+                   }
+                   Text {
+                       //id: listingDescription
+                       font.pixelSize: 6
+                       text: theModel.listingDescription
+                   }
 
-                Image {
-                    id: image
-                    width: listingsDelegate.width / 3
-                    source: imageUrl
-                    fillMode: Image.PreserveAspectFit
-                }
+               }
+               snapMode: ListView.SnapToItem
+           }
 
-                Item {
-                    //id: wrapper
-                    width: listingsDelegate.width * 2 / 3
-                    height: image.height
-                    Rectangle {
 
-                        color: ListView.isCurrentItem ? "darkgray" : "lightgray"
-                        border.color: "black"
-                        border.width: 4
-                        radius: ListView.isCurrentItem ? 2 : 0
 
-                        Column {
 
-                            Text {
-                                //id: listingname
-                                font.bold: true
-                                font.pixelSize: 12
-                                text: name
-                            }
-                            Text {
-                                //id: listingDescription
-                                font.pixelSize: 6
-                                text: description
-                            }
-                        }
-                    }
-                }
-            }
+//            Rectangle {
+//                id: listingsDelegate
+//                anchors.left: parent.left
+//                width: parent.width
+//                height: 100
+
+//                Image {
+//                    id: listingImg
+//                    width: listingsDelegate.width / 3
+//                    height: parent.height
+//                    source: listingImageUrl
+//                    fillMode: Image.PreserveAspectFit
+//                }
+
+//                Rectangle {
+//                    //id: wrapper
+//                    width: listingsDelegate.width * 2 / 3
+//                    height: listingImg.height
+//                        color: ListView.isCurrentItem ? "darkgray" : model.index % 2 == 0 ? "lightgray" : "gray"
+//                        border.color: "black"
+//                        border.width: 4
+//                        //radius: ListView.isCurrentItem ? 2 : 0
+
+//                     Column {
+
+//                        Text {
+//                            id: lstname
+//                            font.bold: true
+//                            font.pixelSize: 12
+//                            text: listingName
+//                        }
+//                        Text {
+//                            //id: listingDescription
+//                            font.pixelSize: 6
+//                            text: listingDescription
+//                        }
+//                    }
+//                }
+//            }
         }
     }
 }
