@@ -408,31 +408,37 @@ Window {
             visible: true
 
             ListView {
+               id: listingsView
                model: theModel
+               snapMode: ListView.SnapToItem
                delegate: Rectangle{
                    id: listingsDelegate
                    Image {
                        id: listingImg
                        width: listingsDelegate.width / 3
                        height: parent.height
-                       source: theModel.listingImageUrl
+                       source: listingImageUrl
                        fillMode: Image.PreserveAspectFit
+                       visible: true
                    }
 
                    Text {
                        id: lstname
                        font.bold: true
                        font.pixelSize: 12
-                       text: theModel.listingName
+                       text: listingName
+                       visible: true
                    }
                    Text {
-                       //id: listingDescription
+                       id: listingDescription
                        font.pixelSize: 6
-                       text: theModel.listingDescription
-                   }
+                       text: listingDescription
+                       visible: true
 
+                   }
+                   visible: true
                }
-               snapMode: ListView.SnapToItem
+
            }
 
 

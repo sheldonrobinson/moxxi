@@ -21,7 +21,7 @@ ListingsModel::ListingsModel(QObject *parent) :
 }
 
 void ListingsModel::imageResult(const QUrl& url, bool success){
-    qDebug()<<"ListingsModel::imageResult";
+    //qDebug()<<"ListingsModel::imageResult";
     qDebug()<<(!success?"Unable to load ":"Loaded ")<< url;
 }
 
@@ -60,12 +60,12 @@ void ListingsModel::replyFinished(QNetworkReply* reply){
             listing.setName(obj["brandedName"].toString());
             listing.setDescription(obj["description"].toString());
             listing.setUrl(QUrl(obj["pageUrl"].toString()));
-            QUrl url(obj["url"].toString());
+            QUrl url(obj["image"].toObject()["sizes"].toObject()["IPhone"].toObject()["url"].toString());
             listing.setImageUrl(url);
             _imgLoader->downloadImg(url);
             QLocale _locale(obj["locale"].toString());
             listing.setCurrency(_locale.currencySymbol(QLocale::CurrencyIsoCode));
-            QString  _px(obj["price"].toString());
+            QString  _px(obj["priceLabel"].toString());
             QString _sym(_locale.currencySymbol(QLocale::CurrencySymbol));
             bool result;
             listing.setPx(_locale.toDouble(_px.remove(_sym),&result));
@@ -73,13 +73,19 @@ void ListingsModel::replyFinished(QNetworkReply* reply){
                 qDebug()<<"Unable to convert price "<<_px;
             }
             QJsonArray imgs = obj["alternateImages"].toArray();
-            foreach (const QJsonValue & altimg, jsonArray){
-                qDebug()<<"Unable to get image: "<<altimg.toObject()["sizes"].toObject()["IPhone"].toString();
+            foreach (const QJsonValue & altimg, imgs){
+                QJsonObject objImg = altimg.toObject();
+                //qDebug()<<"Alternate Image: "<<altimg.toString();
+                qDebug()<<"Image url: "<<objImg["sizes"].toObject()["IPhone"].toObject()["url"].toString();
                 QUrl _url(altimg.toObject()["sizes"].toObject()["IPhone"].toObject()["url"].toString());
-                _imgLoader->downloadImg(_url);
-                listing.addImage(_url);
+                if(_url.isValid()){
+                    _imgLoader->downloadImg(_url);
+                    listing.addImage(_url);
+                }
             }
             listing.setShopId(obj["retailer"].toObject()["id"].toString());
+
+            m_modelData.append(&listing);
         }
     }
     m_isReady =true;
@@ -113,10 +119,14 @@ void ListingsModel::setQuery(const QUrl& query) { if(_query != query){_query =qu
 
 void ListingsModel::fetchData() {
     m_isReady = false;
-    if(!_query.isEmpty()){
+    if(_query.isValid()){
         QNetworkReply *reply = manager->get(QNetworkRequest(_query));
+        //QString _reply(reply->readAll());
         connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),
                 this, SLOT(replyError(QNetworkReply::NetworkError)));
+    }else{
+        m_isReady=true;
+        emit ready();
     }
 }
 
@@ -189,4 +199,8 @@ QVariant ListingsModel::data( const QModelIndex& index, int role) const{
 int ListingsModel::rowCount(const QModelIndex& index) const{
     Q_UNUSED(index);
     return m_modelData.count();
+}
+
+void ListingsModel::addListng(Listing *listing){
+    m_modelData.append(listing);
 }
