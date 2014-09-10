@@ -7,16 +7,18 @@ ImageDownloader::ImageDownloader(QObject *parent) :
 }
 
 // Init
-//ImageDownloader* ImageDownloader::imageDownloader = NULL;
+ImageDownloader* ImageDownloader::imageDownloader = NULL;
 
-//ImageDownloader* ImageDownloader::getInstance ()
-//{
-//    if  (NULL == imageDownloader)
-//    {
-//        imageDownloader = new  ImageDownloader;
-//    }
-//    return  imageDownloader;
-//}
+ImageDownloader* ImageDownloader::getInstance ()
+{
+    if  (NULL == imageDownloader)
+    {
+        imageDownloader = new  ImageDownloader;
+        imageDownloader->nam = new  QNetworkAccessManager ( imageDownloader );
+        connect (imageDownloader->nam, SIGNAL (finished (QNetworkReply *)), imageDownloader , SLOT (downloadImg_finished (QNetworkReply *)));
+    }
+    return  imageDownloader;
+}
 
 void ImageDownloader::replyError(QNetworkReply::NetworkError err){
     qDebug()<<"ImageDownloader::QNetworkReply::NetworkError";
@@ -26,23 +28,30 @@ void ImageDownloader::replyError(QNetworkReply::NetworkError err){
 
 void  ImageDownloader::downloadImg (const QUrl& url)
 {
-    QNetworkAccessManager * nam;
-    nam = new  QNetworkAccessManager ( this );
-    connect (nam, SIGNAL (finished (QNetworkReply *)), this , SLOT (downloadImg_finished (QNetworkReply *)));
-
     QNetworkRequest request(url);
-
     QNetworkReply* reply = nam->get(request);
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),
             this, SLOT(replyError(QNetworkReply::NetworkError)));
+  //  QEventLoop eventLoop;
+  //  connect(reply, SIGNAL(finished()), &eventLoop, SLOT(quit()));
+  //  eventLoop.exec();
 }
+
 QImage ImageDownloader::getImg(const QUrl& url) const {
-    if(_cache.contains(url)){
-        return _cache[url];
+    return getImg(url.fileName());
+}
+
+QImage ImageDownloader::getImg(const QString& fileName) const {
+    if(_cache.contains(fileName)){
+        return _cache[fileName];
     }
     return QImage();
- }
-void  ImageDownloader::setImg (const QUrl& url, const QImage& img) {_cache.insert(url,img);}
+}
+
+
+void  ImageDownloader::setImg (const QUrl& url, const QImage& img) {setImg(url.fileName(),img);}
+void  ImageDownloader::setImg (const QString& fileName, const QImage& img) {_cache.insert(fileName,img);}
+
 void  ImageDownloader :: downloadImg_finished (QNetworkReply * reply)
 {
     reply-> open (QIODevice :: ReadOnly);
@@ -52,7 +61,7 @@ void  ImageDownloader :: downloadImg_finished (QNetworkReply * reply)
         QByteArray b = reply-> readAll ();
         QImage imgTmp;
         imgTmp.loadFromData (b);
-        _cache.insert(reply->url(),imgTmp);
+        _cache.insert(reply->url().fileName(),imgTmp);
         //ImageDownloader::getInstance()->setImg(imgTmp);
          emit downloaded(reply->url(),true);
     }

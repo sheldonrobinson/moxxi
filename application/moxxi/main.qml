@@ -5,7 +5,6 @@ import QtQuick.Layouts 1.1
 import QtQuick.Window 2.1
 import Moxxi 1.0
 
-import "qml/ui"
 
 Window {
 
@@ -13,6 +12,7 @@ Window {
     property int phone_height: 1440
     property int camerabarheight: 40
     property int buttonspacing: 5
+    property int title_height: 64
 
 
     //property string list_icon_url
@@ -83,7 +83,7 @@ Window {
         ]
 
         Rectangle {
-            property int title_height: 64
+
             property int title_fontsize: 28
             x: 0
             id: titlebar
@@ -399,45 +399,78 @@ Window {
         Rectangle{
 
             id: contentPanel
+            //y: appWindow.title_height
             anchors.top: titlebar.bottom
-            anchors.left: parent.left
+            anchors.left: screen.left
+            anchors.right: screen.right
+            anchors.bottom: bCamera.top
 
-            width: parent.width
-            height: parent.height - titlebar.height - bCamera.height
+            //width: parent.width
+            //height: parent.height - titlebar.height - bCamera.height
 
             visible: true
 
+            Component{
+                   id: listingsDelegate
+                       Row {
+                           width:screen.width
+
+                           Image {
+                               //id: listingImg
+                               width: parent.width/16
+                               //height: 250
+                               source: model.listingImageUrl
+                               fillMode: Image.PreserveAspectFit
+                           }
+                           Column{
+                           //Text { text: '<b>ImageUtrl:</b> ' + model.listingImageUrl }
+                           Text {
+                               text: model.listingTweet
+                               wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                               //anchors.verticalCenter: listingsView.currentItem.verticalCenter
+                               width: 540
+                           }
+                           //Text { text: '<b>Description:</b> ' + model.listingDescription }
+                           }
+                       }
+
+//                       Image {
+//                           //id: listingImg
+//                          // width: listingsDelegate.width / 3
+//                           height: parent.height
+//                           source: listingImageUrl
+//                           fillMode: Image.PreserveAspectFit
+//                           visible: true
+//                       }
+
+//                       Text {
+//                           //id: lstname
+//                           //font.bold: true
+//                           font.pixelSize: 12
+//                           text: listingName
+//                           visible: true
+//                       }
+//                       Text {
+//                           //id: listingDescription
+//                           font.pixelSize: 6
+//                           text: listingDescription
+//                           visible: true
+
+//                       }
+                }
+
             ListView {
                id: listingsView
-               model: theModel
+               model:  theModel
+               //y: appWindow.title_height
+               orientation: ListView.Vertical
                snapMode: ListView.SnapToItem
-               delegate: Rectangle{
-                   id: listingsDelegate
-                   Image {
-                       id: listingImg
-                       width: listingsDelegate.width / 3
-                       height: parent.height
-                       source: listingImageUrl
-                       fillMode: Image.PreserveAspectFit
-                       visible: true
-                   }
+               delegate: listingsDelegate
+               anchors.fill: contentPanel
+               //anchors.top: titlebar.bottom
+               //anchors.bottom: bCamera.top
 
-                   Text {
-                       id: lstname
-                       font.bold: true
-                       font.pixelSize: 12
-                       text: listingName
-                       visible: true
-                   }
-                   Text {
-                       id: listingDescription
-                       font.pixelSize: 6
-                       text: listingDescription
-                       visible: true
-
-                   }
-                   visible: true
-               }
+              }
 
            }
 
@@ -483,6 +516,12 @@ Window {
 //                    }
 //                }
 //            }
-        }
+
+    }
+
+    Component.onCompleted: {
+        console.log("listingsView.model:"+theModel.count)
+        console.log("listingsView.model:"+listingsView.model)
+        console.log("theModel.query:"+theModel.query)
     }
 }

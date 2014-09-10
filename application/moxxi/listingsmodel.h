@@ -9,8 +9,9 @@
 class ListingsModel : public QAbstractListModel
 {
     Q_OBJECT
-    Q_PROPERTY(bool isReady READ isReady)
+    Q_PROPERTY(bool isReady READ isReady NOTIFY isReadyChanged)
     Q_PROPERTY(QUrl query READ query WRITE setQuery NOTIFY queryChanged)
+    Q_PROPERTY(int count READ count)
 
     enum ListingsRoles {
         UrlRole = Qt::UserRole + 1,
@@ -23,7 +24,10 @@ class ListingsModel : public QAbstractListModel
         ImageRole,
         ImagesRole,
         ImageUrlRole,
-        ImageUrlsRole
+        ImageFileNameRole,
+        ImageUrlsRole,
+        ImageFileNamesRole,
+        TweetRole
     };
 
 
@@ -35,11 +39,12 @@ public:
     void addListng(Listing *listing);
     QUrl query() const;
     void setQuery(const QUrl& query);
+    int count() const;
 
     virtual QHash<int, QByteArray> roleNames() const;
 
 signals:
-    void ready();
+    void isReadyChanged();
     void queryChanged();
 
 public slots:
@@ -61,7 +66,7 @@ private:
         QUrl _query;
         QNetworkReply* _respones;
         QNetworkAccessManager* manager;
-        ImageDownloader* _imgLoader;
+        //ImageDownloader* _imgLoader;
         QUrl _imgUrl;
 
 };

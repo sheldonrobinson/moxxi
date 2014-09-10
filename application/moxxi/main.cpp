@@ -5,6 +5,7 @@
 #include <QQuickWindow>
 #include "shop.h"
 #include "listingsmodel.h"
+#include "listingsimageprovider.h"
 
 int main(int argc, char *argv[])
 {
@@ -13,11 +14,13 @@ int main(int argc, char *argv[])
     qmlRegisterType<Listing>("Moxxi",1,0,"Listing");
     qmlRegisterType<Shop>("Moxxi",1,0,"Shop");
     qmlRegisterType<QAbstractItemModel>();
+    qmlRegisterType<QAbstractListModel>();
     qmlRegisterType<ListingsModel>("Moxxi",1,0,"ListingsModel");
-    QUrl query("http://api.shopstyle.com/api/v2/products?pid=uid9009-25612247-65&fts=red+dress&offset=0&limit=10");
-    ListingsModel model;
+    QUrl query("http://api.shopstyle.com/api/v2/products?pid=uid9009-25612247-65&fts=dress&offset=0&limit=100");
+    QGuiApplication app(argc, argv);
+    ListingsModel* model = new ListingsModel();
 
-    model.setQuery(query);
+    model->setQuery(query);
 //    Listing test;
 //    test.setImageUrl(QUrl("http://resources.shopstyle.com/sim/16/bd/16bd79acaa669c571def5fcf86633fd3_medium/wallis-red-zip-shoulder-ponte-dress.jpg"));
 //    test.setName("Wallis Red Zip Shoulder Ponte Dress");
@@ -25,17 +28,21 @@ int main(int argc, char *argv[])
 //    test.setPx(56.00);
 //    test.setDescription("<br>This simple red dress is perfect modern staple for your wardrobe. This simple yet modern ponte dress features a drop waist, zip shoulder detailing and stud detail with pockets to add edge to a simple dress. Wear this chic dress with flats or heels, day or night.<br> 95% Polyester,5% Elastane. Machine washable.");
 //    test.setListingId("458749740");
-//    model.addListng(&test);
+//    model->addListng(&test);
 
+    //QThread tFetchData;
 
-    QGuiApplication app(argc, argv);
-    model.fetchData();
+    //model->moveToThread(&tFetchData);
+   // tFetchData.start();
 
-    //while(!model.isReady()){
-    //    Sleep(1000);
-    //}
+    model->fetchData();
+
+//    while(!model->isReady()){
+//        Sleep(1000);
+//    }
     QQmlApplicationEngine engine;
-    engine.rootContext()->setContextProperty("theModel",&model);
+    engine.rootContext()->setContextProperty("theModel",model);
+    engine.addImageProvider("listings", new ListingsImageProvider);
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 
     //QQuickView viewer;

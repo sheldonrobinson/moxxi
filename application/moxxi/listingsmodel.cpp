@@ -11,18 +11,22 @@
 ListingsModel::ListingsModel(QObject *parent) :
     QAbstractListModel(parent),m_isReady(false)
 {
-    _imgLoader = new ImageDownloader(this);
+    //_imgLoader = new ImageDownloader(this);
     manager = new QNetworkAccessManager(this);
     connect(manager, SIGNAL(finished(QNetworkReply*)),
             this, SLOT(replyFinished(QNetworkReply*)));
-    connect(_imgLoader, SIGNAL(downloaded(const QUrl&, bool)),
+    connect(ImageDownloader::getInstance(), SIGNAL(downloaded(const QUrl&, bool)),
             this, SLOT(imageResult(const QUrl&, bool)));
 
 }
 
+int ListingsModel::count() const { return m_modelData.size();}
+
 void ListingsModel::imageResult(const QUrl& url, bool success){
+    Q_UNUSED(url);
+    Q_UNUSED(success);
     //qDebug()<<"ListingsModel::imageResult";
-    qDebug()<<(!success?"Unable to load ":"Loaded ")<< url;
+    //qDebug()<<(!success?"Unable to load ":"Loaded ")<< url;
 }
 
 QHash<int, QByteArray> ListingsModel::roleNames() const {
@@ -34,11 +38,15 @@ QHash<int, QByteArray> ListingsModel::roleNames() const {
     roles[PriceRole] = "listingPrice";
     roles[DescriptionRole] = "listingDescription";
     roles[CategoryRole] = "listingCategory";
-    roles[BuyerRole] = "listingbuyer";
-    roles[ImageRole] = "listingimage";
-    roles[ImagesRole] = "listingimages";
+    roles[BuyerRole] = "listingBuyer";
+    roles[ImageRole] = "listingImage";
+    roles[ImagesRole] = "listingImages";
     roles[ImageUrlRole]="listingImageUrl";
+    roles[ImageFileNameRole] = "listingImageFileName";
     roles[ImageUrlsRole]="listingImageUrls";
+    roles[ImageFileNamesRole] = "listingImageFileNames";
+    roles[TweetRole] = "listingTweet";
+
 
     return roles;
 }
@@ -55,20 +63,20 @@ void ListingsModel::replyFinished(QNetworkReply* reply){
         {
 
             QJsonObject obj = value.toObject();
-            Listing listing(this);
-            listing.setListingId(obj["id"].toString());
-            listing.setName(obj["brandedName"].toString());
-            listing.setDescription(obj["description"].toString());
-            listing.setUrl(QUrl(obj["pageUrl"].toString()));
+            Listing* listing = new Listing(this);
+            listing->setListingId(obj["id"].toString());
+            listing->setName(obj["brandedName"].toString());
+            listing->setDescription(obj["description"].toString());
+            listing->setUrl(QUrl(obj["pageUrl"].toString()));
             QUrl url(obj["image"].toObject()["sizes"].toObject()["IPhone"].toObject()["url"].toString());
-            listing.setImageUrl(url);
-            _imgLoader->downloadImg(url);
+            listing->setImageUrl(url);
+            ImageDownloader::getInstance()->downloadImg(url);
             QLocale _locale(obj["locale"].toString());
-            listing.setCurrency(_locale.currencySymbol(QLocale::CurrencyIsoCode));
+            listing->setCurrency(_locale.currencySymbol(QLocale::CurrencyIsoCode));
             QString  _px(obj["priceLabel"].toString());
             QString _sym(_locale.currencySymbol(QLocale::CurrencySymbol));
             bool result;
-            listing.setPx(_locale.toDouble(_px.remove(_sym),&result));
+            listing->setPx(_locale.toDouble(_px.remove(_sym),&result));
             if(!result){
                 qDebug()<<"Unable to convert price "<<_px;
             }
@@ -76,20 +84,20 @@ void ListingsModel::replyFinished(QNetworkReply* reply){
             foreach (const QJsonValue & altimg, imgs){
                 QJsonObject objImg = altimg.toObject();
                 //qDebug()<<"Alternate Image: "<<altimg.toString();
-                qDebug()<<"Image url: "<<objImg["sizes"].toObject()["IPhone"].toObject()["url"].toString();
+                //qDebug()<<"Image url: "<<objImg["sizes"].toObject()["IPhone"].toObject()["url"].toString();
                 QUrl _url(altimg.toObject()["sizes"].toObject()["IPhone"].toObject()["url"].toString());
                 if(_url.isValid()){
-                    _imgLoader->downloadImg(_url);
-                    listing.addImage(_url);
+                    ImageDownloader::getInstance()->downloadImg(_url);
+                    listing->addImage(_url);
                 }
             }
-            listing.setShopId(obj["retailer"].toObject()["id"].toString());
+            listing->setShopId(obj["retailer"].toObject()["id"].toString());
 
-            m_modelData.append(&listing);
+            m_modelData.append(listing);
         }
     }
     m_isReady =true;
-    emit ready();
+    emit isReadyChanged();
 }
 
 
@@ -103,7 +111,7 @@ void ListingsModel::replyError(QNetworkReply::NetworkError err){
     qDebug()<<"ListingsModel::QNetworkReply::NetworkError";
     qDebug()<<"Error from query "<< err;
     m_isReady = true;
-    emit ready();
+    emit isReadyChanged();
 }
 
 /*!
@@ -121,12 +129,17 @@ void ListingsModel::fetchData() {
     m_isReady = false;
     if(_query.isValid()){
         QNetworkReply *reply = manager->get(QNetworkRequest(_query));
+        //connect(manager, SIGNAL(finished((QNetworkReply*)),
+        //           this, SLOT(replyFinished(QNetworkReply*)));
         //QString _reply(reply->readAll());
         connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),
                 this, SLOT(replyError(QNetworkReply::NetworkError)));
+        QEventLoop eventLoop;
+        connect(reply, SIGNAL(finished()), &eventLoop, SLOT(quit()));
+        eventLoop.exec();
     }else{
         m_isReady=true;
-        emit ready();
+        emit isReadyChanged();
     }
 }
 
@@ -170,16 +183,20 @@ QVariant ListingsModel::data( const QModelIndex& index, int role) const{
         {
             return listing->imageUrl();
         }
+        case ImageFileNameRole:
+        {
+            return listing->imageUrl().fileName();
+        }
         case ImageRole:
         {
-            return _imgLoader->getImg(listing->imageUrl());
+            return ImageDownloader::getInstance()->getImg(listing->imageUrl());
         }
         case ImagesRole:
         {
            QVariantList result;
            QList<QUrl> _imgs = listing->getImages();
            foreach (const QUrl& _image, _imgs) {
-               result.append(_imgLoader->getImg(_image));
+               result.append(ImageDownloader::getInstance()->getImg(_image));
            }
            return result;
         }
@@ -192,6 +209,22 @@ QVariant ListingsModel::data( const QModelIndex& index, int role) const{
             }
             return result;
         }
+        case ImageFileNamesRole:
+        {
+            QVariantList result;
+            QList<QUrl> _imgs = listing->getImages();
+            foreach (const QUrl& _image, _imgs) {
+                result.append(_image.fileName());
+            }
+            return result;
+        }
+            case TweetRole:
+            {
+                //int len = listing->name().length();
+                QString desc(listing->description().remove("<ul>").remove("</ul>").remove("<p>").remove("</p>").replace("</li>",".").replace("<li>","*"));
+                QString tweet("<h1><b>"+listing->name()+"</b></h1><p>"+desc);
+                return tweet;
+            }
     }
     return QVariant();
 }

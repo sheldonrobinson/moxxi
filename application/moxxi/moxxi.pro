@@ -2,6 +2,8 @@ TEMPLATE = app
 
 QT += qml quick svg sql quickwidgets
 
+CONFIG += QML_IMPORT_TRACE=1
+
 SOURCES += main.cpp \
     merchandiseitem.cpp \
     listing.cpp \
@@ -12,7 +14,8 @@ SOURCES += main.cpp \
     listingsmodel.cpp \
     imagedownloader.cpp \
     brandsmodel.cpp \
-    categorysmodel.cpp
+    categorysmodel.cpp \
+    listingsimageprovider.cpp
 
 RESOURCES += qml.qrc
 
@@ -32,7 +35,8 @@ HEADERS += \
     listingsmodel.h \
     imagedownloader.h \
     brandsmodel.h \
-    categorysmodel.h
+    categorysmodel.h \
+    listingsimageprovider.h
 
 OTHER_FILES += \
     qml/ui/ButtonWithBadge.qml \
