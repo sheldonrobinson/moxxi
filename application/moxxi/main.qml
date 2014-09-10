@@ -415,6 +415,7 @@ Window {
                        Row {
                            width:screen.width
 
+
                            Image {
                                //id: listingImg
                                width: parent.width/16
@@ -423,12 +424,19 @@ Window {
                                fillMode: Image.PreserveAspectFit
                            }
                            Column{
-                           //Text { text: '<b>ImageUtrl:</b> ' + model.listingImageUrl }
+                           Text {
+                               text: model.listingName
+                               font.bold: true
+                               font.underline: true
+                               font.pointSize: 16
+                               //onLinkActivated: Qt.openUrlExternally(link)
+                           }
                            Text {
                                text: model.listingTweet
                                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                                //anchors.verticalCenter: listingsView.currentItem.verticalCenter
-                               width: 540
+                               //width: 540
+                               font.pointSize: 9
                            }
                            //Text { text: '<b>Description:</b> ' + model.listingDescription }
                            }
@@ -462,6 +470,8 @@ Window {
             ListView {
                id: listingsView
                model:  theModel
+               contentX: 0
+               contentY: appWindow.title_height
                //y: appWindow.title_height
                orientation: ListView.Vertical
                snapMode: ListView.SnapToItem
@@ -517,11 +527,5 @@ Window {
 //                }
 //            }
 
-    }
-
-    Component.onCompleted: {
-        console.log("listingsView.model:"+theModel.count)
-        console.log("listingsView.model:"+listingsView.model)
-        console.log("theModel.query:"+theModel.query)
     }
 }

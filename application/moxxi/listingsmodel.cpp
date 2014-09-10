@@ -222,8 +222,8 @@ QVariant ListingsModel::data( const QModelIndex& index, int role) const{
             {
                 //int len = listing->name().length();
                 QString desc(listing->description().remove("<ul>").remove("</ul>").remove("<p>").remove("</p>").replace("</li>",".").replace("<li>","*"));
-                QString tweet("<h1><b>"+listing->name()+"</b></h1><p>"+desc);
-                return tweet;
+                //QString tweet("<h1><b>"+listing->name()+"</b></h1><p>"+desc);
+                return desc;
             }
     }
     return QVariant();
