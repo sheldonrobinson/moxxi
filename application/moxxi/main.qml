@@ -1,10 +1,11 @@
-import QtQuick 2.2
+import QtQuick 2.3
 import QtQuick.Controls 1.2
 import QtQuick.Controls.Styles 1.2
 import QtQuick.Layouts 1.1
 import QtQuick.Window 2.1
 import Moxxi 1.0
 
+import "qml/ui"
 
 Window {
 
@@ -14,11 +15,8 @@ Window {
     property int buttonspacing: 5
     property int title_height: 64
 
+    property ListModel galleryModel: ListModel {}
 
-    //property string list_icon_url
-    //property string cart_icon_url
-    //property string shop_icon_url
-    //property string slider_icon_url
     id: appWindow
     visible: true
     width: phone_width
@@ -56,6 +54,29 @@ Window {
         width: parent.width
         height: parent.height
 
+        Rectangle {
+            id: coverflowBackground
+
+            anchors.fill: parent
+            color: "black"
+            z: parent.z
+            visible:true
+
+            function hide(){
+                //coverFlow.destroy();
+                coverflowBackground.z = parent.z;
+                coverFlowLoader.sourceComponent = null;
+            }
+
+            MouseArea {
+                anchors.fill: parent
+                onClicked: {
+                    console.log("coverflowBackground.clicked")
+                    hide();
+                }
+            }
+        }
+
         state: "SHOP"
 
         states: [
@@ -92,7 +113,7 @@ Window {
             height: title_height
 
             anchors.topMargin: 0
-            z: parent.z + 10
+            z: contentPanel.z + 2
             anchors.top: screen.top
 
             gradient: Gradient {
@@ -117,17 +138,14 @@ Window {
                 x: -8
 
                 anchors.verticalCenter: parent.verticalCenter
-                //anchors.left: parent.left
                 color: "transparent"
 
-                //anchors.top: parent.top
                 Image {
                     id: slidericon
                     height: parent.height * 0.5
                     width: parent.height * 0.5
                     anchors.left: parent.left
                     anchors.verticalCenter: parent.verticalCenter
-                    //anchors.fill: parent
                     fillMode: Image.PreserveAspectFit
                     visible: true
                     source: "res/images/apps.svg"
@@ -161,7 +179,6 @@ Window {
                         checkable: true
                         anchors.verticalCenter: parent.verticalCenter
                         iconSource: "res/images/store-enabled.svg"
-
 
                         //anchors.horizontalCenter: parent.horizontalCenter
                         Image {
@@ -228,14 +245,11 @@ Window {
                         anchors.verticalCenter: parent.verticalCenter
                         iconSource: "res/images/Shopping-Cart-enabled.svg"
 
-
-                        //anchors.horizontalCenter: parent.horizontalCenter
                         Image {
                             id: charticon
                             height: parent.height * 0.8
                             width: parent.height * 0.8
                             anchors.verticalCenter: parent.verticalCenter
-                            //anchors.fill: parent
                             fillMode: Image.PreserveAspectFit
                             source: rbCart.iconSource
                             visible: true
@@ -260,10 +274,6 @@ Window {
                                        || control.activeFocus ? screenChkBoxGrp.bgcolor : "transparent"
                                 visible: control.checked || control.activeFocus
                                 radius: screenChkBoxGrp.button_radius
-                                //gradient: Gradient {
-                                //    GradientStop { position: 0 ; color: control.pressed ? "#ccc" : "#eee" }
-                                //    GradientStop { position: 1 ; color: control.pressed ? "#aaa" : "#ccc" }
-                                //}
                             }
                         }
 
@@ -293,7 +303,6 @@ Window {
                         checkable: true
                         anchors.verticalCenter: parent.verticalCenter
                         iconSource: "res/images/note-2-enabled.svg"
-
 
                         //anchors.horizontalCenter: parent.horizontalCenter
                         Image {
@@ -393,11 +402,11 @@ Window {
 
             width: parent.width
             height: camerabarheight
-            z: parent.z+10
+            z: contentPanel.z + 2
             visible: true
         }
 
-        Rectangle{
+        Rectangle {
 
             id: contentPanel
             //y: appWindow.title_height
@@ -405,160 +414,214 @@ Window {
             anchors.left: screen.left
             anchors.right: screen.right
             anchors.bottom: bCamera.top
-            z: parent.z
+            z: parent.z + 1
+
 
             //width: parent.width
             //height: parent.height - titlebar.height - bCamera.height
-
             visible: true
 
-            Component{
-                 id: listingsDelegate
+            Component {
+                id: listingsDelegate
 
-                 Row {
-                     //id: myRow
-                     width:screen.width
-                     height: childrenRect.height
-                     spacing: 5
-                     z:1
+                Row {
+                    property int rowSpacing: 5
+                    property string rowOddColor: "#cccccc"
+                    property string rowEvenColor: "#eeeeee"
+                    property int swipeOffPosition: 0
+                    property string swipeBuyColorStart: ""
+                    width: screen.width
+                    height: childrenRect.height
+                    z: 1
 
-                     Rectangle{
+                    Rectangle {
                         width: screen.width
-                        anchors.right: parent.right
-                        anchors.top: parent.top
-                        //height: myRow.height
-                        opacity: 1
-                        color: model.index % 2 == 0 ? "black" : "white"
-                        z:4
-                     }
+                        height: childrenRect.height + rowSpacing
+                        color: model.index % 2 == 0 ? rowEvenColor : rowOddColor
+                        border.color: "black"
+                        border.width: rowSpacing
+                        anchors.verticalCenter: parent.verticalCenter
+                        z: 1
 
-                     Image {
-                         //id: myIng
-                         width: screen.width/16
-                         //anchors.left: parent.left
-                         //anchors.top: parent.top
-                         anchors.verticalCenter: parent.verticalCenter
-                         //anchors.fill: parent
-                         fillMode: Image.PreserveAspectFit
-                         source:  model.listingImageUrl
-                         visible: true
-                     }
+                        Row {
+                            width: screen.width - rowSpacing*2
+                            height: childrenRect.height
+                            spacing: rowSpacing
+                            z: 1
 
-                       Column{
-                           width: parent.width*7/8
-                           //anchors.left: myIng
+                            Image {
+                                y: rowSpacing
+                                width: screen.width / 8 - rowSpacing*2
+                                anchors.verticalCenter: parent.verticalCenter
+                                fillMode: Image.PreserveAspectFit
+                                source: model.listingImageUrl
+                                visible: true
 
-                       Text {
-                           text: model.listingName
-                           font.bold: true
-                           style: Text.Raised
-                           //font.underline: true
-                           font.pointSize: 16
-                           //onLinkActivated: Qt.openUrlExternally(link)
-                       }
-                       Text {
+                                MouseArea {
+                                    anchors.fill: parent
+                                    onClicked: {
+                                        galleryModel.clear();
+                                        var numOfUrl = model.listingImageUrlsStrings.length;
+                                        //var imageUrl = "";
+                                        console.log("model.listingImageUrlsStrings: "+model.listingImageUrlsStrings);
+                                        console.log("model.listingImageUrlString: "+model.listingImageUrlString);
+                                        if(numOfUrl > 0){
+                                            for (var i = 0; i < numOfUrl; i++) {
+                                                     console.log(i+":"+model.listingImageUrlsStrings[i]);
+                                                     //imageUrl = model.listingImageUrlsStrings[i];
+                                                     galleryModel.append({"imageUrl":model.listingImageUrlsStrings[i]});
+                                            }
+                                        }else{
+                                            console.log("image:"+model.listingImageUrlString);
+                                            //imageUrl = model.listingImageUrlString;
+                                            galleryModel.append({"imageUrl":model.listingImageUrlString});
+                                        }
 
-                           text: model.listingTweet
-                           width: 300
-                           wrapMode: Text.Wrap
-                           //textFormat: Text.PlainText
-                           //anchors.verticalCenter: listingsView.currentItem.verticalCenter
-                           //width: 540
-                           font.pointSize: 9
-                           //maximumLineCount: 5
-                       }
+                                        console.log("galleryModel: "+ galleryModel);
+                                        coverflowBackground.z = contentPanel.z + 3;
+                                        coverFlowLoader.sourceComponent = coverFlow;
 
-                       Text { text: '<b>ImageUrl:</b> ' + model.listingImageUrl }
-                       Text { text: 'INDEX: ' + model.index  +", " + index}
+                                    }
+                                }
+                            }
 
-                 }
-               }
+                            Column {
+                                x: screen.width / 8 + rowSpacing
+                                width: parent.width * 3 / 4 - rowSpacing*2
 
-//                       Image {
-//                           //id: listingImg
-//                          // width: listingsDelegate.width / 3
-//                           height: parent.height
-//                           source: listingImageUrl
-//                           fillMode: Image.PreserveAspectFit
-//                           visible: true
-//                       }
+                                Text {
+                                    text: model.listingName
+                                    font.bold: true
+                                    style: Text.Raised
+                                    font.pointSize: 16
 
-//                       Text {
-//                           //id: lstname
-//                           //font.bold: true
-//                           font.pixelSize: 12
-//                           text: listingName
-//                           visible: true
-//                       }
-//                       Text {
-//                           //id: listingDescription
-//                           font.pixelSize: 6
-//                           text: listingDescription
-//                           visible: true
+                                    MouseArea {
+                                        anchors.fill: parent
 
-//                       }
+                                        onClicked: {
+                                            Qt.openUrlExternally(
+                                                        model.listingUrl)
+                                        }
+                                    }
+                                }
+                                Text {
+
+                                    text: model.listingTweet
+                                    width: parent.width
+                                    wrapMode: Text.Wrap
+                                    font.pointSize: 9
+                                }
+                                Text {
+                                    text: '<b>Price</b> ' + model.listingPrice
+                                }
+
+                            }
+                        }
+
+                        Keys.onRightPressed: {
+                            console.log("Swipe Right;")
+                        }
+
+                        Keys.onLeftPressed: {
+                            console.log("Swipe Left;")
+                        }
+
+                        SwipeArea {
+                            anchors.fill: parent
+                            onSwipe: {
+                                switch (direction) {
+                                case "left":
+                                    {
+                                        console.log("Left Swipe");
+//                                        var component = Qt.createComponent("qml/ui/RowGradient.qml");
+//                                        if (component.status == Component.Ready){
+//                                            var comColorLeft = model.index % 2 == 0 ? rowEvenColor : rowOddColor;
+//                                            var comColorMid = model.index % 2 == 0 ? rowEvenColor : rowOddColor;
+//                                            var comColorRight = "green";
+//                                            rowGradient.createObject(parent,{"colorLeft" : compColorLeft,"colorRight" : compColorRight,"colorMid" : compColorMid, "breakpoint":1});
+
+//                                         }
+                                    }
+                                    break
+                                case "right":
+                                    {
+                                        console.log("Right Swipe");
+//                                        var component = Qt.createComponent("qml/ui/RowGradient.qml");
+//                                        if (component.status == Component.Ready){
+//                                            var comColorLeft = model.index % 2 == 0 ? rowEvenColor : rowOddColor;
+//                                            var comColorMid = model.index % 2 == 0 ? rowEvenColor : rowOddColor;
+//                                            var comColorRight = "blue";
+//                                            rowGradient.createObject(parent,{"colorLeft" : compColorLeft,"colorRight" : compColorRight,"colorMid" : compColorMid, "breakpoint":1});
+
+//                                         }
+                                    }
+                                    break
+                                }
+                            }
+                            onCanceled: {
+
+                            }
+                        }
+                    }
+
+
                 }
 
+            }
+
             ListView {
-               id: listingsView
-               model:  theModel
-               contentX: 0
-               contentY: appWindow.title_height
-               //cacheBuffer: 5
-               //y: appWindow.title_height
-               orientation: ListView.Vertical
-               snapMode: ListView.SnapToItem
-               delegate: listingsDelegate
-               anchors.fill: contentPanel
-               //anchors.top: titlebar.bottom
-               //anchors.bottom: bCamera.top
+                id: listingsView
+                model: theModel
+                contentX: 0
+                contentY: appWindow.title_height
+                orientation: ListView.Vertical
+                snapMode: ListView.SnapToItem
+                delegate: listingsDelegate
+                anchors.fill: contentPanel
+            }
 
-              }
-
-           }
-
-
-
-
-//            Rectangle {
-//                id: listingsDelegate
-//                anchors.left: parent.left
-//                width: parent.width
-//                height: 100
-
-//                Image {
-//                    id: listingImg
-//                    width: listingsDelegate.width / 3
-//                    height: parent.height
-//                    source: listingImageUrl
-//                    fillMode: Image.PreserveAspectFit
-//                }
-
-//                Rectangle {
-//                    //id: wrapper
-//                    width: listingsDelegate.width * 2 / 3
-//                    height: listingImg.height
-//                        color: ListView.isCurrentItem ? "darkgray" : model.index % 2 == 0 ? "lightgray" : "gray"
-//                        border.color: "black"
-//                        border.width: 4
-//                        //radius: ListView.isCurrentItem ? 2 : 0
-
-//                     Column {
-
-//                        Text {
-//                            id: lstname
-//                            font.bold: true
-//                            font.pixelSize: 12
-//                            text: listingName
-//                        }
-//                        Text {
-//                            //id: listingDescription
-//                            font.pixelSize: 6
-//                            text: listingDescription
-//                        }
-//                    }
-//                }
-//            }
-
+        }
     }
+
+    Loader {
+        id: coverFlowLoader
+        anchors.fill: parent
+        z: contentPanel.z + 4
+
+        Component {
+            id: coverFlow
+
+            CoverFlow {
+                anchors.fill: parent
+            }
+
+        }
+
+        Component.onCompleted: {
+            imageView.closed.connect(coverflowBackground.hide())
+        }
+    }
+
+//    Loader {
+//        id: busyIndicatorLoader
+
+//        width: 150
+//        height: 150
+//        anchors.centerIn: parent
+
+//        sourceComponent: busyIndicator
+//        Component {
+//            id: busyIndicator
+
+//            BusyIndicator {
+//                running: true
+//            }
+//        }
+//    }
+
+    //ListModel{
+    //    id: galleryModel
+    //}
+
+
 }

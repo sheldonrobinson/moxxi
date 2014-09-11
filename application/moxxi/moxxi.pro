@@ -43,4 +43,5 @@ OTHER_FILES += \
     qml/ui/CoverFlow.qml \
     qml/ui/CoverFlowDelegate.qml \
     qml/ui/ImageView.qml \
-    qml/ui/SwipeArea.qml
+    qml/ui/SwipeArea.qml \
+    qml/ui/RowGradient.qml

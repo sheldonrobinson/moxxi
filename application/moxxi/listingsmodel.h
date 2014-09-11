@@ -27,7 +27,9 @@ class ListingsModel : public QAbstractListModel
         ImageFileNameRole,
         ImageUrlsRole,
         ImageFileNamesRole,
-        TweetRole
+        TweetRole,
+        ImageUrlStringRole,
+        ImageUrlsStringsRole
     };
 
 

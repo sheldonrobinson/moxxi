@@ -2,7 +2,7 @@
  * Copyright (c) 2012-2014 Microsoft Mobile.
  */
 
-import QtQuick 1.1
+import QtQuick 2.3
 
 Item {
     id: delegateItem
@@ -12,53 +12,26 @@ Item {
     property int fullImageWidth: parent.width
     property int fullImageHeight: parent.height
 
-    // Resets the CoverFlow delegate (and it's children i.e. ImageView) to the
-    // original state. That is, showing just the thumbnail on the path.
-    function reset() {
-        if (largeImageLoader.sourceComponent &&
-                (largeImageLoader.item.state === "visible" )) {
-            largeImageLoader.item.close();
-        }
-    }
 
-    function click() {
-        if (delegateItem.isCurrentItem) {
-            delegateItem.state = (delegateItem.state === "scaled" ? "" : "scaled");
-            // Switch to the ImageView
-            largeImageLoader.sourceComponent = largeImage;
-            if (largeImageLoader.status === Loader.Ready) {
-                largeImageLoader.item.imagePath = url;
-                largeImageLoader.item.state = "visible";
-
-            }
-        } else {
-            PathView.view.currentIndex = index;
-        }
-    }
-
-    Keys.onEnterPressed: {
-        if (largeImageLoader.sourceComponent &&
-                (largeImageLoader.item.state === "visible") ){
-            largeImageLoader.item.close();
-        } else {
-            click();
-        }
-    }
+    //signal clicked
 
     Keys.onRightPressed: {
+        console.loog("Right key");
         PathView.view.incrementCurrentIndex();
     }
 
     Keys.onLeftPressed: {
+         console.loog("Left key");
         PathView.view.decrementCurrentIndex();
     }
 
-    onIsCurrentItemChanged: {
-        // Make sure, that if this delegate was the current item, the largeImage
-        // (or infoView) will be hidden and the basic thumbnail state is restored.
-        if (!delegateItem.isCurrentItem) {
-            reset();
-        }
+    Keys.onDownPressed: {
+        console.loog("Down key");
+         largeImageLoader.item.close();
+    }
+
+    Keys.onUpPressed: {
+        console.loog("Up key");
     }
 
     x: 0
@@ -105,7 +78,7 @@ Item {
                 asynchronous: true
 
                 // The image will be fetched from the imageprovider -plugin.
-                source: "image://imageprovider/imageThumb/" + url
+                source: model.imageUrl
 
                 // Smoothing slows down the scrolling even more.
                 // Use it with consideration.
@@ -124,7 +97,7 @@ Item {
             sourceSize.height: dlgImg.height
             clip: true
 
-            source: "image://imageprovider/imageReflection/" + url
+            source: model.imageUrl
 
             fillMode: Image.PreserveAspectCrop
             asynchronous: true
@@ -173,11 +146,19 @@ Item {
     }
 
     MouseArea {
-        anchors.fill: parent
+        anchors.fill: delegateItem
         onClicked: {
-            delegateItem.click();
+            console.log("delegateItem.clicked()");
+
+            //for(var i=0,coverFlow.children
+            //delegateItem.z=0;
+
+            console.log(parent);
+            console.log(delegateItem);
+            coverflowBackground.hide();
         }
     }
+
 
     // Rotation depends on the item's position on the PathView.
     // I.e. nicely rotate the image & reflection around Y-axis before disappearing.
@@ -191,36 +172,13 @@ Item {
     // States and transitions for scaling the image.
     states: [
         State {
-            name: "scaled"
+            name: ""
             PropertyChanges {
                 target: delegateImage
                 // Scale up the icon
                 scale: 1.8
             }
-            PropertyChanges {
-                target: delegateImage
-                opacity: 0.001 // Hide the icon practically completely
-            }
         }
     ]
 
-    transitions: [
-        Transition {
-            from: ""
-            to: "scaled"
-            reversible: true
-            ParallelAnimation {
-                PropertyAnimation {
-                    target: delegateImage
-                    properties: "scale"
-                    duration: 300
-                }
-                PropertyAnimation {
-                    target: delegateImage
-                    properties: "opacity"
-                    duration: 300
-                }
-            }
-        }
-    ]
 }

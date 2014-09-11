@@ -2,7 +2,7 @@
  * Copyright (c) 2012-2014 Microsoft Mobile.
  */
 
-import QtQuick 1.1
+import QtQuick 2.3
 
 Item {
     id: coverFlow
@@ -78,4 +78,5 @@ Item {
         PathAttribute { name: "iconScale"; value: 0.6 }
         PathPercent { value: 1.0 }
     }
+
 }

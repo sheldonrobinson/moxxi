@@ -46,6 +46,8 @@ QHash<int, QByteArray> ListingsModel::roleNames() const {
     roles[ImageUrlsRole]="listingImageUrls";
     roles[ImageFileNamesRole] = "listingImageFileNames";
     roles[TweetRole] = "listingTweet";
+    roles[ImageUrlStringRole]="listingImageUrlString";
+    roles[ImageUrlsStringsRole]="listingImageUrlsStrings";
 
 
     return roles;
@@ -183,6 +185,10 @@ QVariant ListingsModel::data( const QModelIndex& index, int role) const{
         {
             return listing->imageUrl();
         }
+        case ImageUrlStringRole:
+        {
+            return listing->imageUrl().url();
+        }
         case ImageFileNameRole:
         {
             return listing->imageUrl().fileName();
@@ -209,6 +215,15 @@ QVariant ListingsModel::data( const QModelIndex& index, int role) const{
             }
             return result;
         }
+        case ImageUrlsStringsRole:
+        {
+            QStringList result;
+            QList<QUrl> _imgs = listing->getImages();
+            foreach (const QUrl& _image, _imgs) {
+                result.append(_image.url());
+            }
+            return result;
+        }
         case ImageFileNamesRole:
         {
             QVariantList result;
@@ -221,7 +236,7 @@ QVariant ListingsModel::data( const QModelIndex& index, int role) const{
             case TweetRole:
             {
                 //int len = listing->name().length();
-                QString desc(listing->description().remove("<ul>").remove("</ul>").remove("<p>").remove("</p>").replace("</li>",".").replace("<li>","*"));
+                QString desc(listing->description().remove("<ul>").remove("</ul>").remove("<p>").remove("</p>").replace("</li>",".").replace("<li>","*").trimmed());
                 //QString tweet("<h1><b>"+listing->name()+"</b></h1><p>"+desc);
                 return desc;
             }

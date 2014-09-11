@@ -1,21 +1,22 @@
-import QtQuick 2.2
+import QtQuick 2.3
 import QtQuick.Controls 1.2
 
 Item{
     id: root
-    property alias button: button
+    default property alias button: myButton
     property alias badge: badge
-    property alias text: text
-    property alias fontsize: text.font.pixelSize
+    property alias text: badgeText.text
+    property alias fontsize: badgeText.font.pixelSize
     property alias image: image
     property alias background: root.background
-    property alias style: button.style
+    property alias style: myButton.style
     property alias imageSource: image.source
-
     signal clicked
 
+    visible: true
+
     Button {
-        id: button
+        id: myButton
         width: root.width
         height: root.height
         anchors.verticalCenter: root.verticalCenter
@@ -28,7 +29,6 @@ Item{
             width: root.height * 0.8
             anchors.verticalCenter: root.verticalCenter
             anchors.horizontalCenter: root.horizontalCenter
-            //anchors.fill: parent
             fillMode: Image.PreserveAspectFit
             visible: true
         }
@@ -50,8 +50,7 @@ Item{
         z:root.z+1
 
         Text {
-            id: text
+            id: badgeText
         }
     }
-
 }

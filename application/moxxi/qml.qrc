@@ -15,5 +15,10 @@
         <file>res/images/store-disabled.svg</file>
         <file>res/images/store-enabled.svg</file>
         <file>qml/ui/ButtonWithBadge.qml</file>
+        <file>qml/ui/CoverFlow.qml</file>
+        <file>qml/ui/CoverFlowDelegate.qml</file>
+        <file>qml/ui/SwipeArea.qml</file>
+        <file>qml/ui/RowGradient.qml</file>
+        <file>qml/ui/ImageView.qml</file>
     </qresource>
 </RCC>

@@ -2,18 +2,14 @@
  * Copyright (c) 2012-2014 Microsoft Mobile.
  */
 
-import QtQuick 1.1
+import QtQuick 2.3
 
 Item {
     id: imageView
 
-    // These are needed for VideoStreamer integration.
-    //property bool showToolBar: false
-    //property bool showStatusBar: false
-
     // These define, how big can the shown image be at maximum.
-    property int maxWidth: 560
-    property int maxHeight: 340
+    property int maxWidth: parent.width
+    property int maxHeight: parent.height
 
     property string imagePath: ""
     property int fillMode: Image.PreserveAspectFit
@@ -24,7 +20,9 @@ Item {
     // has been hidden.
     function close() {
         imageView.state = "";
+        imageView.z = 0;
         imageView.closed();
+
     }
 
     // The width and height will be defined by the size
@@ -36,25 +34,16 @@ Item {
     Image {
         id: img
 
+
         function __urlToLocalFile(url) {
-            var urlString = new String(url);
-            var prefix = "file://";
-            if (urlString.indexOf(prefix) === 0) {
-                return urlString.substring(prefix.length);
-            } else {
-                return urlString;
-            }
+            return url;
+
         }
 
         // Function, that determines should the large image be either image
         // or a generic video information image.
         function __getImagePath() {
-            var prefix = "";
-            if (imageView.imagePath) {
-                    prefix = "image://imageprovider/imageFull/";
-            }
-
-            return prefix + imageView.imagePath;
+            return imageView.imagePath;
         }
 
         // Image size will be automatic, determined by the imageprovider!
@@ -67,60 +56,18 @@ Item {
         anchors.centerIn: parent
         fillMode: Image.PreserveAspectFit
         smooth: true
-
-        Column {
-            visible: false
-            spacing: 3
-
-            anchors {
-                top: parent.verticalCenter
-                left: parent.left
-                right: parent.right
-                bottom: parent.bottom
-                leftMargin: 20
-                rightMargin: 20
-                topMargin: img.height / 4
-            }
-
-            Text {
-                color: "white"
-                width: parent.width
-                text: img.__urlToLocalFile(model.url)
-                wrapMode: Text.WrapAnywhere
-                maximumLineCount: 1
-                font.pixelSize: 22
-            }
-
-            Text {
-                color: "white"
-                width: parent.width
-                visible: model.width !== 0 && model.height !== 0
-                text: "Shown in size: " + model.width + " x " + model.height
-                wrapMode: Text.WrapAnywhere
-                maximumLineCount: 1
-                font.pixelSize: 22
-            }
-
-            Text {
-                color: "white"
-                width: parent.width
-                visible: model.fileSize !== 0
-                text: "File size: " + ((model.fileSize) / 1048576).toFixed(2) + " MB";
-                wrapMode: Text.WrapAnywhere
-                maximumLineCount: 1
-                font.pixelSize: 22
-            }
-        }
     }
 
     MouseArea {
         // A full screen mousearea to capture clicks outside the image. If
         // clicked outside, then close the ImageView.
-        x: -200
-        y: -200
-        width: 840
-        height: 560
+        x: -parent.width*1/4
+        y:  -parent.height*1/4
+        width: parent.width*2
+        height: parent.height*2
+
         onClicked: {
+            console.log("imageView.clicked() outside image");
             imageView.close()
         }
     }
@@ -129,7 +76,9 @@ Item {
         // This one will prevent the touch events to close the image if clicked
         // on the image itself.
         anchors.fill: parent
+
         onClicked: {
+            console.log("imageView.clicked() inside image");
             console.log("Capturing touch events on imageView")
         }
     }
