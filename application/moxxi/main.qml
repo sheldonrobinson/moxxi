@@ -90,8 +90,9 @@ Window {
             visible: true
             width: parent.width
             height: title_height
-            anchors.topMargin: 0
 
+            anchors.topMargin: 0
+            z: parent.z + 10
             anchors.top: screen.top
 
             gradient: Gradient {
@@ -392,7 +393,7 @@ Window {
 
             width: parent.width
             height: camerabarheight
-
+            z: parent.z+10
             visible: true
         }
 
@@ -404,6 +405,7 @@ Window {
             anchors.left: screen.left
             anchors.right: screen.right
             anchors.bottom: bCamera.top
+            z: parent.z
 
             //width: parent.width
             //height: parent.height - titlebar.height - bCamera.height
@@ -411,36 +413,66 @@ Window {
             visible: true
 
             Component{
-                   id: listingsDelegate
-                       Row {
-                           width:screen.width
+                 id: listingsDelegate
 
+                 Row {
+                     //id: myRow
+                     width:screen.width
+                     height: childrenRect.height
+                     spacing: 5
+                     z:1
 
-                           Image {
-                               //id: listingImg
-                               width: parent.width/16
-                               //height: 250
-                               source: model.listingImageUrl
-                               fillMode: Image.PreserveAspectFit
-                           }
-                           Column{
-                           Text {
-                               text: model.listingName
-                               font.bold: true
-                               font.underline: true
-                               font.pointSize: 16
-                               //onLinkActivated: Qt.openUrlExternally(link)
-                           }
-                           Text {
-                               text: model.listingTweet
-                               wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                               //anchors.verticalCenter: listingsView.currentItem.verticalCenter
-                               //width: 540
-                               font.pointSize: 9
-                           }
-                           //Text { text: '<b>Description:</b> ' + model.listingDescription }
-                           }
+                     Rectangle{
+                        width: screen.width
+                        anchors.right: parent.right
+                        anchors.top: parent.top
+                        //height: myRow.height
+                        opacity: 1
+                        color: model.index % 2 == 0 ? "black" : "white"
+                        z:4
+                     }
+
+                     Image {
+                         //id: myIng
+                         width: screen.width/16
+                         //anchors.left: parent.left
+                         //anchors.top: parent.top
+                         anchors.verticalCenter: parent.verticalCenter
+                         //anchors.fill: parent
+                         fillMode: Image.PreserveAspectFit
+                         source:  model.listingImageUrl
+                         visible: true
+                     }
+
+                       Column{
+                           width: parent.width*7/8
+                           //anchors.left: myIng
+
+                       Text {
+                           text: model.listingName
+                           font.bold: true
+                           style: Text.Raised
+                           //font.underline: true
+                           font.pointSize: 16
+                           //onLinkActivated: Qt.openUrlExternally(link)
                        }
+                       Text {
+
+                           text: model.listingTweet
+                           width: 300
+                           wrapMode: Text.Wrap
+                           //textFormat: Text.PlainText
+                           //anchors.verticalCenter: listingsView.currentItem.verticalCenter
+                           //width: 540
+                           font.pointSize: 9
+                           //maximumLineCount: 5
+                       }
+
+                       Text { text: '<b>ImageUrl:</b> ' + model.listingImageUrl }
+                       Text { text: 'INDEX: ' + model.index  +", " + index}
+
+                 }
+               }
 
 //                       Image {
 //                           //id: listingImg
@@ -472,6 +504,7 @@ Window {
                model:  theModel
                contentX: 0
                contentY: appWindow.title_height
+               //cacheBuffer: 5
                //y: appWindow.title_height
                orientation: ListView.Vertical
                snapMode: ListView.SnapToItem
