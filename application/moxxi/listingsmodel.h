@@ -11,6 +11,7 @@ class ListingsModel : public QAbstractListModel
     Q_OBJECT
     Q_PROPERTY(bool isReady READ isReady NOTIFY isReadyChanged)
     Q_PROPERTY(QUrl query READ query WRITE setQuery NOTIFY queryChanged)
+    Q_PROPERTY(QString fts READ fts WRITE setFts NOTIFY queryChanged)
     Q_PROPERTY(int count READ count)
 
     enum ListingsRoles {
@@ -21,8 +22,6 @@ class ListingsModel : public QAbstractListModel
         DescriptionRole,
         CategoryRole,
         BuyerRole,
-        ImageRole,
-        ImagesRole,
         ImageUrlRole,
         ImageFileNameRole,
         ImageUrlsRole,
@@ -42,6 +41,8 @@ public:
     QUrl query() const;
     void setQuery(const QUrl& query);
     int count() const;
+    QString fts() const;
+    void setFts(const QString& terms);
 
     virtual QHash<int, QByteArray> roleNames() const;
 
@@ -51,6 +52,8 @@ signals:
 
 public slots:
     void fetchData();
+    void setApiKey(const QString& key);
+    //void clearFts();
     void imageResult(const QUrl& url, bool success);
     void replyFinished(QNetworkReply* reply);
     void replyError(QNetworkReply::NetworkError err);
@@ -68,8 +71,8 @@ private:
         QUrl _query;
         QNetworkReply* _respones;
         QNetworkAccessManager* manager;
-        //ImageDownloader* _imgLoader;
         QUrl _imgUrl;
+        QString apiKey;
 
 };
 

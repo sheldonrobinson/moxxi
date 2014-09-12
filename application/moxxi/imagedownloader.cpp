@@ -32,9 +32,6 @@ void  ImageDownloader::downloadImg (const QUrl& url)
     QNetworkReply* reply = nam->get(request);
     connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),
             this, SLOT(replyError(QNetworkReply::NetworkError)));
-  //  QEventLoop eventLoop;
-  //  connect(reply, SIGNAL(finished()), &eventLoop, SLOT(quit()));
-  //  eventLoop.exec();
 }
 
 QImage ImageDownloader::getImg(const QUrl& url) const {
@@ -62,7 +59,6 @@ void  ImageDownloader :: downloadImg_finished (QNetworkReply * reply)
         QImage imgTmp;
         imgTmp.loadFromData (b);
         _cache.insert(reply->url().fileName(),imgTmp);
-        //ImageDownloader::getInstance()->setImg(imgTmp);
          emit downloaded(reply->url(),true);
     }
     else

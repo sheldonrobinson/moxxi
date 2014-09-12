@@ -59,7 +59,7 @@ Item {
             color: dlgImg.status === Image.Ready ? "white" : "transparent"
 
             // Should go on top of the reflection image when zooming.
-            z: reflection.z + 1
+            //z: reflection.z + 1
 
             Image {
                 id: dlgImg
@@ -87,33 +87,33 @@ Item {
         }
 
         // Reflection
-        Image {
-            id: reflection
+//        Image {
+//            id: reflection
 
-            width: dlgImg.width
-            height: dlgImg.height
-            anchors.horizontalCenter: delegateImage.horizontalCenter
-            sourceSize.width: dlgImg.width
-            sourceSize.height: dlgImg.height
-            clip: true
+//            width: dlgImg.width
+//            height: dlgImg.height
+//            anchors.horizontalCenter: delegateImage.horizontalCenter
+//            sourceSize.width: dlgImg.width
+//            sourceSize.height: dlgImg.height
+//            clip: true
 
-            source: model.imageUrl
+//            source: model.imageUrl
 
-            fillMode: Image.PreserveAspectCrop
-            asynchronous: true
+//            fillMode: Image.PreserveAspectCrop
+//            asynchronous: true
 
-            transform : Scale {
-                yScale: -1
-                origin.y: dlgImg.height / 2
-            }
+//            transform : Scale {
+//                yScale: -1
+//                origin.y: dlgImg.height / 2
+//            }
 
-            // Smoothing slows down the scrolling.
-            //smooth: true
+//            // Smoothing slows down the scrolling.
+//            //smooth: true
 
-            // NOTE: This does not work when there's 3D transformations
-            // (like rotation around Y-axis or X-axis)
-            //AlphaGradient {}
-        }
+//            // NOTE: This does not work when there's 3D transformations
+//            // (like rotation around Y-axis or X-axis)
+//            //AlphaGradient {}
+//        }
     }
 
     Loader {
@@ -153,9 +153,9 @@ Item {
             //for(var i=0,coverFlow.children
             //delegateItem.z=0;
 
-            console.log(parent);
-            console.log(delegateItem);
-            coverflowBackground.hide();
+            //console.log(parent);
+            //console.log(delegateItem);
+            screen.hide();
         }
     }
 

@@ -2,7 +2,7 @@
 #include "imagedownloader.h"
 
 ListingsImageProvider::ListingsImageProvider() :
-    QQuickImageProvider (ImageType::Image)
+    QQuickImageProvider (QQuickImageProvider::Image)
 {
 }
 QImage ListingsImageProvider::requestImage(const QString & id, QSize * size, const QSize & requestedSize){

@@ -7,6 +7,8 @@
 #include "listingsmodel.h"
 #include "listingsimageprovider.h"
 
+QString API_KEY("uid9009-25612247-65");
+
 int main(int argc, char *argv[])
 {
     qmlRegisterType<Brand>("Moxxi",1,0,"Brand");
@@ -16,11 +18,12 @@ int main(int argc, char *argv[])
     qmlRegisterType<QAbstractItemModel>();
     qmlRegisterType<QAbstractListModel>();
     qmlRegisterType<ListingsModel>("Moxxi",1,0,"ListingsModel");
-    QUrl query("http://api.shopstyle.com/api/v2/products?pid=uid9009-25612247-65&fts=dress&offset=0&limit=100");
+    //QUrl query("http://api.shopstyle.com/api/v2/products?pid=uid9009-25612247-65&fts=dress&offset=0&limit=100");
     QGuiApplication app(argc, argv);
     ListingsModel* model = new ListingsModel();
-
-    model->setQuery(query);
+    model->setApiKey("uid9009-25612247-65");
+    model->setFts("dress");
+    //model->setQuery(query);
 //    Listing test;
 //    test.setImageUrl(QUrl("http://resources.shopstyle.com/sim/16/bd/16bd79acaa669c571def5fcf86633fd3_medium/wallis-red-zip-shoulder-ponte-dress.jpg"));
 //    test.setName("Wallis Red Zip Shoulder Ponte Dress");
@@ -42,7 +45,7 @@ int main(int argc, char *argv[])
 //    }
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("theModel",model);
-    engine.addImageProvider("listings", new ListingsImageProvider);
+    //engine.addImageProvider("listings", new ListingsImageProvider);
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 
     //QQuickView viewer;

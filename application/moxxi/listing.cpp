@@ -12,19 +12,6 @@ void Listing::setLocale(const QString& locale){
     _locale = QLocale(locale);
 }
 
-//void Listing::initCurrency(){
-//    QLocale _locale;
-//    _currency = _locale.currencySymbol(QLocale::CurrencyIsoCode);
-//    _currencySymbol = _locale.currencySymbol(QLocale::CurrencySymbol);
-//}
-
-//bool Listing::updateCurrency(const QString& ccy){
-//    if(_pricelist.contains(ccy)){
-//        setCurrency(ccy);
-//        return true;
-//    }
-//    return false;
-//}
 
 QString Listing::name() const { return _name;}
 void Listing::setName(const QString& name) { if(_name != name){_name =name; emit nameChanged();}}
@@ -52,9 +39,9 @@ double Listing::px()const {
 
     if(_pricelist.contains(_currency)){
        return _pricelist[_currency];
-    }else if(_pricelist.contains(_locale.currencySymbol(QLocale::CurrencySymbolFormat::CurrencyIsoCode))){
+    }else if(_pricelist.contains(_locale.currencySymbol(QLocale::CurrencyIsoCode))){
         return _pricelist[_locale.currencySymbol(QLocale::CurrencyIsoCode)];
-    }else if(_pricelist.contains(QLocale::system().currencySymbol(QLocale::CurrencySymbolFormat::CurrencyIsoCode))){
+    }else if(_pricelist.contains(QLocale::system().currencySymbol(QLocale::CurrencyIsoCode))){
         return _pricelist[QLocale::system().currencySymbol(QLocale::CurrencyIsoCode)];
     }
     return 0.0;
@@ -121,13 +108,6 @@ void Listing::setFaverors(int faverors){
     }
 }
 
-//QString Listing::brand() const{
-//    return _brand;
-//}
-//void Listing::setBrand(const QString& brand){
-//    _brand = brand;
-//    emit brandChanged();
-//}
 
 int Listing::year() const{
     return _brandyear;

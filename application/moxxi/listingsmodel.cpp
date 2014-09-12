@@ -5,18 +5,16 @@
 #include <QJsonArray>
 #include <QLocale>
 #include <QNetworkRequest>
+#include <QUrlQuery>
 
 
 
 ListingsModel::ListingsModel(QObject *parent) :
     QAbstractListModel(parent),m_isReady(false)
 {
-    //_imgLoader = new ImageDownloader(this);
     manager = new QNetworkAccessManager(this);
     connect(manager, SIGNAL(finished(QNetworkReply*)),
             this, SLOT(replyFinished(QNetworkReply*)));
-    connect(ImageDownloader::getInstance(), SIGNAL(downloaded(const QUrl&, bool)),
-            this, SLOT(imageResult(const QUrl&, bool)));
 
 }
 
@@ -25,8 +23,6 @@ int ListingsModel::count() const { return m_modelData.size();}
 void ListingsModel::imageResult(const QUrl& url, bool success){
     Q_UNUSED(url);
     Q_UNUSED(success);
-    //qDebug()<<"ListingsModel::imageResult";
-    //qDebug()<<(!success?"Unable to load ":"Loaded ")<< url;
 }
 
 QHash<int, QByteArray> ListingsModel::roleNames() const {
@@ -39,8 +35,6 @@ QHash<int, QByteArray> ListingsModel::roleNames() const {
     roles[DescriptionRole] = "listingDescription";
     roles[CategoryRole] = "listingCategory";
     roles[BuyerRole] = "listingBuyer";
-    roles[ImageRole] = "listingImage";
-    roles[ImagesRole] = "listingImages";
     roles[ImageUrlRole]="listingImageUrl";
     roles[ImageFileNameRole] = "listingImageFileName";
     roles[ImageUrlsRole]="listingImageUrls";
@@ -72,7 +66,6 @@ void ListingsModel::replyFinished(QNetworkReply* reply){
             listing->setUrl(QUrl(obj["pageUrl"].toString()));
             QUrl url(obj["image"].toObject()["sizes"].toObject()["IPhone"].toObject()["url"].toString());
             listing->setImageUrl(url);
-            ImageDownloader::getInstance()->downloadImg(url);
             QLocale _locale(obj["locale"].toString());
             listing->setCurrency(_locale.currencySymbol(QLocale::CurrencyIsoCode));
             QString  _px(obj["priceLabel"].toString());
@@ -85,11 +78,8 @@ void ListingsModel::replyFinished(QNetworkReply* reply){
             QJsonArray imgs = obj["alternateImages"].toArray();
             foreach (const QJsonValue & altimg, imgs){
                 QJsonObject objImg = altimg.toObject();
-                //qDebug()<<"Alternate Image: "<<altimg.toString();
-                //qDebug()<<"Image url: "<<objImg["sizes"].toObject()["IPhone"].toObject()["url"].toString();
                 QUrl _url(altimg.toObject()["sizes"].toObject()["IPhone"].toObject()["url"].toString());
                 if(_url.isValid()){
-                    ImageDownloader::getInstance()->downloadImg(_url);
                     listing->addImage(_url);
                 }
             }
@@ -125,15 +115,44 @@ bool ListingsModel::isReady() const
 }
 
 QUrl ListingsModel::query() const { return _query;}
-void ListingsModel::setQuery(const QUrl& query) { if(_query != query){_query =query; emit queryChanged();}}
+void ListingsModel::setQuery(const QUrl& query) {
+    if(_query != query)
+    {
+        _query =query; emit queryChanged();
+    }
+}
+QString ListingsModel::fts() const {
+    if(_query.isValid() && _query.hasQuery()){
+        QUrlQuery queryPart(_query);
+        QStringList fts = queryPart.allQueryItemValues("fts",QUrl::FullyDecoded);
+        QString result;
+        foreach (QString part, fts) {
+            result.append(part).append(" ");
+        }
+        return result.replace('+',' ').trimmed();
+    }
+        return QString();
+}
+void ListingsModel::setApiKey(const QString& key){
+    apiKey = key;
+}
+
+void ListingsModel::setFts(const QString &terms){
+    QUrlQuery queryPart;
+    queryPart.addQueryItem("pid",apiKey);
+    queryPart.addQueryItem("offset","0");
+    queryPart.addQueryItem("limit","100");
+    QString _temp(terms);
+    queryPart.addQueryItem("fts",_temp.replace(' ','+').toUpper());
+    QUrl _myurl("http://api.shopstyle.com/api/v2/products");
+    _myurl.setQuery(queryPart);
+    setQuery(_myurl);
+}
 
 void ListingsModel::fetchData() {
     m_isReady = false;
     if(_query.isValid()){
         QNetworkReply *reply = manager->get(QNetworkRequest(_query));
-        //connect(manager, SIGNAL(finished((QNetworkReply*)),
-        //           this, SLOT(replyFinished(QNetworkReply*)));
-        //QString _reply(reply->readAll());
         connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),
                 this, SLOT(replyError(QNetworkReply::NetworkError)));
         QEventLoop eventLoop;
@@ -144,6 +163,7 @@ void ListingsModel::fetchData() {
         emit isReadyChanged();
     }
 }
+
 
 QVariant ListingsModel::data( const QModelIndex& index, int role) const{
     if (!index.isValid() ||
@@ -192,19 +212,6 @@ QVariant ListingsModel::data( const QModelIndex& index, int role) const{
         case ImageFileNameRole:
         {
             return listing->imageUrl().fileName();
-        }
-        case ImageRole:
-        {
-            return ImageDownloader::getInstance()->getImg(listing->imageUrl());
-        }
-        case ImagesRole:
-        {
-           QVariantList result;
-           QList<QUrl> _imgs = listing->getImages();
-           foreach (const QUrl& _image, _imgs) {
-               result.append(ImageDownloader::getInstance()->getImg(_image));
-           }
-           return result;
         }
         case ImageUrlsRole:
         {

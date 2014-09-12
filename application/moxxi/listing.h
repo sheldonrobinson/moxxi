@@ -168,8 +168,6 @@ private:
     QUrl _url;
     QStringList _aliases;
 
-
-
 };
 
 #endif // LISTING_H

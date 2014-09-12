@@ -16,11 +16,14 @@ Window {
     property int title_height: 64
 
     property ListModel galleryModel: ListModel {}
+    property ListModel queriesModel: ListModel {}
 
     id: appWindow
     visible: true
     width: phone_width
     height: phone_height
+
+
 
     ExclusiveGroup {
         id: screenGroup
@@ -54,28 +57,12 @@ Window {
         width: parent.width
         height: parent.height
 
-        Rectangle {
-            id: coverflowBackground
-
-            anchors.fill: parent
-            color: "black"
-            z: parent.z
-            visible:true
-
-            function hide(){
-                //coverFlow.destroy();
-                coverflowBackground.z = parent.z;
-                coverFlowLoader.sourceComponent = null;
-            }
-
-            MouseArea {
-                anchors.fill: parent
-                onClicked: {
-                    console.log("coverflowBackground.clicked")
-                    hide();
-                }
-            }
+        function hide(){
+            //coverFlow.destroy();
+            bgLoader.sourceComponent = null;
+            coverFlowLoader.sourceComponent = null;
         }
+
 
         state: "SHOP"
 
@@ -131,14 +118,13 @@ Window {
                 }
             }
 
-            Rectangle {
+            Button {
                 id: sideBarToggleButton
-                height: parent.height * 0.6
-                width: parent.height * 0.6
+
                 x: -8
 
                 anchors.verticalCenter: parent.verticalCenter
-                color: "transparent"
+                //iconSource: "res/images/apps.svg"
 
                 Image {
                     id: slidericon
@@ -149,6 +135,37 @@ Window {
                     fillMode: Image.PreserveAspectFit
                     visible: true
                     source: "res/images/apps.svg"
+                }
+
+                style: ButtonStyle {
+                    label: Text {
+                        text: control.text
+                        font.pixelSize: titlebar.title_fontsize
+                        font.family: "DejaVu Sans"
+                        anchors.margins: 0
+                        horizontalAlignment: Text.left
+                    }
+                    background: Rectangle {
+                        implicitHeight: parent.height * 0.6
+                        implicitWidth: parent.height * 0.6
+                        border.width:  2
+                        border.color:  screenChkBoxGrp.border_color
+                        color: "transparent"
+                        visible: true
+                        radius: screenChkBoxGrp.button_radius
+                    }
+                }
+
+
+
+                onClicked: {
+                    console.debug("sideBarToggleButton.clicked");
+                    if(queryPanelLocader.sourceComponent){
+                        queryPanelLocader.sourceComponent = null;
+                    }else{
+
+                        queryPanelLocader.sourceComponent = queryPanel;
+                    }
                 }
             }
 
@@ -402,7 +419,7 @@ Window {
 
             width: parent.width
             height: camerabarheight
-            z: contentPanel.z + 2
+            z: titlebar.z
             visible: true
         }
 
@@ -462,23 +479,16 @@ Window {
                                     onClicked: {
                                         galleryModel.clear();
                                         var numOfUrl = model.listingImageUrlsStrings.length;
-                                        //var imageUrl = "";
-                                        console.log("model.listingImageUrlsStrings: "+model.listingImageUrlsStrings);
-                                        console.log("model.listingImageUrlString: "+model.listingImageUrlString);
                                         if(numOfUrl > 0){
                                             for (var i = 0; i < numOfUrl; i++) {
-                                                     console.log(i+":"+model.listingImageUrlsStrings[i]);
-                                                     //imageUrl = model.listingImageUrlsStrings[i];
                                                      galleryModel.append({"imageUrl":model.listingImageUrlsStrings[i]});
                                             }
                                         }else{
-                                            console.log("image:"+model.listingImageUrlString);
-                                            //imageUrl = model.listingImageUrlString;
                                             galleryModel.append({"imageUrl":model.listingImageUrlString});
                                         }
 
                                         console.log("galleryModel: "+ galleryModel);
-                                        coverflowBackground.z = contentPanel.z + 3;
+                                        bgLoader.sourceComponent =coverflowBackground;
                                         coverFlowLoader.sourceComponent = coverFlow;
 
                                     }
@@ -533,27 +543,11 @@ Window {
                                 case "left":
                                     {
                                         console.log("Left Swipe");
-//                                        var component = Qt.createComponent("qml/ui/RowGradient.qml");
-//                                        if (component.status == Component.Ready){
-//                                            var comColorLeft = model.index % 2 == 0 ? rowEvenColor : rowOddColor;
-//                                            var comColorMid = model.index % 2 == 0 ? rowEvenColor : rowOddColor;
-//                                            var comColorRight = "green";
-//                                            rowGradient.createObject(parent,{"colorLeft" : compColorLeft,"colorRight" : compColorRight,"colorMid" : compColorMid, "breakpoint":1});
-
-//                                         }
                                     }
                                     break
                                 case "right":
                                     {
                                         console.log("Right Swipe");
-//                                        var component = Qt.createComponent("qml/ui/RowGradient.qml");
-//                                        if (component.status == Component.Ready){
-//                                            var comColorLeft = model.index % 2 == 0 ? rowEvenColor : rowOddColor;
-//                                            var comColorMid = model.index % 2 == 0 ? rowEvenColor : rowOddColor;
-//                                            var comColorRight = "blue";
-//                                            rowGradient.createObject(parent,{"colorLeft" : compColorLeft,"colorRight" : compColorRight,"colorMid" : compColorMid, "breakpoint":1});
-
-//                                         }
                                     }
                                     break
                                 }
@@ -578,8 +572,123 @@ Window {
                 snapMode: ListView.SnapToItem
                 delegate: listingsDelegate
                 anchors.fill: contentPanel
+
+                function reload() {
+                    theModel.fetchData();
+                    var thequery = theModel.fts;
+                    queriesModel.append({"query":thequery});
+                    listingsView.forceLayout();
+                }
+
+                Component.onCompleted: {
+                    theModel.queryChanged.connect(listingsView.reload);
+                }
             }
 
+        }
+
+        Loader {
+            id: queryPanelLocader
+            anchors.top: titlebar.bottom
+            //anchors.bottom: bCamera.top
+            height: contentPanel.height
+            width: screen.width * 0.75
+            z: titlebar.z
+            visible: true
+
+            Component {
+                id: queryPanel
+
+                Rectangle {
+                    id:  queryPanelBoundingBox
+                    anchors.top: queryPanelLocader.top
+                    anchors.bottom: queryPanelLocader.bottom
+                    anchors.left: queryPanelLocader.left
+                    //height: contentPanel.height
+                    width: queryPanelLocader.width
+                    color: "black"
+                    opacity: 0.9
+
+                    Column {
+                        anchors.fill: parent
+                        Rectangle {
+                            anchors.topMargin: 70
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            //anchors.leftMargin: 70
+                            width: parent.width * 0.9
+                            color:"transparent"
+                            height: childrenRect.height + 30
+                            border.color: "white"
+                            border.width: 10
+                            radius: 5
+                            TextInput {
+
+                                 z: parent.z +1
+                                activeFocusOnPress: true
+                                //activeFocus: true
+                                anchors.left: parent.left
+                                anchors.leftMargin: parent.border.width + 10
+                                anchors.verticalCenter: parent.verticalCenter
+                                height: 36
+                                id: queryText
+                                text: theModel.fts
+                                font.pointSize: 24
+                                font.bold: true
+                                readOnly: false
+                                renderType: Text.NativeRendering
+                                color: "white"
+                                //canPaste: true
+                                //canRedo: true
+                                //canUndo: true
+                                cursorVisible: true
+                                width: parent.width - 2*parent.border.width -20
+
+
+                                onAccepted: {
+                                    theModel.fts = queryText.text;
+                                    listingsView.reload();
+
+                                }
+
+                                MouseArea {
+                                    anchors.fill: parent
+                                }
+
+
+
+                            }
+                        }
+                    }
+
+                    MouseArea {
+                        anchors.fill: queryPanelBoundingBox
+                        onClicked: {
+                            queryText.forceActiveFocus();
+                        }
+
+                    }
+                }
+            }
+
+        }
+    }
+
+    Loader {
+
+        id: bgLoader
+        anchors.fill: parent
+        z: contentPanel.z + 3
+
+        Component{
+            id: coverflowBackground
+
+            Rectangle {
+
+
+                anchors.fill: parent
+                color: "black"
+                visible:true
+            }
         }
     }
 
@@ -598,30 +707,7 @@ Window {
         }
 
         Component.onCompleted: {
-            imageView.closed.connect(coverflowBackground.hide())
+            imageView.closed.connect(screen.hide());
         }
     }
-
-//    Loader {
-//        id: busyIndicatorLoader
-
-//        width: 150
-//        height: 150
-//        anchors.centerIn: parent
-
-//        sourceComponent: busyIndicator
-//        Component {
-//            id: busyIndicator
-
-//            BusyIndicator {
-//                running: true
-//            }
-//        }
-//    }
-
-    //ListModel{
-    //    id: galleryModel
-    //}
-
-
 }
