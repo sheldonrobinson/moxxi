@@ -183,23 +183,206 @@ Window {
 
                     visible: true
 
+//                    Button {
+//                        id: rbShop
+//                        exclusiveGroup: screenGroup
+//                        activeFocusOnPress: true
+//                        checked: true
+//                        checkable: true
+//                        anchors.verticalCenter: parent.verticalCenter
+//                        iconSource: "res/images/store-enabled.svg"
+
+//                        Image {
+//                            id: shopicon
+//                            height: parent.height * iconBox.iconScaling
+//                            width: shopicon.height
+//                            anchors.verticalCenter: parent.verticalCenter
+//                            anchors.horizontalCenter: parent.horizontalCenter
+//                            fillMode: Image.PreserveAspectFit
+//                            source: rbShop.iconSource
+//                            visible: true
+//                        }
+
+//                        style: ButtonStyle {
+//                            label: Text {
+//                                text: control.text
+//                                font.pixelSize: titlebar.title_fontsize
+//                                font.family: "DejaVu Sans"
+//                                anchors.margins: 0
+//                                horizontalAlignment: Text.left
+//                            }
+//                            background: Rectangle {
+//                                implicitHeight: titlebar.height * iconBox.iconBoundingBox
+//                                implicitWidth: titlebar.height * iconBox.iconBoundingBox
+//                                border.width: control.checked
+//                                              || control.activeFocus ? 2 : 0
+//                                border.color: control.checked
+//                                              || control.activeFocus ? screenChkBoxGrp.border_color : "transparent"
+//                                color: control.checked
+//                                       || control.activeFocus ? screenChkBoxGrp.bgcolor : "transparent"
+//                                visible: control.checked || control.activeFocus
+//                                radius: screenChkBoxGrp.button_radius
+//                            }
+//                        }
+//                        states: State {
+//                            name: "INACTIVE"
+//                            when: (screen.state != "SHOP")
+//                            PropertyChanges {
+//                                target: rbShop
+//                                iconSource: "qrc:res/images/store-disabled.svg"
+//                            }
+//                            PropertyChanges {
+//                                target: rbShop
+//                                checked: false
+//                            }
+//                        }
+//                        onClicked: {
+//                            screen.state = "SHOP"
+//                            rbShop.forceActiveFocus()
+//                            rbShop.checked = true
+//                        }
+//                    }
+
+//                    Button {
+//                        id: rbCart
+//                        exclusiveGroup: screenGroup
+//                        activeFocusOnPress: true
+//                        checked: true
+//                        checkable: true
+//                        anchors.verticalCenter: parent.verticalCenter
+//                        iconSource: "qrc:res/images/Shopping-Cart-enabled.svg"
+
+//                        Image {
+//                            id: charticon
+//                            height: parent.height * iconBox.iconScaling
+//                            width: charticon.height
+//                            anchors.verticalCenter: parent.verticalCenter
+//                            anchors.horizontalCenter: parent.horizontalCenter
+//                            fillMode: Image.PreserveAspectFit
+//                            source: rbCart.iconSource
+//                            visible: true
+//                        }
+
+//                        style: ButtonStyle {
+//                            label: Text {
+//                                text: control.text
+//                                font.pixelSize: titlebar.title_fontsize
+//                                font.family: "DejaVu Sans"
+//                                anchors.margins: 0
+//                                horizontalAlignment: Text.left
+//                            }
+//                            background: Rectangle {
+//                                implicitHeight: titlebar.height * iconBox.iconBoundingBox
+//                                implicitWidth: titlebar.height * iconBox.iconBoundingBox
+//                                border.width: control.checked
+//                                              || control.activeFocus ? 2 : 0
+//                                border.color: control.checked
+//                                              || control.activeFocus ? screenChkBoxGrp.border_color : "transparent"
+//                                color: control.checked
+//                                       || control.activeFocus ? screenChkBoxGrp.bgcolor : "transparent"
+//                                visible: control.checked || control.activeFocus
+//                                radius: screenChkBoxGrp.button_radius
+//                            }
+//                        }
+
+//                        states: State {
+//                            name: "INACTIVE"
+//                            when: (screen.state != "CART")
+//                            PropertyChanges {
+//                                target: rbCart
+//                                iconSource: "qrc:res/images/Shopping-Cart-full-disabled.svg"
+//                            }
+//                            PropertyChanges {
+//                                target: rbCart
+//                                checked: false
+//                            }
+//                        }
+//                        onClicked: {
+//                            screen.state = "CART"
+//                            rbCart.forceActiveFocus()
+//                            rbCart.checked = true
+//                        }
+//                    }
+
+//                    Button {
+//                        id: rbList
+//                        exclusiveGroup: screenGroup
+//                        activeFocusOnPress: true
+//                        checked: true
+//                        checkable: true
+//                        anchors.verticalCenter: parent.verticalCenter
+
+//                        iconSource: "qrc:res/images/note-2-enabled.svg"
+
+//                        Image {
+//                            id: listicon
+//                            height: parent.height * iconBox.iconScaling
+//                            width: listicon.height
+//                            anchors.verticalCenter: parent.verticalCenter
+//                            anchors.horizontalCenter: parent.horizontalCenter
+//                            fillMode: Image.PreserveAspectFit
+//                            source: rbList.iconSource
+//                            visible: true
+//                        }
+
+//                        style: ButtonStyle {
+//                            label: Text {
+//                                text: control.text
+//                                font.pixelSize: titlebar.title_fontsize
+//                                font.family: "DejaVu Sans"
+//                                anchors.margins: 0
+//                                horizontalAlignment: Text.left
+//                            }
+//                            background: Rectangle {
+//                                implicitHeight: titlebar.height * iconBox.iconBoundingBox
+//                                implicitWidth: titlebar.height * iconBox.iconBoundingBox
+//                                border.width: control.checked
+//                                              || control.activeFocus ? 2 : 0
+//                                border.color: control.checked
+//                                              || control.activeFocus ? screenChkBoxGrp.border_color : "transparent"
+//                                color: control.checked
+//                                       || control.activeFocus ? screenChkBoxGrp.bgcolor : "transparent"
+//                                visible: control.checked || control.activeFocus
+//                                radius: screenChkBoxGrp.button_radius
+//                            }
+//                        }
+
+//                        states: State {
+//                            name: "INACTIVE"
+//                            when: (screen.state != "LIST")
+//                            PropertyChanges {
+//                                target: rbList
+//                                iconSource: "qrc:res/images/note-2-full-disabled.svg"
+//                            }
+//                            PropertyChanges {
+//                                target: rbList
+//                                checked: false
+//                            }
+//                        }
+//                        onClicked: {
+//                            screen.state = "LIST"
+//                            rbList.forceActiveFocus()
+//                            rbList.checked = true
+//                        }
+//                    }
                     Button {
-                        id: rbShop
+                        id: rbSearch
                         exclusiveGroup: screenGroup
                         activeFocusOnPress: true
                         checked: true
                         checkable: true
                         anchors.verticalCenter: parent.verticalCenter
-                        iconSource: "res/images/store-enabled.svg"
+
+                        iconSource: "qrc:res/images/search.svg"
 
                         Image {
-                            id: shopicon
+                            id: search
                             height: parent.height * iconBox.iconScaling
-                            width: shopicon.height
+                            width: rbSearch.height
                             anchors.verticalCenter: parent.verticalCenter
                             anchors.horizontalCenter: parent.horizontalCenter
                             fillMode: Image.PreserveAspectFit
-                            source: rbShop.iconSource
+                            source: rbSearch.iconSource
                             visible: true
                         }
 
@@ -214,154 +397,16 @@ Window {
                             background: Rectangle {
                                 implicitHeight: titlebar.height * iconBox.iconBoundingBox
                                 implicitWidth: titlebar.height * iconBox.iconBoundingBox
-                                border.width: control.checked
-                                              || control.activeFocus ? 2 : 0
-                                border.color: control.checked
-                                              || control.activeFocus ? screenChkBoxGrp.border_color : "transparent"
-                                color: control.checked
-                                       || control.activeFocus ? screenChkBoxGrp.bgcolor : "transparent"
-                                visible: control.checked || control.activeFocus
-                                radius: screenChkBoxGrp.button_radius
-                            }
-                        }
-                        states: State {
-                            name: "INACTIVE"
-                            when: (screen.state != "SHOP")
-                            PropertyChanges {
-                                target: rbShop
-                                iconSource: "qrc:res/images/store-disabled.svg"
-                            }
-                            PropertyChanges {
-                                target: rbShop
-                                checked: false
-                            }
-                        }
-                        onClicked: {
-                            screen.state = "SHOP"
-                            rbShop.forceActiveFocus()
-                            rbShop.checked = true
-                        }
-                    }
-
-                    Button {
-                        id: rbCart
-                        exclusiveGroup: screenGroup
-                        activeFocusOnPress: true
-                        checked: true
-                        checkable: true
-                        anchors.verticalCenter: parent.verticalCenter
-                        iconSource: "qrc:res/images/Shopping-Cart-enabled.svg"
-
-                        Image {
-                            id: charticon
-                            height: parent.height * iconBox.iconScaling
-                            width: charticon.height
-                            anchors.verticalCenter: parent.verticalCenter
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            fillMode: Image.PreserveAspectFit
-                            source: rbCart.iconSource
-                            visible: true
-                        }
-
-                        style: ButtonStyle {
-                            label: Text {
-                                text: control.text
-                                font.pixelSize: titlebar.title_fontsize
-                                font.family: "DejaVu Sans"
-                                anchors.margins: 0
-                                horizontalAlignment: Text.left
-                            }
-                            background: Rectangle {
-                                implicitHeight: titlebar.height * iconBox.iconBoundingBox
-                                implicitWidth: titlebar.height * iconBox.iconBoundingBox
-                                border.width: control.checked
-                                              || control.activeFocus ? 2 : 0
-                                border.color: control.checked
-                                              || control.activeFocus ? screenChkBoxGrp.border_color : "transparent"
-                                color: control.checked
-                                       || control.activeFocus ? screenChkBoxGrp.bgcolor : "transparent"
-                                visible: control.checked || control.activeFocus
+                                border.width:  2
+                                border.color:  screenChkBoxGrp.border_color
+                                color: "transparent"
+                                visible: true
                                 radius: screenChkBoxGrp.button_radius
                             }
                         }
 
-                        states: State {
-                            name: "INACTIVE"
-                            when: (screen.state != "CART")
-                            PropertyChanges {
-                                target: rbCart
-                                iconSource: "qrc:res/images/Shopping-Cart-full-disabled.svg"
-                            }
-                            PropertyChanges {
-                                target: rbCart
-                                checked: false
-                            }
-                        }
                         onClicked: {
-                            screen.state = "CART"
-                            rbCart.forceActiveFocus()
-                            rbCart.checked = true
-                        }
-                    }
-                    Button {
-                        id: rbList
-                        exclusiveGroup: screenGroup
-                        activeFocusOnPress: true
-                        checked: true
-                        checkable: true
-                        anchors.verticalCenter: parent.verticalCenter
-
-                        iconSource: "qrc:res/images/note-2-enabled.svg"
-
-                        Image {
-                            id: listicon
-                            height: parent.height * iconBox.iconScaling
-                            width: listicon.height
-                            anchors.verticalCenter: parent.verticalCenter
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            fillMode: Image.PreserveAspectFit
-                            source: rbList.iconSource
-                            visible: true
-                        }
-
-                        style: ButtonStyle {
-                            label: Text {
-                                text: control.text
-                                font.pixelSize: titlebar.title_fontsize
-                                font.family: "DejaVu Sans"
-                                anchors.margins: 0
-                                horizontalAlignment: Text.left
-                            }
-                            background: Rectangle {
-                                implicitHeight: titlebar.height * iconBox.iconBoundingBox
-                                implicitWidth: titlebar.height * iconBox.iconBoundingBox
-                                border.width: control.checked
-                                              || control.activeFocus ? 2 : 0
-                                border.color: control.checked
-                                              || control.activeFocus ? screenChkBoxGrp.border_color : "transparent"
-                                color: control.checked
-                                       || control.activeFocus ? screenChkBoxGrp.bgcolor : "transparent"
-                                visible: control.checked || control.activeFocus
-                                radius: screenChkBoxGrp.button_radius
-                            }
-                        }
-
-                        states: State {
-                            name: "INACTIVE"
-                            when: (screen.state != "LIST")
-                            PropertyChanges {
-                                target: rbList
-                                iconSource: "qrc:res/images/note-2-full-disabled.svg"
-                            }
-                            PropertyChanges {
-                                target: rbList
-                                checked: false
-                            }
-                        }
-                        onClicked: {
-                            screen.state = "LIST"
-                            rbList.forceActiveFocus()
-                            rbList.checked = true
+                            queryPanelLoader.toggle();
                         }
                     }
                 }
@@ -575,7 +620,7 @@ Window {
                                 height: 36
 
                                 text: theModel.fts
-                                font.pointSize: 24
+                                font.pixelSize: 30
                                 font.bold: true
                                 readOnly: false
                                 renderType: Text.NativeRendering

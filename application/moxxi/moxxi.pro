@@ -2,7 +2,7 @@ TEMPLATE = app
 
 QT += qml quick svg sql quickwidgets
 
-# CONFIG += qtquickcompiler QML_IMPORT_TRACE=1
+CONFIG += qtquickcompiler # QML_IMPORT_TRACE=1
 
 SOURCES += main.cpp \
     merchandiseitem.cpp \
@@ -39,9 +39,6 @@ HEADERS += \
     listingsimageprovider.h
 
 OTHER_FILES += \
-    qml/ui/ButtonWithBadge.qml \
     qml/ui/CoverFlow.qml \
     qml/ui/CoverFlowDelegate.qml \
-    qml/ui/ImageView.qml \
-    qml/ui/SwipeArea.qml \
-    qml/ui/RowGradient.qml
+    qml/ui/ImageView.qml

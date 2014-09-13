@@ -14,5 +14,6 @@
         <file>qml/ui/CoverFlowDelegate.qml</file>
         <file>qml/ui/RowGradient.qml</file>
         <file>qml/ui/ImageView.qml</file>
+        <file>res/images/search.svg</file>
     </qresource>
 </RCC>
