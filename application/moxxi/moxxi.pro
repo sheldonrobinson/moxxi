@@ -2,7 +2,7 @@ TEMPLATE = app
 
 QT += qml quick svg sql quickwidgets
 
-CONFIG += qtquickcompiler QML_IMPORT_TRACE=1
+# CONFIG += qtquickcompiler QML_IMPORT_TRACE=1
 
 SOURCES += main.cpp \
     merchandiseitem.cpp \

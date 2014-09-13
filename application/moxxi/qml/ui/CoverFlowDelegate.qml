@@ -16,22 +16,15 @@ Item {
     //signal clicked
 
     Keys.onRightPressed: {
-        console.loog("Right key");
         PathView.view.incrementCurrentIndex();
     }
 
     Keys.onLeftPressed: {
-         console.loog("Left key");
         PathView.view.decrementCurrentIndex();
     }
 
     Keys.onDownPressed: {
-        console.loog("Down key");
          largeImageLoader.item.close();
-    }
-
-    Keys.onUpPressed: {
-        console.loog("Up key");
     }
 
     x: 0
@@ -148,7 +141,6 @@ Item {
     MouseArea {
         anchors.fill: delegateItem
         onClicked: {
-            console.debug("delegateItem.clicked()");
             screen.hide();
         }
     }

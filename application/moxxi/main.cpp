@@ -21,6 +21,7 @@ int main(int argc, char *argv[])
     //QUrl query("http://api.shopstyle.com/api/v2/products?pid=uid9009-25612247-65&fts=dress&offset=0&limit=100");
     QGuiApplication app(argc, argv);
     ListingsModel* model = new ListingsModel();
+    QObject::connect(model,&ListingsModel::queryChanged, model,&ListingsModel::fetchData);
     model->setApiKey("uid9009-25612247-65");
     model->setFts("dress");
     //model->setQuery(query);
@@ -38,7 +39,7 @@ int main(int argc, char *argv[])
     //model->moveToThread(&tFetchData);
    // tFetchData.start();
 
-    model->fetchData();
+    //model->fetchData();
 
 //    while(!model->isReady()){
 //        Sleep(1000);
@@ -47,6 +48,8 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("theModel",model);
     //engine.addImageProvider("listings", new ListingsImageProvider);
     engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+
+
 
     //QQuickView viewer;
     //viewer.rootContext()->setContextProperty("listingsModel", &model);

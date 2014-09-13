@@ -153,17 +153,9 @@ Window {
                     }
                 }
 
-                function toggle() {
-                    if (queryPanelLoader.sourceComponent) {
-                        queryPanelLoader.sourceComponent = null
-                    } else {
-                        queryPanelLoader.sourceComponent = queryPanel
-                    }
-                }
 
                 onClicked: {
-                    console.debug("sideBarToggleButton.clicked")
-                    sideBarToggleButton.toggle()
+                    queryPanelLoader.toggle()
                 }
             }
 
@@ -522,8 +514,6 @@ Window {
                                                     imageUrl: model.listingImageUrlString
                                                 })
                         }
-
-                        console.debug("galleryModel: " + galleryModel)
                         bgLoader.sourceComponent = coverflowBackground
                         coverFlowLoader.sourceComponent = coverFlow
                     }
@@ -539,30 +529,12 @@ Window {
                 snapMode: ListView.SnapToItem
                 delegate: listingsDelegate
                 anchors.fill: contentPanel
-
-                function reload() {
-                    //theModel.fetchData();
-                    //theModel.sync();
-                    //var thequery = theModel.fts;
-                    //queriesModel.append({ query: thequery });
-                    //                    if(listingsView.model){
-                    //                        listingsView.model = null;
-                    //                    }
-
-                    //                    listingsView.model = theModel;
-                    listingsView.forceLayout()
-                }
-
-                Component.onCompleted: {
-                    theModel.dataFetchCompleted.connect(listingsView.reload)
-                }
             }
         }
 
         Loader {
             id: queryPanelLoader
             anchors.top: titlebar.bottom
-            //anchors.bottom: bCamera.top
             height: contentPanel.height
             width: screen.width * 0.75
             z: titlebar.z
@@ -575,17 +547,12 @@ Window {
                     id: queryPanelBoundingBox
 
                     anchors.fill: parent
-                    //anchors.top: queryPanelLocader.top
-                    //anchors.bottom: queryPanelLocader.bottom
-                    //anchors.left: queryPanelLocader.left
-                    //width: queryPanelLocader.width
                     color: "black"
                     opacity: 0.5
 
                     Column {
                         anchors.fill: parent
                         spacing: 20
-                        //anchors.horizontalCenter: parent.horizontalCenter
                         Rectangle {
                             id: queryTextBox
                             anchors.topMargin: 70
@@ -602,7 +569,6 @@ Window {
 
                                 z: queryPanelLoader.z + 1
                                 activeFocusOnPress: true
-                                //activeFocus: true
                                 anchors.left: parent.left
                                 anchors.leftMargin: parent.border.width + 10
                                 anchors.verticalCenter: parent.verticalCenter
@@ -618,17 +584,14 @@ Window {
                                 width: parent.width - 2 * parent.border.width - 20
 
                                 onAccepted: {
-                                    console.debug(theModel.fts);
 
-                                    theModel.fts = queryText.text
+                                    theModel.fts = queryText.text;
 
                                     if (theModel.fts.length > 0) {
                                         queryHistory.append(theModel.fts);
                                     }
 
-
-                                    sideBarToggleButton.toggle()
-                                    //listingsView.reload();
+                                    queryPanelLoader.toggle();
                                 }
                             }
 
@@ -671,7 +634,7 @@ Window {
 
                                         onClicked: {
                                             theModel.fts = model.query;
-                                            sideBarToggleButton.toggle();
+                                            queryPanelLoader.toggle();
                                         }
                                     }
                                 }
@@ -687,9 +650,6 @@ Window {
                                 }
                             }
 
-
-
-
                             Component.onCompleted: {
                                 queryText.forceActiveFocus()
                             }
@@ -697,6 +657,15 @@ Window {
 
                         }
 
+                }
+            }
+
+
+            function toggle() {
+                if (queryPanelLoader.sourceComponent) {
+                    queryPanelLoader.sourceComponent = null
+                } else {
+                    queryPanelLoader.sourceComponent = queryPanel
                 }
             }
         }

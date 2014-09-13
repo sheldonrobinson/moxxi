@@ -125,6 +125,7 @@ QUrl ListingsModel::query() const { return _query;}
 void ListingsModel::setQuery(const QUrl& query) {
     if(_query != query)
     {
+
         _query =query; emit queryChanged();
     }
 }
@@ -166,7 +167,6 @@ void ListingsModel::fetchData() {
         QEventLoop eventLoop;
         connect(reply, SIGNAL(finished()), &eventLoop, SLOT(quit()));
         eventLoop.exec();
-        emit dataFetchCompleted();
     }else{
         m_isReady=true;
         emit isReadyChanged();

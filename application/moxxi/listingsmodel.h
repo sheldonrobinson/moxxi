@@ -51,7 +51,6 @@ public:
 signals:
     void isReadyChanged();
     void queryChanged();
-    void dataFetchCompleted();
 
 public slots:
     void fetchData();
