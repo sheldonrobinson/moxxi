@@ -51,6 +51,10 @@ QHash<int, QByteArray> ListingsModel::roleNames() const {
 void ListingsModel::replyFinished(QNetworkReply* reply){
     if(reply-> error() == QNetworkReply::NoError)
     {
+        //QModelIndex start = start();
+        //QModelIndex end = end();
+        beginResetModel();
+        m_modelData.clear();
         QString strReply = (QString) reply->readAll();
         QJsonDocument jsonResponse  = QJsonDocument::fromJson(strReply.toUtf8());
         QJsonObject jsonObject = jsonResponse.object();
@@ -88,6 +92,8 @@ void ListingsModel::replyFinished(QNetworkReply* reply){
 
             m_modelData.append(listing);
         }
+        //QModelIndex start; QModelIndex end;
+        endResetModel();
     }
     m_isReady =true;
     emit isReadyChanged();
@@ -153,8 +159,6 @@ void ListingsModel::setFts(const QString &terms){
 void ListingsModel::fetchData() {
     m_isReady = false;
     if(_query.isValid()){
-        QModelIndex start = createIndex(0,ListingsModel::UrlRole);
-        QModelIndex end = createIndex(m_modelData.length(),ListingsModel::ImageUrlsStringsRole);
 
         QNetworkReply *reply = manager->get(QNetworkRequest(_query));
         connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),
@@ -162,7 +166,6 @@ void ListingsModel::fetchData() {
         QEventLoop eventLoop;
         connect(reply, SIGNAL(finished()), &eventLoop, SLOT(quit()));
         eventLoop.exec();
-        emit dataChanged(start,end);
         emit dataFetchCompleted();
     }else{
         m_isReady=true;

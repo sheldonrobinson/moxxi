@@ -5,7 +5,7 @@ import QtQuick.Layouts 1.1
 import QtQuick.Window 2.1
 import Moxxi 1.0
 
-import "qrc:qml/ui"
+import "qml/ui"
 
 Window {
 
@@ -15,9 +15,10 @@ Window {
     property int buttonspacing: 5
     property int title_height: 64
 
-    property ListModel galleryModel:  ListModel {
+    property ListModel galleryModel: ListModel {
                                      }
-    property ListModel queriesModel: ListModel {}
+    property ListModel queriesModel:  ListModel {
+                                     }
 
     id: appWindow
     visible: true
@@ -467,7 +468,7 @@ Window {
                                 MouseArea {
                                     anchors.fill: parent
                                     onClicked: {
-                                        contentRow.showCoverflow();
+                                        contentRow.showCoverflow()
                                     }
                                 }
                             }
@@ -508,23 +509,25 @@ Window {
                         }
                     }
                     function showCoverflow() {
-                        galleryModel.clear();
-                        var numOfUrl = model.listingImageUrlsStrings.length;
+                        galleryModel.clear()
+                        var numOfUrl = model.listingImageUrlsStrings.length
                         if (numOfUrl > 0) {
                             for (var i = 0; i < numOfUrl; i++) {
-                                galleryModel.append({ imageUrl: model.listingImageUrlsStrings[i] });
+                                galleryModel.append({
+                                                        imageUrl: model.listingImageUrlsStrings[i]
+                                                    })
                             }
                         } else {
-                            galleryModel.append({ imageUrl: model.listingImageUrlString });
+                            galleryModel.append({
+                                                    imageUrl: model.listingImageUrlString
+                                                })
                         }
 
-                        console.debug("galleryModel: " + galleryModel);
-                        bgLoader.sourceComponent = coverflowBackground;
-                        coverFlowLoader.sourceComponent = coverFlow;
+                        console.debug("galleryModel: " + galleryModel)
+                        bgLoader.sourceComponent = coverflowBackground
+                        coverFlowLoader.sourceComponent = coverFlow
                     }
                 }
-
-
             }
 
             ListView {
@@ -537,23 +540,21 @@ Window {
                 delegate: listingsDelegate
                 anchors.fill: contentPanel
 
-
                 function reload() {
                     //theModel.fetchData();
                     //theModel.sync();
                     //var thequery = theModel.fts;
                     //queriesModel.append({ query: thequery });
-//                    if(listingsView.model){
-//                        listingsView.model = null;
-//                    }
+                    //                    if(listingsView.model){
+                    //                        listingsView.model = null;
+                    //                    }
 
-//                    listingsView.model = theModel;
-                    listingsView.forceLayout();
+                    //                    listingsView.model = theModel;
+                    listingsView.forceLayout()
                 }
 
-
                 Component.onCompleted: {
-                    theModel.dataFetchCompleted.connect(listingsView.reload);
+                    theModel.dataFetchCompleted.connect(listingsView.reload)
                 }
             }
         }
@@ -589,12 +590,13 @@ Window {
                             id: queryTextBox
                             anchors.topMargin: 70
                             anchors.horizontalCenter: parent.horizontalCenter
-                            width: parent.width * 0.9
+                            width: queryPanelBoundingBox.width * 0.9
                             color: "black"
                             height: queryText.height + 30
                             border.color: "white"
                             border.width: 10
                             radius: 5
+                            z: queryPanelLoader.z + 1
                             TextInput {
                                 id: queryText
 
@@ -617,13 +619,15 @@ Window {
 
                                 onAccepted: {
                                     console.debug(theModel.fts);
-                                    if(theModel.fts.length>0){
+
+                                    theModel.fts = queryText.text
+
+                                    if (theModel.fts.length > 0) {
                                         queryHistory.append(theModel.fts);
                                     }
 
-                                    theModel.fts = queryText.text;
 
-                                    sideBarToggleButton.toggle();
+                                    sideBarToggleButton.toggle()
                                     //listingsView.reload();
                                 }
                             }
@@ -631,24 +635,16 @@ Window {
                             MouseArea {
                                 anchors.fill: queryTextBox
                                 onClicked: {
-                                    queryText.forceActiveFocus();
+                                    queryText.forceActiveFocus()
                                 }
                             }
                         }
-                        Rectangle{
-                        id: queryHistory
-                        property int historyLength: 10
 
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        width: parent.width * 0.9
-                        height: queryPanelBoundingBox.height - queryTextBox.height
-                        visible: true
-                        Column{
-
-                        Repeater{
-
-                            model: queriesModel
-                            delegate:Rectangle {
+                            Repeater {
+                                id: queryHistory
+                                property int historyLength: 10
+                                model: queriesModel
+                                delegate: Rectangle {
                                     id: historyItem
                                     color: "black"
                                     border.color: "darkgray"
@@ -656,7 +652,9 @@ Window {
                                     radius: 5
                                     width: queryTextBox.width
                                     height: historicalquery.height + 10
-
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                    visible: true
+                                    z: queryPanelLoader.z + 1
                                     Text {
                                         id: historicalquery
                                         text: model.query
@@ -666,7 +664,6 @@ Window {
                                         height: 14
                                         color: "white"
                                         font.pixelSize: 12
-
                                     }
 
                                     MouseArea {
@@ -674,80 +671,34 @@ Window {
 
                                         onClicked: {
                                             theModel.fts = model.query;
+                                            sideBarToggleButton.toggle();
                                         }
                                     }
-
-
                                 }
-                        }
-                                                    }
 
+                                function append(newquery) {
+                                    if (queriesModel.count > queryHistory.historyLength - 1) {
+                                           queriesModel.remove(queriesModel.count-1);
+                                    }
 
-
-//                                ListView {
-//                                    id: listingsView
-//                                    model: queriesModel
-
-//                                    delegate: Rectangle {
-//                                        id: historyItem
-//                                        color: "black"
-//                                        border.color: "darkgray"
-//                                        border.width: 2
-//                                        radius: 5
-//                                        width: queryTextBox.width
-//                                        height: historicalquery.height + 10
-
-//                                        Text {
-//                                            id: historicalquery
-//                                            text: model.query
-//                                            anchors.left: parent.left
-//                                            anchors.leftMargin: parent.border.width + 10
-//                                            anchors.verticalCenter: parent.verticalCenter
-//                                            height: 14
-//                                            color: "white"
-//                                            font.pixelSize: 12
-
-//                                        }
-
-//                                        MouseArea {
-//                                            anchors.fill: parent
-
-//                                            onClicked: {
-//                                                theModel.fts = model.query;
-//                                            }
-//                                        }
-
-//                                    }
-//                                }
+                                    queriesModel.insert(0,{
+                                                            query: newquery
+                                                        });
+                                }
+                            }
 
 
 
 
-//                        function append(newquery){
-//                            if(queriesModel.count>queryHistory.historyLength){
-//                                for(var i=queriesModel.count -1; i> queryHistory.historyLength;--i){
-//                                    queriesModel.remove(queriesModel.count -1);
-//                                }
-//                            }
+                            Component.onCompleted: {
+                                queryText.forceActiveFocus()
+                            }
 
-//                            console.debug(queriesModel);
-//                            var cnt = queriesModel.count;
-//                            for(var i=0;i<cnt;i++){
-//                                console.debug(queriesModel.get(i).query);
-//                                queriesModel.remove()
-//                            }
 
-//                            queriesModel.append({"query":newquery});
-//                        }
                         }
 
-
-                    Component.onCompleted: {
-                        queryText.forceActiveFocus();
-                    }
                 }
             }
-        }
         }
 
         Loader {
