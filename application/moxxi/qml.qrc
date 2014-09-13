@@ -12,7 +12,6 @@
         <file>res/images/store-enabled.svg</file>
         <file>qml/ui/CoverFlow.qml</file>
         <file>qml/ui/CoverFlowDelegate.qml</file>
-        <file>qml/ui/RowGradient.qml</file>
         <file>qml/ui/ImageView.qml</file>
         <file>res/images/search.svg</file>
     </qresource>

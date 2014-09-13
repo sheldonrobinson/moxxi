@@ -2,7 +2,9 @@ TEMPLATE = app
 
 QT += qml quick svg sql quickwidgets
 
-CONFIG += qtquickcompiler # QML_IMPORT_TRACE=1
+#CONFIG +=  # QML_IMPORT_TRACE=1
+
+ CONFIG += qtquickcompiler no_qtquickcompiler_depend
 
 SOURCES += main.cpp \
     merchandiseitem.cpp \
@@ -20,7 +22,7 @@ SOURCES += main.cpp \
 RESOURCES += qml.qrc
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
-QML_IMPORT_PATH =
+# QML_IMPORT_PATH =
 
 # Default rules for deployment.
 include(deployment.pri)

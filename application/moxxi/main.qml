@@ -131,14 +131,14 @@ Window {
                     anchors.verticalCenter: parent.verticalCenter
                     fillMode: Image.PreserveAspectFit
                     visible: true
-                    source: "res/images/apps.svg"
+                    source: "qrc:res/images/apps.svg"
                 }
 
                 style: ButtonStyle {
                     label: Text {
                         text: control.text
-                        font.pixelSize: titlebar.title_fontsize
-                        font.family: "DejaVu Sans"
+                        font.pixelSize: 0
+                        //font.family: "DejaVu Sans"
                         anchors.margins: 0
                         horizontalAlignment: Text.left
                     }
@@ -389,8 +389,9 @@ Window {
                         style: ButtonStyle {
                             label: Text {
                                 text: control.text
-                                font.pixelSize: titlebar.title_fontsize
-                                font.family: "DejaVu Sans"
+                                font.pixelSize: 0
+                                //font.family: "DejaVu Sans"
+                                renderType: Text.NativeRendering
                                 anchors.margins: 0
                                 horizontalAlignment: Text.left
                             }
@@ -434,7 +435,8 @@ Window {
                         id: screenTitle
                         text: qsTr("BOUTIQUE")
                         horizontalAlignment: Text.AlignLeft
-                        font.family: "Courier"
+                        //font.family: "Courier"
+                        renderType: Text.NativeRendering
                         font.capitalization: Font.SmallCaps
                         font.pointSize: titlebar.title_fontsize
                         verticalAlignment: Text.AlignVCenter
@@ -517,6 +519,7 @@ Window {
 
                                 Text {
                                     text: model.listingName
+                                    renderType: Text.NativeRendering
                                     font.bold: true
                                     style: Text.Raised
                                     font.pointSize: 16
@@ -534,12 +537,14 @@ Window {
 
                                     text: model.listingTweet
                                     width: parent.width
+                                    renderType: Text.NativeRendering
                                     wrapMode: Text.Wrap
                                     font.pointSize: 9
                                 }
                                 Text {
                                     font.bold: true
                                     font.pointSize: 12
+                                    renderType: Text.NativeRendering
                                     text: model.listingPrice
                                 }
                             }
@@ -666,12 +671,13 @@ Window {
                                     Text {
                                         id: historicalquery
                                         text: model.query
+                                        renderType: Text.NativeRendering
                                         anchors.left: parent.left
                                         anchors.leftMargin: parent.border.width + 10
                                         anchors.verticalCenter: parent.verticalCenter
-                                        height: 14
+                                        height: 28
                                         color: "white"
-                                        font.pixelSize: 12
+                                        font.pixelSize: 24
                                     }
 
                                     MouseArea {
@@ -709,6 +715,7 @@ Window {
             function toggle() {
                 if (queryPanelLoader.sourceComponent) {
                     queryPanelLoader.sourceComponent = null
+                    Qt.inputMethod.hide();
                 } else {
                     queryPanelLoader.sourceComponent = queryPanel
                 }
