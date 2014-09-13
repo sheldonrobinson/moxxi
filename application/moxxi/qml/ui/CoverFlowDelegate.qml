@@ -148,13 +148,7 @@ Item {
     MouseArea {
         anchors.fill: delegateItem
         onClicked: {
-            console.log("delegateItem.clicked()");
-
-            //for(var i=0,coverFlow.children
-            //delegateItem.z=0;
-
-            //console.log(parent);
-            //console.log(delegateItem);
+            console.debug("delegateItem.clicked()");
             screen.hide();
         }
     }

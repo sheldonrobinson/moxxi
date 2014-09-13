@@ -6,6 +6,7 @@
 #include <QLocale>
 #include <QNetworkRequest>
 #include <QUrlQuery>
+#include <QModelIndex>
 
 
 
@@ -152,12 +153,17 @@ void ListingsModel::setFts(const QString &terms){
 void ListingsModel::fetchData() {
     m_isReady = false;
     if(_query.isValid()){
+        QModelIndex start = createIndex(0,ListingsModel::UrlRole);
+        QModelIndex end = createIndex(m_modelData.length(),ListingsModel::ImageUrlsStringsRole);
+
         QNetworkReply *reply = manager->get(QNetworkRequest(_query));
         connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),
                 this, SLOT(replyError(QNetworkReply::NetworkError)));
         QEventLoop eventLoop;
         connect(reply, SIGNAL(finished()), &eventLoop, SLOT(quit()));
         eventLoop.exec();
+        emit dataChanged(start,end);
+        emit dataFetchCompleted();
     }else{
         m_isReady=true;
         emit isReadyChanged();

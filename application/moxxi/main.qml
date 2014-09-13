@@ -5,7 +5,7 @@ import QtQuick.Layouts 1.1
 import QtQuick.Window 2.1
 import Moxxi 1.0
 
-import "qml/ui"
+import "qrc:qml/ui"
 
 Window {
 
@@ -15,15 +15,14 @@ Window {
     property int buttonspacing: 5
     property int title_height: 64
 
-    property ListModel galleryModel: ListModel {}
+    property ListModel galleryModel:  ListModel {
+                                     }
     property ListModel queriesModel: ListModel {}
 
     id: appWindow
     visible: true
     width: phone_width
     height: phone_height
-
-
 
     ExclusiveGroup {
         id: screenGroup
@@ -57,12 +56,10 @@ Window {
         width: parent.width
         height: parent.height
 
-        function hide(){
-            //coverFlow.destroy();
-            bgLoader.sourceComponent = null;
-            coverFlowLoader.sourceComponent = null;
+        function hide() {
+            bgLoader.sourceComponent = null
+            coverFlowLoader.sourceComponent = null
         }
-
 
         state: "SHOP"
 
@@ -124,7 +121,6 @@ Window {
                 x: -8
 
                 anchors.verticalCenter: parent.verticalCenter
-                //iconSource: "res/images/apps.svg"
 
                 Image {
                     id: slidericon
@@ -148,24 +144,25 @@ Window {
                     background: Rectangle {
                         implicitHeight: parent.height * 0.6
                         implicitWidth: parent.height * 0.6
-                        border.width:  2
-                        border.color:  screenChkBoxGrp.border_color
+                        border.width: 2
+                        border.color: screenChkBoxGrp.border_color
                         color: "transparent"
                         visible: true
                         radius: screenChkBoxGrp.button_radius
                     }
                 }
 
-
+                function toggle() {
+                    if (queryPanelLoader.sourceComponent) {
+                        queryPanelLoader.sourceComponent = null
+                    } else {
+                        queryPanelLoader.sourceComponent = queryPanel
+                    }
+                }
 
                 onClicked: {
-                    console.debug("sideBarToggleButton.clicked");
-                    if(queryPanelLocader.sourceComponent){
-                        queryPanelLocader.sourceComponent = null;
-                    }else{
-
-                        queryPanelLocader.sourceComponent = queryPanel;
-                    }
+                    console.debug("sideBarToggleButton.clicked")
+                    sideBarToggleButton.toggle()
                 }
             }
 
@@ -180,6 +177,11 @@ Window {
                 height: parent.height
 
                 Row {
+
+                    id: iconBox
+
+                    property double iconScaling: 0.6
+                    property double iconBoundingBox: 0.8
 
                     height: parent.height
                     anchors.verticalCenter: parent.verticalCenter
@@ -197,13 +199,12 @@ Window {
                         anchors.verticalCenter: parent.verticalCenter
                         iconSource: "res/images/store-enabled.svg"
 
-                        //anchors.horizontalCenter: parent.horizontalCenter
                         Image {
                             id: shopicon
-                            height: parent.height * 0.8
-                            width: parent.height * 0.8
+                            height: parent.height * iconBox.iconScaling
+                            width: shopicon.height
                             anchors.verticalCenter: parent.verticalCenter
-                            //anchors.fill: parent
+                            anchors.horizontalCenter: parent.horizontalCenter
                             fillMode: Image.PreserveAspectFit
                             source: rbShop.iconSource
                             visible: true
@@ -218,8 +219,8 @@ Window {
                                 horizontalAlignment: Text.left
                             }
                             background: Rectangle {
-                                implicitHeight: titlebar.height * 0.95
-                                implicitWidth: titlebar.height * 0.95
+                                implicitHeight: titlebar.height * iconBox.iconBoundingBox
+                                implicitWidth: titlebar.height * iconBox.iconBoundingBox
                                 border.width: control.checked
                                               || control.activeFocus ? 2 : 0
                                 border.color: control.checked
@@ -228,10 +229,6 @@ Window {
                                        || control.activeFocus ? screenChkBoxGrp.bgcolor : "transparent"
                                 visible: control.checked || control.activeFocus
                                 radius: screenChkBoxGrp.button_radius
-                                //gradient: Gradient {
-                                //    GradientStop { position: 0 ; color: control.pressed ? "#ccc" : "#eee" }
-                                //    GradientStop { position: 1 ; color: control.pressed ? "#aaa" : "#ccc" }
-                                //}
                             }
                         }
                         states: State {
@@ -239,7 +236,7 @@ Window {
                             when: (screen.state != "SHOP")
                             PropertyChanges {
                                 target: rbShop
-                                iconSource: "res/images/store-disabled.svg"
+                                iconSource: "qrc:res/images/store-disabled.svg"
                             }
                             PropertyChanges {
                                 target: rbShop
@@ -260,13 +257,14 @@ Window {
                         checked: true
                         checkable: true
                         anchors.verticalCenter: parent.verticalCenter
-                        iconSource: "res/images/Shopping-Cart-enabled.svg"
+                        iconSource: "qrc:res/images/Shopping-Cart-enabled.svg"
 
                         Image {
                             id: charticon
-                            height: parent.height * 0.8
-                            width: parent.height * 0.8
+                            height: parent.height * iconBox.iconScaling
+                            width: charticon.height
                             anchors.verticalCenter: parent.verticalCenter
+                            anchors.horizontalCenter: parent.horizontalCenter
                             fillMode: Image.PreserveAspectFit
                             source: rbCart.iconSource
                             visible: true
@@ -281,8 +279,8 @@ Window {
                                 horizontalAlignment: Text.left
                             }
                             background: Rectangle {
-                                implicitHeight: titlebar.height * 0.95
-                                implicitWidth: titlebar.height * 0.95
+                                implicitHeight: titlebar.height * iconBox.iconBoundingBox
+                                implicitWidth: titlebar.height * iconBox.iconBoundingBox
                                 border.width: control.checked
                                               || control.activeFocus ? 2 : 0
                                 border.color: control.checked
@@ -299,7 +297,7 @@ Window {
                             when: (screen.state != "CART")
                             PropertyChanges {
                                 target: rbCart
-                                iconSource: "res/images/Shopping-Cart-full-disabled.svg"
+                                iconSource: "qrc:res/images/Shopping-Cart-full-disabled.svg"
                             }
                             PropertyChanges {
                                 target: rbCart
@@ -319,15 +317,15 @@ Window {
                         checked: true
                         checkable: true
                         anchors.verticalCenter: parent.verticalCenter
-                        iconSource: "res/images/note-2-enabled.svg"
 
-                        //anchors.horizontalCenter: parent.horizontalCenter
+                        iconSource: "qrc:res/images/note-2-enabled.svg"
+
                         Image {
                             id: listicon
-                            height: parent.height * 0.8
-                            width: parent.height * 0.8
+                            height: parent.height * iconBox.iconScaling
+                            width: listicon.height
                             anchors.verticalCenter: parent.verticalCenter
-                            //anchors.fill: parent
+                            anchors.horizontalCenter: parent.horizontalCenter
                             fillMode: Image.PreserveAspectFit
                             source: rbList.iconSource
                             visible: true
@@ -342,8 +340,8 @@ Window {
                                 horizontalAlignment: Text.left
                             }
                             background: Rectangle {
-                                implicitHeight: titlebar.height * 0.95
-                                implicitWidth: titlebar.height * 0.95
+                                implicitHeight: titlebar.height * iconBox.iconBoundingBox
+                                implicitWidth: titlebar.height * iconBox.iconBoundingBox
                                 border.width: control.checked
                                               || control.activeFocus ? 2 : 0
                                 border.color: control.checked
@@ -352,10 +350,6 @@ Window {
                                        || control.activeFocus ? screenChkBoxGrp.bgcolor : "transparent"
                                 visible: control.checked || control.activeFocus
                                 radius: screenChkBoxGrp.button_radius
-                                //gradient: Gradient {
-                                //    GradientStop { position: 0 ; color: control.pressed ? "#ccc" : "#eee" }
-                                //    GradientStop { position: 1 ; color: control.pressed ? "#aaa" : "#ccc" }
-                                //}
                             }
                         }
 
@@ -364,7 +358,7 @@ Window {
                             when: (screen.state != "LIST")
                             PropertyChanges {
                                 target: rbList
-                                iconSource: "res/images/note-2-full-disabled.svg"
+                                iconSource: "qrc:res/images/note-2-full-disabled.svg"
                             }
                             PropertyChanges {
                                 target: rbList
@@ -407,7 +401,6 @@ Window {
                         font.pointSize: titlebar.title_fontsize
                         verticalAlignment: Text.AlignVCenter
                         anchors.verticalCenter: parent.verticalCenter
-                        //anchors.bottom: parent.bottom
                     }
                 }
             }
@@ -424,36 +417,30 @@ Window {
         }
 
         Rectangle {
-
             id: contentPanel
-            //y: appWindow.title_height
             anchors.top: titlebar.bottom
             anchors.left: screen.left
             anchors.right: screen.right
             anchors.bottom: bCamera.top
             z: parent.z + 1
-
-
-            //width: parent.width
-            //height: parent.height - titlebar.height - bCamera.height
             visible: true
 
             Component {
                 id: listingsDelegate
 
                 Row {
+                    id: contentRow
                     property int rowSpacing: 5
                     property string rowOddColor: "#cccccc"
                     property string rowEvenColor: "#eeeeee"
                     property int swipeOffPosition: 0
                     property string swipeBuyColorStart: ""
                     width: screen.width
-                    height: childrenRect.height
                     z: 1
 
                     Rectangle {
                         width: screen.width
-                        height: childrenRect.height + rowSpacing
+                        height: renderedRow.height + contentRow.rowSpacing
                         color: model.index % 2 == 0 ? rowEvenColor : rowOddColor
                         border.color: "black"
                         border.width: rowSpacing
@@ -461,14 +448,17 @@ Window {
                         z: 1
 
                         Row {
-                            width: screen.width - rowSpacing*2
-                            height: childrenRect.height
+                            id: renderedRow
+                            width: screen.width - contentRow.rowSpacing * 2
+                            height: Math.max(theImage.implicitHeight,
+                                             theTextArea.implicitHeight)
                             spacing: rowSpacing
+
                             z: 1
 
                             Image {
-                                y: rowSpacing
-                                width: screen.width / 8 - rowSpacing*2
+                                id: theImage
+                                width: screen.width / 8 - contentRow.rowSpacing * 2
                                 anchors.verticalCenter: parent.verticalCenter
                                 fillMode: Image.PreserveAspectFit
                                 source: model.listingImageUrl
@@ -477,27 +467,15 @@ Window {
                                 MouseArea {
                                     anchors.fill: parent
                                     onClicked: {
-                                        galleryModel.clear();
-                                        var numOfUrl = model.listingImageUrlsStrings.length;
-                                        if(numOfUrl > 0){
-                                            for (var i = 0; i < numOfUrl; i++) {
-                                                     galleryModel.append({"imageUrl":model.listingImageUrlsStrings[i]});
-                                            }
-                                        }else{
-                                            galleryModel.append({"imageUrl":model.listingImageUrlString});
-                                        }
-
-                                        console.log("galleryModel: "+ galleryModel);
-                                        bgLoader.sourceComponent =coverflowBackground;
-                                        coverFlowLoader.sourceComponent = coverFlow;
-
+                                        contentRow.showCoverflow();
                                     }
                                 }
                             }
 
                             Column {
-                                x: screen.width / 8 + rowSpacing
-                                width: parent.width * 3 / 4 - rowSpacing*2
+                                id: theTextArea
+                                x: screen.width / 8 + contentRow.rowSpacing
+                                width: parent.width * 3 / 4 - contentRow.rowSpacing * 2
 
                                 Text {
                                     text: model.listingName
@@ -522,44 +500,30 @@ Window {
                                     font.pointSize: 9
                                 }
                                 Text {
-                                    text: '<b>Price</b> ' + model.listingPrice
+                                    font.bold: true
+                                    font.pointSize: 12
+                                    text: model.listingPrice
                                 }
-
-                            }
-                        }
-
-                        Keys.onRightPressed: {
-                            console.log("Swipe Right;")
-                        }
-
-                        Keys.onLeftPressed: {
-                            console.log("Swipe Left;")
-                        }
-
-                        SwipeArea {
-                            anchors.fill: parent
-                            onSwipe: {
-                                switch (direction) {
-                                case "left":
-                                    {
-                                        console.log("Left Swipe");
-                                    }
-                                    break
-                                case "right":
-                                    {
-                                        console.log("Right Swipe");
-                                    }
-                                    break
-                                }
-                            }
-                            onCanceled: {
-
                             }
                         }
                     }
+                    function showCoverflow() {
+                        galleryModel.clear();
+                        var numOfUrl = model.listingImageUrlsStrings.length;
+                        if (numOfUrl > 0) {
+                            for (var i = 0; i < numOfUrl; i++) {
+                                galleryModel.append({ imageUrl: model.listingImageUrlsStrings[i] });
+                            }
+                        } else {
+                            galleryModel.append({ imageUrl: model.listingImageUrlString });
+                        }
 
-
+                        console.debug("galleryModel: " + galleryModel);
+                        bgLoader.sourceComponent = coverflowBackground;
+                        coverFlowLoader.sourceComponent = coverFlow;
+                    }
                 }
+
 
             }
 
@@ -573,22 +537,29 @@ Window {
                 delegate: listingsDelegate
                 anchors.fill: contentPanel
 
+
                 function reload() {
-                    theModel.fetchData();
-                    var thequery = theModel.fts;
-                    queriesModel.append({"query":thequery});
+                    //theModel.fetchData();
+                    //theModel.sync();
+                    //var thequery = theModel.fts;
+                    //queriesModel.append({ query: thequery });
+//                    if(listingsView.model){
+//                        listingsView.model = null;
+//                    }
+
+//                    listingsView.model = theModel;
                     listingsView.forceLayout();
                 }
 
+
                 Component.onCompleted: {
-                    theModel.queryChanged.connect(listingsView.reload);
+                    theModel.dataFetchCompleted.connect(listingsView.reload);
                 }
             }
-
         }
 
         Loader {
-            id: queryPanelLocader
+            id: queryPanelLoader
             anchors.top: titlebar.bottom
             //anchors.bottom: bCamera.top
             height: contentPanel.height
@@ -600,114 +571,215 @@ Window {
                 id: queryPanel
 
                 Rectangle {
-                    id:  queryPanelBoundingBox
-                    anchors.top: queryPanelLocader.top
-                    anchors.bottom: queryPanelLocader.bottom
-                    anchors.left: queryPanelLocader.left
-                    //height: contentPanel.height
-                    width: queryPanelLocader.width
+                    id: queryPanelBoundingBox
+
+                    anchors.fill: parent
+                    //anchors.top: queryPanelLocader.top
+                    //anchors.bottom: queryPanelLocader.bottom
+                    //anchors.left: queryPanelLocader.left
+                    //width: queryPanelLocader.width
                     color: "black"
-                    opacity: 0.9
+                    opacity: 0.5
 
                     Column {
                         anchors.fill: parent
+                        spacing: 20
+                        //anchors.horizontalCenter: parent.horizontalCenter
                         Rectangle {
+                            id: queryTextBox
                             anchors.topMargin: 70
                             anchors.horizontalCenter: parent.horizontalCenter
-                            //anchors.leftMargin: 70
                             width: parent.width * 0.9
-                            color:"transparent"
-                            height: childrenRect.height + 30
+                            color: "black"
+                            height: queryText.height + 30
                             border.color: "white"
                             border.width: 10
                             radius: 5
                             TextInput {
+                                id: queryText
 
-                                 z: parent.z +1
+                                z: queryPanelLoader.z + 1
                                 activeFocusOnPress: true
                                 //activeFocus: true
                                 anchors.left: parent.left
                                 anchors.leftMargin: parent.border.width + 10
                                 anchors.verticalCenter: parent.verticalCenter
                                 height: 36
-                                id: queryText
+
                                 text: theModel.fts
                                 font.pointSize: 24
                                 font.bold: true
                                 readOnly: false
                                 renderType: Text.NativeRendering
                                 color: "white"
-                                //canPaste: true
-                                //canRedo: true
-                                //canUndo: true
                                 cursorVisible: true
-                                width: parent.width - 2*parent.border.width -20
-
+                                width: parent.width - 2 * parent.border.width - 20
 
                                 onAccepted: {
+                                    console.debug(theModel.fts);
+                                    if(theModel.fts.length>0){
+                                        queryHistory.append(theModel.fts);
+                                    }
+
                                     theModel.fts = queryText.text;
-                                    listingsView.reload();
 
+                                    sideBarToggleButton.toggle();
+                                    //listingsView.reload();
                                 }
+                            }
 
-                                MouseArea {
-                                    anchors.fill: parent
+                            MouseArea {
+                                anchors.fill: queryTextBox
+                                onClicked: {
+                                    queryText.forceActiveFocus();
                                 }
-
-
-
                             }
                         }
-                    }
+                        Rectangle{
+                        id: queryHistory
+                        property int historyLength: 10
 
-                    MouseArea {
-                        anchors.fill: queryPanelBoundingBox
-                        onClicked: {
-                            queryText.forceActiveFocus();
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        width: parent.width * 0.9
+                        height: queryPanelBoundingBox.height - queryTextBox.height
+                        visible: true
+                        Column{
+
+                        Repeater{
+
+                            model: queriesModel
+                            delegate:Rectangle {
+                                    id: historyItem
+                                    color: "black"
+                                    border.color: "darkgray"
+                                    border.width: 2
+                                    radius: 5
+                                    width: queryTextBox.width
+                                    height: historicalquery.height + 10
+
+                                    Text {
+                                        id: historicalquery
+                                        text: model.query
+                                        anchors.left: parent.left
+                                        anchors.leftMargin: parent.border.width + 10
+                                        anchors.verticalCenter: parent.verticalCenter
+                                        height: 14
+                                        color: "white"
+                                        font.pixelSize: 12
+
+                                    }
+
+                                    MouseArea {
+                                        anchors.fill: parent
+
+                                        onClicked: {
+                                            theModel.fts = model.query;
+                                        }
+                                    }
+
+
+                                }
+                        }
+                                                    }
+
+
+
+//                                ListView {
+//                                    id: listingsView
+//                                    model: queriesModel
+
+//                                    delegate: Rectangle {
+//                                        id: historyItem
+//                                        color: "black"
+//                                        border.color: "darkgray"
+//                                        border.width: 2
+//                                        radius: 5
+//                                        width: queryTextBox.width
+//                                        height: historicalquery.height + 10
+
+//                                        Text {
+//                                            id: historicalquery
+//                                            text: model.query
+//                                            anchors.left: parent.left
+//                                            anchors.leftMargin: parent.border.width + 10
+//                                            anchors.verticalCenter: parent.verticalCenter
+//                                            height: 14
+//                                            color: "white"
+//                                            font.pixelSize: 12
+
+//                                        }
+
+//                                        MouseArea {
+//                                            anchors.fill: parent
+
+//                                            onClicked: {
+//                                                theModel.fts = model.query;
+//                                            }
+//                                        }
+
+//                                    }
+//                                }
+
+
+
+
+//                        function append(newquery){
+//                            if(queriesModel.count>queryHistory.historyLength){
+//                                for(var i=queriesModel.count -1; i> queryHistory.historyLength;--i){
+//                                    queriesModel.remove(queriesModel.count -1);
+//                                }
+//                            }
+
+//                            console.debug(queriesModel);
+//                            var cnt = queriesModel.count;
+//                            for(var i=0;i<cnt;i++){
+//                                console.debug(queriesModel.get(i).query);
+//                                queriesModel.remove()
+//                            }
+
+//                            queriesModel.append({"query":newquery});
+//                        }
                         }
 
+
+                    Component.onCompleted: {
+                        queryText.forceActiveFocus();
                     }
                 }
             }
-
         }
-    }
+        }
 
-    Loader {
+        Loader {
 
-        id: bgLoader
-        anchors.fill: parent
-        z: contentPanel.z + 3
+            id: bgLoader
+            anchors.fill: parent
+            z: contentPanel.z + 3
 
-        Component{
-            id: coverflowBackground
+            Component {
+                id: coverflowBackground
 
-            Rectangle {
+                Rectangle {
 
-
-                anchors.fill: parent
-                color: "black"
-                visible:true
+                    anchors.fill: parent
+                    color: "black"
+                    visible: true
+                }
             }
         }
-    }
 
-    Loader {
-        id: coverFlowLoader
-        anchors.fill: parent
-        z: contentPanel.z + 4
+        Loader {
+            id: coverFlowLoader
+            anchors.fill: parent
+            z: contentPanel.z + 4
 
-        Component {
-            id: coverFlow
+            Component {
+                id: coverFlow
 
-            CoverFlow {
-                anchors.fill: parent
+                CoverFlow {
+                    anchors.fill: parent
+                }
             }
-
-        }
-
-        Component.onCompleted: {
-            imageView.closed.connect(screen.hide());
         }
     }
 }

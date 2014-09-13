@@ -15,6 +15,7 @@ class ListingsModel : public QAbstractListModel
     Q_PROPERTY(int count READ count)
 
     enum ListingsRoles {
+        //START
         UrlRole = Qt::UserRole + 1,
         NameRole,
         BrandRole,
@@ -29,6 +30,7 @@ class ListingsModel : public QAbstractListModel
         TweetRole,
         ImageUrlStringRole,
         ImageUrlsStringsRole
+        //END
     };
 
 
@@ -49,6 +51,7 @@ public:
 signals:
     void isReadyChanged();
     void queryChanged();
+    void dataFetchCompleted();
 
 public slots:
     void fetchData();
