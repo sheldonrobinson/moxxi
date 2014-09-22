@@ -1,10 +1,10 @@
 TEMPLATE = app
 
-QT += qml quick svg sql quickwidgets
+QT += qml quick svg #sql quickwidgets
 
 #CONFIG +=  # QML_IMPORT_TRACE=1
 
- CONFIG += qtquickcompiler no_qtquickcompiler_depend
+CONFIG += qtquickcompiler #no_qtquickcompiler_depend
 
 SOURCES += main.cpp \
     merchandiseitem.cpp \
@@ -43,4 +43,7 @@ HEADERS += \
 OTHER_FILES += \
     qml/ui/CoverFlow.qml \
     qml/ui/CoverFlowDelegate.qml \
-    qml/ui/ImageView.qml
+    qml/ui/ImageView.qml \
+    android/AndroidManifest.xml
+
+ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android

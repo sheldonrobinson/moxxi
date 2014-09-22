@@ -164,9 +164,9 @@ void ListingsModel::fetchData() {
         QNetworkReply *reply = manager->get(QNetworkRequest(_query));
         connect(reply, SIGNAL(error(QNetworkReply::NetworkError)),
                 this, SLOT(replyError(QNetworkReply::NetworkError)));
-        QEventLoop eventLoop;
-        connect(reply, SIGNAL(finished()), &eventLoop, SLOT(quit()));
-        eventLoop.exec();
+//        QEventLoop eventLoop;
+//        connect(reply, SIGNAL(finished()), &eventLoop, SLOT(quit()));
+//        eventLoop.exec();
     }else{
         m_isReady=true;
         emit isReadyChanged();

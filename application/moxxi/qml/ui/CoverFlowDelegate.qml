@@ -141,7 +141,7 @@ Item {
     MouseArea {
         anchors.fill: delegateItem
         onClicked: {
-            screen.hide();
+            screen.hideCoverFlow();
         }
     }
 

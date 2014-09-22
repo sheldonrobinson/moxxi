@@ -1,18 +1,10 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>res/images/note-2-empty-disabled.svg</file>
-        <file>res/images/note-2-enabled.svg</file>
-        <file>res/images/note-2-full-disabled.svg</file>
-        <file>res/images/Shopping-Cart-empty-disabled.svg</file>
-        <file>res/images/Shopping-Cart-enabled.svg</file>
-        <file>res/images/Shopping-Cart-full-disabled.svg</file>
-        <file>res/images/apps.svg</file>
-        <file>res/images/store-disabled.svg</file>
-        <file>res/images/store-enabled.svg</file>
         <file>qml/ui/CoverFlow.qml</file>
         <file>qml/ui/CoverFlowDelegate.qml</file>
         <file>qml/ui/ImageView.qml</file>
-        <file>res/images/search.svg</file>
+        <file>res/images/magnifier-2.svg</file>
+        <file>res/images/justify.svg</file>
     </qresource>
 </RCC>

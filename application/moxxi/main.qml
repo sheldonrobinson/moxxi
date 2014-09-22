@@ -9,9 +9,9 @@ import "qml/ui"
 
 Window {
 
-    property int phone_width: 810
-    property int phone_height: 1440
-    property int camerabarheight: 40
+    //property int phone_width: 810
+    //property int phone_height: 1440
+    property int camerabarheight: 20
     property int buttonspacing: 5
     property int title_height: 64
 
@@ -21,10 +21,11 @@ Window {
                                      }
 
     id: appWindow
-    visible: true
-    width: phone_width
-    height: phone_height
 
+    height: screenheight
+    width: screenwidth
+
+    visible: true
     ExclusiveGroup {
         id: screenGroup
 
@@ -54,10 +55,9 @@ Window {
     Rectangle {
         id: screen
         visible: true
-        width: parent.width
-        height: parent.height
+        anchors.fill: parent
 
-        function hide() {
+        function hideCoverFlow() {
             bgLoader.sourceComponent = null
             coverFlowLoader.sourceComponent = null
         }
@@ -118,38 +118,36 @@ Window {
 
             Button {
                 id: sideBarToggleButton
-
+                height: title_height * 0.5
+                width: title_height * 0.5
                 x: -8
 
                 anchors.verticalCenter: parent.verticalCenter
+                z: titlebar.z
+                //iconSource: "qrc:res/images/justify.svg"
 
                 Image {
                     id: slidericon
-                    height: parent.height * 0.5
-                    width: parent.height * 0.5
-                    anchors.left: parent.left
+                    anchors.fill: parent
+                    //anchors.left: parent.left
                     anchors.verticalCenter: parent.verticalCenter
+                    anchors.horizontalCenter: parent.horizontalCenter
                     fillMode: Image.PreserveAspectFit
+                    source: "qrc:res/images/justify.svg"  //sideBarToggleButton.iconSource
                     visible: true
-                    source: "qrc:res/images/apps.svg"
+
                 }
 
                 style: ButtonStyle {
-                    label: Text {
-                        text: control.text
-                        font.pixelSize: 0
-                        //font.family: "DejaVu Sans"
-                        anchors.margins: 0
-                        horizontalAlignment: Text.left
-                    }
+
                     background: Rectangle {
-                        implicitHeight: parent.height * 0.6
-                        implicitWidth: parent.height * 0.6
-                        border.width: 2
-                        border.color: screenChkBoxGrp.border_color
+                        implicitHeight:sideBarToggleButton.height
+                        implicitWidth: sideBarToggleButton.width
+                        border.width: 5
+                        border.color: "darkgray"
                         color: "transparent"
                         visible: true
-                        radius: screenChkBoxGrp.button_radius
+                        radius: 5
                     }
                 }
 
@@ -157,6 +155,27 @@ Window {
                 onClicked: {
                     queryPanelLoader.toggle()
                 }
+            }
+
+            Rectangle {
+                id: titleSlot
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.left: sideBarToggleButton.right
+                anchors.right: screenChkBoxGrp.left
+                //anchors.leftMargin: 10
+                z: titlebar.z
+                visible: true
+
+                    Text {
+                        id: screenTitle
+                        text: qsTr("BOUTIQUE")
+                        //horizontalAlignment: Text.AlignLeft
+                        renderType: Text.NativeRendering
+                        font.capitalization: Font.SmallCaps
+                        font.pointSize: titlebar.title_fontsize
+                        verticalAlignment: Text.AlignVCenter
+                        anchors.verticalCenter: parent.verticalCenter
+                    }
             }
 
             GroupBox {
@@ -168,7 +187,7 @@ Window {
                 anchors.right: parent.right
                 anchors.verticalCenter: parent.verticalCenter
                 height: parent.height
-
+                z: titlebar.z
                 Row {
 
                     id: iconBox
@@ -183,188 +202,6 @@ Window {
 
                     visible: true
 
-//                    Button {
-//                        id: rbShop
-//                        exclusiveGroup: screenGroup
-//                        activeFocusOnPress: true
-//                        checked: true
-//                        checkable: true
-//                        anchors.verticalCenter: parent.verticalCenter
-//                        iconSource: "res/images/store-enabled.svg"
-
-//                        Image {
-//                            id: shopicon
-//                            height: parent.height * iconBox.iconScaling
-//                            width: shopicon.height
-//                            anchors.verticalCenter: parent.verticalCenter
-//                            anchors.horizontalCenter: parent.horizontalCenter
-//                            fillMode: Image.PreserveAspectFit
-//                            source: rbShop.iconSource
-//                            visible: true
-//                        }
-
-//                        style: ButtonStyle {
-//                            label: Text {
-//                                text: control.text
-//                                font.pixelSize: titlebar.title_fontsize
-//                                font.family: "DejaVu Sans"
-//                                anchors.margins: 0
-//                                horizontalAlignment: Text.left
-//                            }
-//                            background: Rectangle {
-//                                implicitHeight: titlebar.height * iconBox.iconBoundingBox
-//                                implicitWidth: titlebar.height * iconBox.iconBoundingBox
-//                                border.width: control.checked
-//                                              || control.activeFocus ? 2 : 0
-//                                border.color: control.checked
-//                                              || control.activeFocus ? screenChkBoxGrp.border_color : "transparent"
-//                                color: control.checked
-//                                       || control.activeFocus ? screenChkBoxGrp.bgcolor : "transparent"
-//                                visible: control.checked || control.activeFocus
-//                                radius: screenChkBoxGrp.button_radius
-//                            }
-//                        }
-//                        states: State {
-//                            name: "INACTIVE"
-//                            when: (screen.state != "SHOP")
-//                            PropertyChanges {
-//                                target: rbShop
-//                                iconSource: "qrc:res/images/store-disabled.svg"
-//                            }
-//                            PropertyChanges {
-//                                target: rbShop
-//                                checked: false
-//                            }
-//                        }
-//                        onClicked: {
-//                            screen.state = "SHOP"
-//                            rbShop.forceActiveFocus()
-//                            rbShop.checked = true
-//                        }
-//                    }
-
-//                    Button {
-//                        id: rbCart
-//                        exclusiveGroup: screenGroup
-//                        activeFocusOnPress: true
-//                        checked: true
-//                        checkable: true
-//                        anchors.verticalCenter: parent.verticalCenter
-//                        iconSource: "qrc:res/images/Shopping-Cart-enabled.svg"
-
-//                        Image {
-//                            id: charticon
-//                            height: parent.height * iconBox.iconScaling
-//                            width: charticon.height
-//                            anchors.verticalCenter: parent.verticalCenter
-//                            anchors.horizontalCenter: parent.horizontalCenter
-//                            fillMode: Image.PreserveAspectFit
-//                            source: rbCart.iconSource
-//                            visible: true
-//                        }
-
-//                        style: ButtonStyle {
-//                            label: Text {
-//                                text: control.text
-//                                font.pixelSize: titlebar.title_fontsize
-//                                font.family: "DejaVu Sans"
-//                                anchors.margins: 0
-//                                horizontalAlignment: Text.left
-//                            }
-//                            background: Rectangle {
-//                                implicitHeight: titlebar.height * iconBox.iconBoundingBox
-//                                implicitWidth: titlebar.height * iconBox.iconBoundingBox
-//                                border.width: control.checked
-//                                              || control.activeFocus ? 2 : 0
-//                                border.color: control.checked
-//                                              || control.activeFocus ? screenChkBoxGrp.border_color : "transparent"
-//                                color: control.checked
-//                                       || control.activeFocus ? screenChkBoxGrp.bgcolor : "transparent"
-//                                visible: control.checked || control.activeFocus
-//                                radius: screenChkBoxGrp.button_radius
-//                            }
-//                        }
-
-//                        states: State {
-//                            name: "INACTIVE"
-//                            when: (screen.state != "CART")
-//                            PropertyChanges {
-//                                target: rbCart
-//                                iconSource: "qrc:res/images/Shopping-Cart-full-disabled.svg"
-//                            }
-//                            PropertyChanges {
-//                                target: rbCart
-//                                checked: false
-//                            }
-//                        }
-//                        onClicked: {
-//                            screen.state = "CART"
-//                            rbCart.forceActiveFocus()
-//                            rbCart.checked = true
-//                        }
-//                    }
-
-//                    Button {
-//                        id: rbList
-//                        exclusiveGroup: screenGroup
-//                        activeFocusOnPress: true
-//                        checked: true
-//                        checkable: true
-//                        anchors.verticalCenter: parent.verticalCenter
-
-//                        iconSource: "qrc:res/images/note-2-enabled.svg"
-
-//                        Image {
-//                            id: listicon
-//                            height: parent.height * iconBox.iconScaling
-//                            width: listicon.height
-//                            anchors.verticalCenter: parent.verticalCenter
-//                            anchors.horizontalCenter: parent.horizontalCenter
-//                            fillMode: Image.PreserveAspectFit
-//                            source: rbList.iconSource
-//                            visible: true
-//                        }
-
-//                        style: ButtonStyle {
-//                            label: Text {
-//                                text: control.text
-//                                font.pixelSize: titlebar.title_fontsize
-//                                font.family: "DejaVu Sans"
-//                                anchors.margins: 0
-//                                horizontalAlignment: Text.left
-//                            }
-//                            background: Rectangle {
-//                                implicitHeight: titlebar.height * iconBox.iconBoundingBox
-//                                implicitWidth: titlebar.height * iconBox.iconBoundingBox
-//                                border.width: control.checked
-//                                              || control.activeFocus ? 2 : 0
-//                                border.color: control.checked
-//                                              || control.activeFocus ? screenChkBoxGrp.border_color : "transparent"
-//                                color: control.checked
-//                                       || control.activeFocus ? screenChkBoxGrp.bgcolor : "transparent"
-//                                visible: control.checked || control.activeFocus
-//                                radius: screenChkBoxGrp.button_radius
-//                            }
-//                        }
-
-//                        states: State {
-//                            name: "INACTIVE"
-//                            when: (screen.state != "LIST")
-//                            PropertyChanges {
-//                                target: rbList
-//                                iconSource: "qrc:res/images/note-2-full-disabled.svg"
-//                            }
-//                            PropertyChanges {
-//                                target: rbList
-//                                checked: false
-//                            }
-//                        }
-//                        onClicked: {
-//                            screen.state = "LIST"
-//                            rbList.forceActiveFocus()
-//                            rbList.checked = true
-//                        }
-//                    }
                     Button {
                         id: rbSearch
                         exclusiveGroup: screenGroup
@@ -373,7 +210,7 @@ Window {
                         checkable: true
                         anchors.verticalCenter: parent.verticalCenter
 
-                        iconSource: "qrc:res/images/search.svg"
+                        //iconSource: "qrc:res/images/magnifier-2.svg"
 
                         Image {
                             id: search
@@ -382,19 +219,11 @@ Window {
                             anchors.verticalCenter: parent.verticalCenter
                             anchors.horizontalCenter: parent.horizontalCenter
                             fillMode: Image.PreserveAspectFit
-                            source: rbSearch.iconSource
+                            source: "qrc:res/images//magnifier-2.svg" //rbSearch.iconSource
                             visible: true
                         }
 
                         style: ButtonStyle {
-                            label: Text {
-                                text: control.text
-                                font.pixelSize: 0
-                                //font.family: "DejaVu Sans"
-                                renderType: Text.NativeRendering
-                                anchors.margins: 0
-                                horizontalAlignment: Text.left
-                            }
                             background: Rectangle {
                                 implicitHeight: titlebar.height * iconBox.iconBoundingBox
                                 implicitWidth: titlebar.height * iconBox.iconBoundingBox
@@ -412,38 +241,6 @@ Window {
                     }
                 }
             }
-
-            Rectangle {
-                id: titleSlot
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.left: sideBarToggleButton.right
-                anchors.right: screenChkBoxGrp.left
-                anchors.leftMargin: 2
-
-                visible: true
-
-                Rectangle {
-                    height: parent.height * 0.9
-                    color: "#aaaaaa"
-                    width: parent.width * 0.9
-                    anchors.verticalCenter: parent.verticalCenter
-                    radius: screenChkBoxGrp.button_radius * 3
-                    border.color: "#000000"
-                    border.width: 8
-
-                    Text {
-                        id: screenTitle
-                        text: qsTr("BOUTIQUE")
-                        horizontalAlignment: Text.AlignLeft
-                        //font.family: "Courier"
-                        renderType: Text.NativeRendering
-                        font.capitalization: Font.SmallCaps
-                        font.pointSize: titlebar.title_fontsize
-                        verticalAlignment: Text.AlignVCenter
-                        anchors.verticalCenter: parent.verticalCenter
-                    }
-                }
-            }
         }
 
         Rectangle {
@@ -452,6 +249,7 @@ Window {
 
             width: parent.width
             height: camerabarheight
+            color:"black"
             z: titlebar.z
             visible: true
         }
@@ -475,30 +273,30 @@ Window {
                     property string rowEvenColor: "#eeeeee"
                     property int swipeOffPosition: 0
                     property string swipeBuyColorStart: ""
+                    height: renderedRow.height
+                    z: contentPanel.z
                     width: screen.width
-                    z: 1
+                    spacing: rowSpacing
 
                     Rectangle {
+
                         width: screen.width
-                        height: renderedRow.height + contentRow.rowSpacing
+                        height: renderedRow.height // + contentRow.rowSpacing
                         color: model.index % 2 == 0 ? rowEvenColor : rowOddColor
                         border.color: "black"
                         border.width: rowSpacing
                         anchors.verticalCenter: parent.verticalCenter
-                        z: 1
+                        z: contentPanel.z
 
                         Row {
                             id: renderedRow
-                            width: screen.width - contentRow.rowSpacing * 2
+                            width: screen.width // - contentRow.rowSpacing * 2
                             height: Math.max(theImage.implicitHeight,
                                              theTextArea.implicitHeight)
-                            spacing: rowSpacing
-
-                            z: 1
-
+                            spacing: contentRow.rowSpacing
                             Image {
                                 id: theImage
-                                width: screen.width / 8 - contentRow.rowSpacing * 2
+                                width: screen.width / 8 // - contentRow.rowSpacing * 2
                                 anchors.verticalCenter: parent.verticalCenter
                                 fillMode: Image.PreserveAspectFit
                                 source: model.listingImageUrl
@@ -514,12 +312,17 @@ Window {
 
                             Column {
                                 id: theTextArea
-                                x: screen.width / 8 + contentRow.rowSpacing
-                                width: parent.width * 3 / 4 - contentRow.rowSpacing * 2
+                                spacing: 2
+                                x: screen.width / 8 // + contentRow.rowSpacing
+                                width: parent.width * 3 / 4 // - contentRow.rowSpacing * 2
 
                                 Text {
                                     text: model.listingName
+                                    width: parent.width
                                     renderType: Text.NativeRendering
+                                    wrapMode: Text.WordWrap
+                                    verticalAlignment: Text.AlignBottom
+                                    horizontalAlignment: Text.AlignLeft
                                     font.bold: true
                                     style: Text.Raised
                                     font.pointSize: 16
@@ -537,13 +340,18 @@ Window {
 
                                     text: model.listingTweet
                                     width: parent.width
+                                    verticalAlignment: Text.AlignTop
+                                    horizontalAlignment: Text.AlignLeft
                                     renderType: Text.NativeRendering
                                     wrapMode: Text.Wrap
                                     font.pointSize: 9
                                 }
                                 Text {
                                     font.bold: true
+                                    verticalAlignment: Text.AlignTop
+                                    horizontalAlignment: Text.AlignLeft
                                     font.pointSize: 12
+                                    wrapMode: Text.NoWrap
                                     renderType: Text.NativeRendering
                                     text: model.listingPrice
                                 }
@@ -621,11 +429,12 @@ Window {
                                 activeFocusOnPress: true
                                 anchors.left: parent.left
                                 anchors.leftMargin: parent.border.width + 10
+                                verticalAlignment: Text.AlignVCenter
                                 anchors.verticalCenter: parent.verticalCenter
-                                height: 36
+                                //height: 36
 
                                 text: theModel.fts
-                                font.pixelSize: 30
+                                font.pointSize: 28
                                 font.bold: true
                                 readOnly: false
                                 renderType: Text.NativeRendering
@@ -675,9 +484,12 @@ Window {
                                         anchors.left: parent.left
                                         anchors.leftMargin: parent.border.width + 10
                                         anchors.verticalCenter: parent.verticalCenter
-                                        height: 28
+                                        verticalAlignment: Text.AlignVCenter
+                                        horizontalAlignment: Text.AlignLeft
+                                        wrapMode: Text.NoWrap
+                                        //height: 28
                                         color: "white"
-                                        font.pixelSize: 24
+                                        font.pointSize: 16
                                     }
 
                                     MouseArea {
@@ -753,5 +565,10 @@ Window {
                 }
             }
         }
+        Component.onCompleted: {
+            console.debug("screenheight x screenwidth: " + screenheight +  " x " + screenwidth);
+        }
     }
+
+
 }
